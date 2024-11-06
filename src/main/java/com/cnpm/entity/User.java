@@ -11,8 +11,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Data
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-//@Inheritance(strategy = InheritanceType.JOINED)
+//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "[User]")
 public abstract class User implements Serializable {
     @Id
