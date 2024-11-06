@@ -1,0 +1,138 @@
+.action {
+    padding: 5px 0;
+    display: flex;
+    justify-content: flex-end;
+    background-color: var(--light);
+    margin-top: 10px;
+}
+.action__add,
+.action__delete {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 4%;
+    padding: 10px 0;
+    margin-left: 10px;
+    border-radius: 4px;
+}
+.action__add {
+    background-color: var(--green);
+}
+.action__delete {
+    background-color: var(--danger);
+    opacity: 0.5;
+    pointer-events: none;
+}
+.action-icon {
+    font-size: 1.4rem;
+    font-weight: 100;
+    color: var(--white);
+}
+
+.contact {
+    margin-top: 10px;
+    border: 1px solid var(--gray-dark);
+    border-bottom: none;
+}
+.contact__header {
+    display: flex;
+    background-color: var(--light);
+    border-bottom: 1px solid var(--gray-dark);
+}
+.contact__header-column {
+    padding: 10px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.4rem;
+    color: var(--gray-dark);
+    text-align: center;
+}
+.contact__header-column:not(:last-child) {
+    border-right: 1px solid var(--gray-dark);
+}
+
+.contact__body-choose {
+    width: 5%;
+}
+
+.contact__body-name {
+    width: 15%;
+}
+.contact__body-mail {
+    width: 20%;
+}
+.contact__body-update {
+    width: 10%;
+}
+.contact__body-phone{
+    width: 20%;
+}
+.contact__body-address{
+    width:30%;
+}
+.contact__body-column{
+    word-break: break-word;
+
+}
+/**** body *****/
+.contact__body {
+    display: flex;
+    border-bottom: 1px solid var(--gray-dark);
+}
+.contact__body:nth-of-type(odd) {
+    background-color: var(--white);
+}
+.contact__body:nth-of-type(even) {
+    background-color: var(--light);
+}
+.contact__body-column {
+    padding: 10px 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.4rem;
+    color: var(--gray-dark);
+}
+.contact__body-column:not(:last-child) {
+    border-right: 1px solid var(--gray-dark);
+}
+.contact__body-name ul{
+    padding-left: 2px;
+    list-style-type: none;
+    text-align: left;
+}
+
+.contact__header-choose {
+    width: 5%;
+}
+
+.contact__header-name {
+    width: 15%;
+}
+
+.contact__header-mail {
+    width: 20%;
+}
+
+.contact__header-update {
+    width: 10%;
+}
+.contact__header-phone{
+    width: 20%;
+}
+.contact__header-address{
+    width: 30%;
+}
+.check-delete {
+    outline: none;
+    cursor: pointer;
+}
+.contact__body-icon {
+    font-size: 1.4rem;
+    color: var(--gray-dark);
+    cursor: pointer;
+}
+.contact__body-icon:hover {
+    color: var(--orange);
+}

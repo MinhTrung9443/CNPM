@@ -1,0 +1,965 @@
+
+/* Tablet and mobile ---------------------------------------*/
+/* Tablet and mobile */
+@media (max-width:1023px) {
+    .my-account__main {
+        margin-right: 0;
+    }
+
+    .nav__information-orders {
+        margin-right: 0;
+    }
+
+    .nav__information-orders-content {
+        margin-right: 0;
+    }
+
+    .contact-ask-item {
+        margin-bottom: 30px;
+    }
+
+    .product-slider__title {
+        font-size: 4rem;
+        left: 20%;
+    }
+
+    .product-content__text__title {
+        font-size: 2rem;
+    }
+
+
+}
+/* Tablet ----------------------------------------------------*/
+
+/* Tablet */
+
+@media (min-width: 740px) and (max-width: 1024px){
+    .footer__contact--title{
+        font-size: 1.8rem;
+        margin-bottom: 12px;
+    }
+    .logo{
+        font-size: 2rem;
+        margin: 0 10px;
+    }
+    .navbar__item{
+        font-size: 1.2rem;
+        margin: 0 15px;
+    }
+    .login-link, .cart-link, .search-link, .nav-link {
+        color: var(--white-color);
+        font-size: 2rem;
+        margin-left: 7px;
+        text-decoration: none;
+    }
+    .product_item-title{
+        font-size: 1.2rem;
+    }
+    .product__item-link{
+        font-size: 1.3rem;
+    }
+    .product__item-name{
+        font-size: 1.3rem;
+    }
+    .home-filter__page-num{
+        margin-right: 6px;
+    }
+
+    /* Nguyễn Hữu Kha begin */
+
+    .product-content__details-description {
+        width: 90%;
+    }
+
+    .product-recommend-wrapper {
+
+        justify-content: space-evenly;
+    }
+
+    .filled-cart__title-bar, .pay__title-bar {
+        font-size: 13px;
+    }
+
+    .cart__title, .pay__title {
+        padding: 36px 10%;
+    }
+
+    .quantity-buttons--plus,
+    .quantity-buttons--minus,
+    .quantity-buttons--number {
+        height: 40px;
+        line-height: 38px;
+        font-size: 14px;
+    }
+
+    .buttons {
+        padding: 6px 24px;
+    }
+
+    .related-products {
+        margin: 30px 10px 0;
+    }
+
+    .filled-cart__item {
+        padding: 10px;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .pay__item {
+        padding: 10px 5% 10px 0;
+    }
+
+    .popup-confirm-pay {
+        width: 50%;
+    }
+
+    .filled-cart__item-img, .pay__item-img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .filled-cart__item-description, .pay__item-description {
+        width: calc(100% - 94px);
+        margin: 8px;
+        font-size: 13px;
+    }
+
+    .filled-cart__item-quantity {
+        width: 16%;
+    }
+
+    .filled-cart__item-price,
+    .filled-cart__item-totalPrice {
+        width: 8%;
+        font-size: 13px;
+    }
+
+    .filled-cart__item-quantity .quantity-buttons--minus,
+    .filled-cart__item-quantity .quantity-buttons--number,
+    .filled-cart__item-quantity .quantity-buttons--plus {
+        height: 28px;
+        width: 36px;
+        font-size: 12px;
+        line-height: 26px;
+    }
+
+    .filled-cart__item .filled-cart__item-delete-button .buttons {
+        padding: 4px 20px;
+    }
+
+    .pay__user-info {
+        padding: 24px 2%;
+    }
+
+    .pay__user-info__body-content span {
+        font-size: 14px;
+    }
+
+    .pay__user-info__body-content .pay__user-info__phone {
+         width: 15%;
+    }
+
+    .pay__user-info__body-change .buttons {
+        padding: 4px 18px;
+    }
+
+    .about-us__header-wrapper {
+        margin-top: 10%;
+    }
+
+    .about-us__info-content {
+        width: 65%;
+        margin-left: 7.5%;
+    }
+
+    .about-us__info:nth-child(2)  .about-us__info-content {
+        margin-left: 0;
+        margin-right: 7.5%;
+    }
+
+    .about-us__info-name,
+    .about-us__info-date,
+    .about-us__info-description {
+        font-size: 16px;
+    }
+
+    .about-us__info-name span,
+    .about-us__info-date span,
+    .about-us__info-description span {
+        font-size: 14px;
+    }
+
+    .product-review__rating-wrapper {
+        font-size: 16px;
+    }
+ /* Nguyễn Hữu Kha end */
+}
+
+
+/* Mobile ---------------------------------------------------*/
+
+/* Mobile */
+@media (max-width: 739px) {
+    .header {
+        padding: 18px 0;
+    }
+
+    .slideshow-container {
+        margin-top: 56px;
+    }
+
+    .logo {
+        font-size: 2rem;
+    }
+
+    .footer__contact--title {
+        font-size: 1.6rem;
+        margin-bottom: 12px;
+    }
+
+    .footer__contact-address, .footer__contact-email, .footer__contact-phone {
+        font-size: 1.4rem;
+        margin: 10px 0;
+    }
+
+    .footer__follow-text {
+        font-size: 1.4rem;
+    }
+
+    .footer__contact-img {
+        margin-top: 12px;
+    }
+
+    .footer__follow-icon {
+        margin-top: 15px;
+    }
+
+    .header-icon {
+        display: none;
+    }
+
+    .nav-link {
+        float: right;
+        margin: 0 20px;
+    }
+
+    .content {
+        margin-top: 20px;
+    }
+
+    .content__title {
+        font-size: 2rem;
+        padding: 17px 0 12px;
+    }
+
+    .slide-content__right {
+        display: flex;
+    }
+
+    .slide-content__text h3 {
+        font-size: 1.6rem;
+        line-height: 2.2rem;
+    }
+
+    .slide-content__text p {
+        font-size: 1.4rem;
+        line-height: 2rem;
+        margin-top: 10px;
+    }
+
+    #featured-items {
+        padding-bottom: 20px;
+    }
+
+    .product__item {
+        margin: 5px 5px;
+    }
+
+    .footer {
+        margin-top: 20px;
+    }
+
+    .footer__contact, .footer__follow {
+        padding-bottom: 30px;
+        border-bottom: 1px solid var(--white-color);
+    }
+
+    .footer-content {
+        padding-bottom: 0;
+        padding-top: 10px;
+    }
+
+    .footer-bottom__text {
+        padding-bottom: 70px;
+        font-size: 1.4rem;
+    }
+
+    .overview {
+        padding-bottom: 10px;
+        padding-top: 10px;
+    }
+
+    .overview__title {
+        padding: 30px 8px 0;
+    }
+    .product__item--describe span {
+        font-size: 1.2rem;
+    }
+
+    /*Form login and register*/
+    .auth-form__heading {
+        font-size: 1.8rem;
+    }
+
+    .auth-form__input {
+        height: 35px;
+        font-size: 1.2rem;
+    }
+
+    /*    Products*/
+    .header__sort-bar {
+        display: flex;
+    }
+
+    .home-filter {
+        display: none;
+    }
+
+    .mobile-category {
+        display: block;
+        margin: 0;
+    }
+
+    .mobile-category__link {
+        font-size: 1.2rem;
+    }
+
+    .navbar__check:checked ~ .nav-mobile {
+        transform: translateX(0);
+    }
+
+    .product__item-name, .product__item-price, .product__item-price-sale {
+        font-size: 1.4rem;
+    }
+
+    .search-mobile {
+        display: flex;
+    }
+
+    .cart-link, .login-link {
+        color: black;
+        float: right;
+        font-size: 2rem;
+        padding: 0;
+        margin-top: 6px;
+    }
+
+    /*Account*/
+    .auth-form {
+        width: 320px;
+    }
+
+    .auth-form_socials {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .auth-form__controls {
+        margin-top: 15px;
+    }
+
+    .auth-form_socials--google {
+        margin-top: 10px;
+    }
+
+    .icon-gg {
+        margin-left: -15px;
+    }
+
+    .modal-account {
+        z-index: 501;
+    }
+
+
+    /**/
+    .content-account {
+        margin-top: 70px;
+    }
+
+    .nav__information-orders-list {
+        overflow-x: auto;
+
+    }
+
+    .nav__information-orders-list::-webkit-scrollbar {
+        display: none;
+    }
+
+    .nav__information-orders-item {
+        padding: 10px 20px;
+        font-size: 1.4rem;
+    }
+
+    .order-status {
+        padding: 15px 40px;
+        font-size: 1.4rem;
+    }
+
+    .orders-information {
+        display: block;
+    }
+
+    .orders-price {
+        text-align: right;
+        padding-bottom: 5px;
+    }
+
+    .order-total-amount__label {
+        font-size: 1.4rem;
+    }
+
+    .orders-information__content-overview-title {
+        font-size: 1.4rem;
+    }
+
+    .order-total-amount {
+        padding: 13px 40px;
+    }
+
+    .my-account__form-label {
+        text-align: left;
+        min-width: 76px;
+    }
+
+    .my-account__top-title {
+        font-size: 1.4rem;
+    }
+
+    .my-account__form-input {
+        margin: 5px 0 0 0;
+    }
+
+    .my-account__form-change-password {
+        display: inline-grid;
+        margin-bottom: 10px;
+    }
+
+    .nav__information-orders-content {
+        margin: 10px 0;
+    }
+
+    .nav__information-personal-item, .nav__information-personal-purchase {
+        padding: 4px 0;
+    }
+
+    .nav__information-personal-name {
+        font-size: 1.4rem;
+    }
+
+    .nav__information-my-account-item {
+        font-size: 1.2rem;
+        padding: 5px 0 5px 33px;
+    }
+
+    .my-account__top-text {
+        font-size: 1.2rem;
+    }
+
+    .order-review {
+        font-size: 1.2rem;
+        padding: 6px;
+        border-radius: 0;
+        background: black;
+    }
+
+    .my-account__form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .my-account__password-btn {
+        margin-left: 0;
+    }
+
+    /* Nguyễn Hữu Kha begin */
+    .product-slider {
+        height: 250px;
+        margin-top: 55px;
+    }
+
+    .product-container__inner {
+        padding-top: 0;
+    }
+
+    .product-slider__title {
+        font-size: 3rem;
+        left: 10%;
+    }
+
+    .product-content__rating {
+        margin: 0;
+    }
+
+    .product-content__img-wrapper {
+        margin-left: 0;
+    }
+
+    .product-content__img {
+        height: 300px;
+    }
+
+    .product-frame {
+        margin-top: 0;
+    }
+
+    .product-content__text-wrapper {
+        padding-left: 3%;
+    }
+
+    .product-content__text__title {
+        text-align: left;
+        margin-bottom: 20px;
+        font-size: 2rem;
+    }
+
+    .related-products__title {
+        font-size: 2rem;
+    }
+
+    .product-content__tabs-content {
+        margin-top: 10px;
+    }
+
+    .product-content__details-description p,
+    .tabs-content__description {
+        font-size: 14px;
+    }
+
+    .tabs-content__item {
+        margin-left: 10px;
+    }
+
+    .stay-in-touch .close-wrapper {
+        display: none;
+    }
+
+    .stay-in-touch__title {
+        margin-top: 36px;
+    }
+
+    .popup {
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+    }
+
+    .popup-overlay {
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(0, 0, 0, 0.4);
+        background-color: var(--black-color);
+        opacity: 0.4;
+        z-index: 110;
+    }
+
+    .product-content__img-wrapper {
+        width: 100%;
+        /*margin-bottom: 30px;*/
+    }
+
+    .product-content__text-wrapper {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .product-content__details-description {
+        width: 95%;
+        text-align: left;
+    }
+
+    .tabs-content__description {
+        width: 95%;
+    }
+
+    .tabs-content__review input,
+    .tabs-content__review textarea {
+        width: 95%;
+    }
+
+    .related-products__title {
+        text-align: center;
+    }
+
+    .product-recommend-wrapper {
+        justify-content: center;
+    }
+
+    .popup {
+        width: 90%;
+        height: 230px;
+        padding: 10px 16px;
+    }
+
+    .product-content__tabs {
+        margin: 50px 0 0 3%;
+    }
+
+    .product-content__tabs-item {
+        padding: 10px;
+        font-size: 14px;
+        margin-left: 10px;
+    }
+
+    .stay-in-touch__title h2 {
+        font-size: 24px;
+    }
+
+    .stay-in-touch__form {
+        margin-top: 10px;
+    }
+
+    .stay-in-touch__form button {
+        padding: 5px 10px;
+        line-height: 1.5;
+        border-radius: 2px;
+        font-size: 10px;
+    }
+
+    .stay-in-touch__form input {
+        padding: 5px 10px;
+    }
+
+    .close-wrapper i {
+        font-size: 12px;
+    }
+
+    .stay-in-touch__prevent {
+        margin: 0;
+    }
+
+    .stay-in-touch__prevent p {
+        font-size: 10px;
+    }
+
+    .quantity-buttons--plus,
+    .quantity-buttons--minus,
+    .quantity-buttons--number {
+        height: 40px;
+        line-height: 38px;
+
+        line-height: 40px;
+        font-size: 14px;
+    }
+
+    .buttons {
+        padding: 6px 24px;
+    }
+
+    .related-products {
+        margin: 30px 10px 0;
+    }
+
+
+    /* Cart */
+    #cart, #pay-page {
+        margin-top: 56px;
+    }
+
+    .cart__title, .pay__title {
+        padding: 24px 5%;
+    }
+
+    .filled-cart {
+        padding: 24px 5%;
+    }
+
+    .pay__body {
+        padding: 24px 0;
+    }
+
+    .pay-content {
+        padding: 40px 5%;
+    }
+    .pay__user-info__body-select {
+        margin: 16px 20px;
+    }
+    .pay__user-info__content{
+        flex-direction: column;
+    }
+    .radio{
+        margin-bottom: 20px;
+    }
+    .filled-cart__title-bar, .pay__title-bar {
+        display: none;
+    }
+
+    .filled-cart__item, .pay__item {
+        width: 100%;
+        padding: 16px;
+        align-items: center;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+        box-shadow: 0 1px 3px var(--grey-color);
+    }
+
+    .filled-cart__item ~ .filled-cart__item,
+    .pay__item ~ .pay__item {
+        margin-top: 16px;
+    }
+
+    .filled-cart__item .select-product {
+        display: none;
+    }
+
+    .filled-cart__item-info, .pay__item-info {
+        width: 100%;
+        margin-bottom: 12px;
+    }
+
+    .filled-cart__item-img, .pay__item-img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .filled-cart__item-description, .pay__item-description {
+        width: calc(100% - 80px);
+        font-size: 12px;
+    }
+
+    .filled-cart__item-price,
+    .filled-cart__item-totalPrice,
+    .pay__item-price,
+    .pay__item-totalPrice {
+        width: 20%;
+        font-size: 14px;
+    }
+
+    .filled-cart__item-price, .pay__item-price {
+        margin-right: 5%;
+    }
+
+    .filled-cart__item-quantity, .pay__item-quantity {
+        font-size: 12px;
+        width: 48%;
+        margin-left: 2%;
+        color: var(--grey-color);
+    }
+
+    .filled-cart__item-quantity .quantity-buttons--minus,
+    .filled-cart__item-quantity .quantity-buttons--number,
+    .filled-cart__item-quantity .quantity-buttons--plus {
+        height: 30px;
+        width: 40px;
+        font-size: 12px;
+        line-height: 28px;
+    }
+
+    .filled-cart__item-delete-button {
+        margin-top: 16px;
+        width: 100%;
+    }
+
+    .filled-cart__item-delete-button .buttons{
+        width: 100%;
+    }
+
+    /* empty cart */
+    .cart__body > .empty-cart {
+        padding: 30px 5%;
+        margin: 60px 0;
+    }
+
+    .empty-cart__title {
+        font-size: 24px;
+    }
+
+    .empty-cart__sub-title {
+        font-size: 16px;
+        margin-bottom: 12px;
+    }
+
+    .pay__user-info {
+        padding: 24px 5%;
+    }
+
+    .pay__user-info__body-content-wrapper {
+        flex-wrap: wrap;
+    }
+
+    .pay__user-info__body-content {
+        flex-wrap: wrap;
+        width: 100%;
+        margin: 12px 0;
+    }
+
+    .pay__user-info__body-content-wrapper .pay__user-info__body-content span {
+        width: 100%;
+        height: auto;
+        font-size: 14px;
+        line-height: 1.6;
+        -webkit-line-clamp: 2;
+    }
+
+    .pay__user-info__body-change ,.pay__user-info__body-add{
+        width: 100%;
+    }
+
+    .pay__user-info__body-change .buttons {
+        padding: 4px 18px;
+        width: 100%;
+    }
+    .pay__user-info__body-change, .pay__user-info__body-add {
+        margin-right: 0;
+    }
+    .pay__user-info__body-add .buttons {
+        padding: 4px 18px;
+        width: 100%;
+    }
+    .radio-btn{
+        margin-top: 30px;
+        justify-content: center;
+        display: flex;
+    }
+    .radio__body-content{
+        display: contents;
+    }
+
+    .popup-confirm-pay {
+        width: 90%;
+    }
+
+    .pay__total-price {
+        font-size: 16px;
+    }
+
+    .product-review__wrapper {
+        padding: 16px 0;
+        border: none;
+    }
+
+    .product-review__rating-wrapper {
+        font-size: 14px;
+        width: 95%;
+    }
+
+    .product-review__title {
+        font-size: 20px;
+    }
+
+    .product-comment__wrapper {
+        width: 95%;
+    }
+
+    /* Nguyễn Hữu Kha end */
+    .about-us__header-wrapper {
+        margin-top: 56px;
+    }
+
+    .about-us__header {
+        font-size: 30px;
+        line-height: 1.8;
+        margin-left: 5%;
+    }
+
+    .about-us__info-wrapper {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .about-us__info {
+        padding: 42px 0;
+        flex-wrap: wrap;
+    }
+
+    .about-us__info-content {
+        width: 90%;
+        margin: 18px 0;
+    }
+
+    .about-us__info ~ .about-us__info {
+        margin-top: 0;
+    }
+
+    .about-us__info:nth-child(2) > a {
+        order: 1;
+    }
+
+    .about-us__info:nth-child(2) .about-us__info-content {
+        order: 2;
+    }
+
+    /* Nguyễn Hữu Kha end*/
+    /*Triệu Huệ Mẩn*/
+    .branch-item {
+        margin-bottom: 10px;
+    }
+
+    .branch-section {
+        margin: 25px 0;
+    }
+
+    .branch-item li h2 {
+        font-size: 1.4rem;
+        font-weight: 600;
+    }
+
+    .branch-item li a {
+        font-size: 1.4rem;
+    }
+
+    .contact-ask .tagline {
+        font-size: 3.5rem;
+    }
+
+    .contact-ask .subtitle {
+        font-size: 1.2rem;
+    }
+
+    .contact-ask .your-email {
+        margin-right: 10px;
+    }
+
+    .contact-ask-item {
+        text-align: center;
+    }
+
+    .contact-ask .contact-form {
+        display: grid;
+    }
+
+    .contact-slider {
+        margin-top: 56px;
+        height: 120px;
+    }
+
+    .contact-ask-wrapper {
+        padding: 25px 10px;
+    }
+
+    .contact-ask .title {
+        font-size: 1.6rem;
+    }
+
+    .back-to-top {
+        margin-bottom: 55px;
+    }
+
+    .products a {
+        padding: 0;
+    }
+
+    .products {
+        padding: 0 5px;
+    }
+}
