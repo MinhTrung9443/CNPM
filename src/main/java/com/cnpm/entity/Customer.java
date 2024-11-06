@@ -14,7 +14,5 @@ import java.time.LocalDate;
 @Data
 @Entity
 public class Customer extends User implements Serializable {
-    @Column(unique = true)
-    private Long customerId;
     private LocalDate birthDate;
 }

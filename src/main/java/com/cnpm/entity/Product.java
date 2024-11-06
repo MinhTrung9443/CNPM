@@ -1,6 +1,7 @@
 package com.cnpm.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,12 +33,15 @@ public class Product implements Serializable {
     private String origin;
     private String image;
 
-    @OneToMany
+
+
+    @OneToMany(mappedBy = "product")
     @JsonBackReference
     private List<CartItem> cartItems; // Inverse side, optional, when we want to navigate from CartItem to Product
 
-    @OneToMany
+    @OneToMany(mappedBy = "product")
     @JsonBackReference
     private List<OrderLine> orderLines; // Inverse side, optional, when we want to navigate from OrderLine to Product
+
 
 }

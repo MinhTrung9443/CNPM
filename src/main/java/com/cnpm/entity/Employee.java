@@ -14,7 +14,5 @@ import java.time.LocalDate;
 @Data
 @Entity
 public class Employee extends User implements Serializable {
-    @Column(unique = true)
-    private Long employeeId; // This is atrribute is not a primary key in the database
     private LocalDate startDate;
 }

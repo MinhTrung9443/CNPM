@@ -18,9 +18,8 @@ public class CartItem implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cartItemId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JsonManagedReference
-    @JoinColumn(name = "productId", referencedColumnName = "productId")
     private Product product;
 
 
