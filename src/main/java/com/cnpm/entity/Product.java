@@ -20,14 +20,18 @@ public class Product implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
     private String productCode;
+    @Column(columnDefinition = "nvarchar(max)")
     private String productName;
     private String category;
     private Double cost;
+    @Column(columnDefinition = "nvarchar(max)")
     private String description;
     private String brand;
     private LocalDate manufactureDate;
-    private LocalDate expiryDate;
+    private LocalDate expirationDate;
+    @Column(columnDefinition = "nvarchar(max)")
     private String ingredient;
+    @Column(columnDefinition = "nvarchar(max)")
     private String how_to_use;
     private String volume;
     private String origin;

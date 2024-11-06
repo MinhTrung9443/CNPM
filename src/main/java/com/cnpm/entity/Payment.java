@@ -17,6 +17,7 @@ public class Payment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long paymentId;
+    @Column(length = 50, columnDefinition = "nvarchar(50)")
     private String paymentMethod;
 
     @Enumerated(EnumType.STRING)

@@ -17,7 +17,7 @@ public class ProductFeedback implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productFeedbackId;
-
+    @Column(length = 2000, columnDefinition = "nvarchar(2000)")
     private String comment;
     private LocalDateTime feedbackDate;
     private Long customerId;
