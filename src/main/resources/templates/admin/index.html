@@ -5,10 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
-    <link rel="stylesheet" href="../admin/assets/css/base.css" />
-    <link rel="stylesheet" href="../admin/assets/css/grid.css" />
-    <link rel="stylesheet" href="../admin/assets/css/admin/header.css" />
-    <link rel="stylesheet" href="../admin/assets/css/admin/sidebar.css" />
+    <link rel="stylesheet" th:href="@{/static/admin/assets/css/base.css}" />
+    <link rel="stylesheet" th:href="@{/static/admin/assets/css/base.css}" />
+    <link rel="stylesheet" th:href="@{/static/admin/assets/css/grid.css}" />
+    <link rel="stylesheet" th:href="@{/static/admin/assets/css/admin/header.css}" />
+    <link rel="stylesheet" th:href="@{/static/admin/assets/css/admin/sidebar.css}" />
+
+
+
+
     <title>Admin</title>
 </head>
 <body>
@@ -78,6 +83,6 @@
     </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-<script src="../admin/assets/css/admin/chart.js"></script>
+<script th:src="@{/static/admin/assets/css/admin/chart.js}"></script>
 </body>
 </html>

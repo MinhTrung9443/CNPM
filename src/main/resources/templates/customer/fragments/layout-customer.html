@@ -5,19 +5,20 @@
 
     <!--====== Google Font ======-->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet">
-
     <!--====== Vendor Css ======-->
-    <link rel="stylesheet" href="customer/css/vendor.css">
-<!--    <link rel="stylesheet" th:href="@{/customer/css/vendor.css}">-->
-
-
+    <link rel="stylesheet" th:href="@{/static/customer/css/vendor.css}">
     <!--====== Utility-Spacing ======-->
-    <link rel="stylesheet" href="customer/css/utility.css">
-<!--    <link rel="stylesheet" th:href="@{/customer/css/utility.css}">-->
-
+    <link rel="stylesheet" th:href="@{/static/customer/css/utility.css}">
     <!--====== App ======-->
-    <link rel="stylesheet" href="customer/css/app.css">
-<!--    <link rel="stylesheet" th:href="@{/customer/css/app.css}">-->
+    <link rel="stylesheet" th:href="@{/static/customer/css/app.css}">
+    <!--====== Google Font ======-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet">
+    <!--====== Vendor Css ======-->
+    <link ref="stylesheet" th:href="@{/static/customer/css/vendor.css}">
+    <!--====== Utility-Spacing ======-->
+    <link ref="stylesheet" th:href="@{/static/customer/css/utility.css}">
+    <!--====== App ======-->
+    <link ref="stylesheet" th:href="@{/static/customer/css/app.css}">
 </head>
 <body>
     <header>
@@ -36,12 +37,10 @@
     <script src="https://www.google-analytics.com/analytics.js" async defer></script>
 
     <!--====== Vendor Js ======-->
-    <script src="customer/js/vendor.js"></script>
-
+    <script th:src="@{/static/customer/js/vendor.js}"></script>
     <!--====== jQuery Shopnav plugin ======-->
-    <script src="customer/js/jquery.shopnav.js"></script>
-
+    <script th:src="@{/static/customer/js/jquery.shopnav.js}"></script>
     <!--====== App ======-->
-    <script src="customer/js/app.js"></script>
+    <script th:src="@{/static/customer/js/app.js}"></script>
 </body>
 </html>
