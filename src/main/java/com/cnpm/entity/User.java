@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -31,7 +31,7 @@ public abstract class User implements Serializable {
 
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "accountId")
-    @JsonBackReference
+    @JsonManagedReference
     protected Account account;
 
 }

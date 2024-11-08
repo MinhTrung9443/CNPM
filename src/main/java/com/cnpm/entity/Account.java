@@ -2,6 +2,7 @@ package com.cnpm.entity;
 
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
@@ -25,7 +26,7 @@ public class Account implements Serializable {
 
 
     @OneToOne(mappedBy = "account")
-    @JsonManagedReference
+    @JsonBackReference
     protected User user;
 
     @ManyToOne
