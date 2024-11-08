@@ -113,6 +113,11 @@
             <groupId>nz.net.ultraq.thymeleaf</groupId>
             <artifactId>thymeleaf-layout-dialect</artifactId>
         </dependency>
+        <dependency>
+            <artifactId>unlogged-sdk</artifactId>
+            <groupId>video.bug</groupId>
+            <version>0.6.9</version>
+        </dependency>
     </dependencies>
 
     <build>

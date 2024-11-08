@@ -22,10 +22,12 @@ public class Product implements Serializable {
     private String productCode;
     @Column(columnDefinition = "nvarchar(max)")
     private String productName;
+    @Column(columnDefinition = "nvarchar(max)")
     private String category;
     private Double cost;
     @Column(columnDefinition = "nvarchar(max)")
     private String description;
+    @Column(columnDefinition = "nvarchar(max)")
     private String brand;
     private LocalDate manufactureDate;
     private LocalDate expirationDate;
@@ -34,7 +36,9 @@ public class Product implements Serializable {
     @Column(columnDefinition = "nvarchar(max)")
     private String how_to_use;
     private String volume;
+    @Column(columnDefinition = "nvarchar(50)")
     private String origin;
+    @Column(columnDefinition = "nvarchar(max)")
     private String image;
 
 
