@@ -22,6 +22,7 @@ public abstract class User implements Serializable {
     protected String fullName;
     protected String phone;
     protected String gender;
+    @Column(columnDefinition = "nvarchar(max)")
     protected String address;
     protected String email;
 

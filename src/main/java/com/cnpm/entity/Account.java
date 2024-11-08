@@ -1,7 +1,6 @@
 package com.cnpm.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,7 +26,7 @@ public class Account implements Serializable {
     @JsonBackReference
     protected User user;
 
-    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @ManyToOne
+    @JoinColumn(name = "roleId", referencedColumnName = "roleId")
     protected Role role;
 }
