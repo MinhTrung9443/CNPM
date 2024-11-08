@@ -54,7 +54,7 @@ public class ProductService implements IProductService{
         return stock.orElse(0L);
     }
     public Long count(){
-        return productRepository.count();
+        return productRepository.countDistinct();
     }
     public Long countByCategory(String category){
         return productRepository.countByCategory(category);

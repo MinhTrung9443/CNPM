@@ -1,0 +1,19 @@
+
+    /* Tăng kích thước ảnh */
+.product-image {
+    width: 80px;  /* Bạn có thể điều chỉnh kích thước tại đây */
+    height: auto;
+}
+
+/* Tăng kích thước chữ trong bảng */
+.table td, .table th {
+    font-size: 1.5em; /* Điều chỉnh kích thước chữ */
+/*    can giua*/
+    text-align: center;
+}
+
+/* Tăng kích thước cho tiêu đề bảng */
+.table-title {
+    font-size: 1.5em;
+    font-weight: bold;
+}

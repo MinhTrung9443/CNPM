@@ -1,5 +1,6 @@
 package com.cnpm.controller;
 
+import com.cnpm.payload.response.ProductPagingResponse;
 import com.cnpm.payload.response.ProductResponse;
 import com.cnpm.repository.ProductRepository;
 import com.cnpm.service.impl.ProductService;
@@ -8,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,18 +22,18 @@ public class ProductController {
     ProductService productService;
     @ResponseBody
     @GetMapping("/list")
-    public List<ProductResponse> list(@RequestParam(defaultValue = "0") Integer page) {
+    public ResponseEntity<?> list(@RequestParam(defaultValue = "0") Integer page) {
         if (page == null) {
             page = 0;
         }
         int totalProducts = productService.count().intValue();
-        int pageSize = 10;
+        int pageSize = 5;
         int totalPages = (int) Math.ceil((double) totalProducts / pageSize);
         int pageNumber = page; // trang đầu tiên
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by("productCode").ascending());
         List<ProductResponse> productPage = productService.findDistinctProduct(pageable);
 
-        return productPage;
+        return ResponseEntity.ok(new ProductPagingResponse(productPage, totalPages, pageNumber, pageSize, totalProducts));
     }
     @GetMapping("")
     public String index() {
