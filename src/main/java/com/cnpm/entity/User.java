@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -28,7 +31,9 @@ public abstract class User implements Serializable {
     protected String address;
     protected String email;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "accountId")
+    @JsonManagedReference
     protected Account account;
 
 }

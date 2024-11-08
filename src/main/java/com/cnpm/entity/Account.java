@@ -1,6 +1,10 @@
 package com.cnpm.entity;
 
+
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,8 +25,7 @@ public class Account implements Serializable {
     protected String password;
 
 
-    @OneToOne
-    @JoinColumn(name = "userId", referencedColumnName = "userId")
+    @OneToOne(mappedBy = "account")
     @JsonBackReference
     protected User user;
 
