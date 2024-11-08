@@ -1,5 +1,6 @@
 package com.cnpm.entity;
 
+import com.cnpm.enums.Gender;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,7 +22,8 @@ public abstract class User implements Serializable {
     @Column(length = 150, columnDefinition = "nvarchar(150)")
     protected String fullName;
     protected String phone;
-    protected String gender;
+    @Enumerated(EnumType.STRING)
+    protected Gender gender;
     @Column(columnDefinition = "nvarchar(max)")
     protected String address;
     protected String email;
