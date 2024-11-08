@@ -1,7 +1,6 @@
 package com.cnpm.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,6 +33,7 @@ public class Product implements Serializable {
     @Column(columnDefinition = "nvarchar(max)")
     private String how_to_use;
     private String volume;
+    @Column(columnDefinition = "nvarchar(max)")
     private String origin;
     private String image;
 

@@ -16,9 +16,8 @@ public class Role {
     private Long roleId;
     private String roleName;
 
-    @OneToOne
+    @OneToOne(mappedBy = "role")
     @JsonBackReference
-    @JoinColumn(name = "accountId", referencedColumnName = "accountId")
     private Account account;
 
 }

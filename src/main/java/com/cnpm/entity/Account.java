@@ -27,7 +27,8 @@ public class Account implements Serializable {
     @JsonBackReference
     protected User user;
 
-    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @ManyToOne
+    @JoinColumn(name = "roleId", referencedColumnName = "roleId")
+    @JsonBackReference
     protected Role role;
 }
