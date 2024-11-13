@@ -3,9 +3,7 @@ package com.cnpm.entity;
 import com.cnpm.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -31,6 +29,8 @@ public class Order implements Serializable {
 
     private LocalDateTime deliveryDate;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     @JsonManagedReference
     private Set<OrderLine> orderLines=new HashSet<>();

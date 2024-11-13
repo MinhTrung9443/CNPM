@@ -2,9 +2,7 @@ package com.cnpm.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -41,11 +39,14 @@ public class Product implements Serializable {
     private String image;
 
 
-
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "product")
     @JsonBackReference
     private List<CartItem> cartItems; // Inverse side, optional, when we want to navigate from CartItem to Product
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "product")
     @JsonBackReference
     private List<OrderLine> orderLines; // Inverse side, optional, when we want to navigate from OrderLine to Product
