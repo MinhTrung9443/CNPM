@@ -1,9 +1,7 @@
 package com.cnpm.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -20,6 +18,8 @@ public class Voucher implements Serializable {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
 
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "orderId", referencedColumnName = "orderId")
     private Order order;

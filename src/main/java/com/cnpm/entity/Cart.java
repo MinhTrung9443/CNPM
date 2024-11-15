@@ -23,6 +23,8 @@ public class Cart implements Serializable {
     @JsonManagedReference
     private Set<CartItem> cartItems=new HashSet<>();
 
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     @OneToOne
     @JoinColumn(name = "customerId")
     private Customer customer;

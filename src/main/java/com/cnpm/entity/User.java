@@ -2,9 +2,7 @@ package com.cnpm.entity;
 
 import com.cnpm.enums.Gender;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -15,8 +13,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @AllArgsConstructor
 @Data
 @Entity
-//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+//@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "[User]")
 public abstract class User implements Serializable {
     @Id
@@ -31,6 +29,8 @@ public abstract class User implements Serializable {
     protected String address;
     protected String email;
 
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "accountId")
     @JsonManagedReference

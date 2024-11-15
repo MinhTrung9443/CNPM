@@ -2,9 +2,7 @@ package com.cnpm.entity;
 
 import com.cnpm.enums.PaymentStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -26,6 +24,8 @@ public class Payment implements Serializable {
     private LocalDateTime paymentDate;
     private Double total;
 
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     @OneToOne
     @JoinColumn(name = "orderId", referencedColumnName = "orderId")
     private Order order;

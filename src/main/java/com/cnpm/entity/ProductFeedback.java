@@ -1,9 +1,8 @@
 package com.cnpm.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -21,6 +20,8 @@ public class ProductFeedback implements Serializable {
     private Long customerId;
     private Double rating;
 
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "productId", referencedColumnName = "productId")
     private Product product;
