@@ -342,46 +342,6 @@
 <!--ajax-->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<script>
-    // Thêm kiểm tra jQuery
-    if (typeof jQuery == 'undefined') {
-        console.error('jQuery chưa được nạp');
-        // Nạp jQuery động nếu cần
-        var script = document.createElement('script');
-        script.src = 'https://code.jquery.com/jquery-3.6.0.min.js';
-        document.head.appendChild(script);
-    }
-    const path=window.location.origin+'/';
-    $(document).ready(function() {
-        $('#loginForm').on('submit', function(e) {
-            e.preventDefault();
-            $.ajax({
-                type: 'POST',
-                contentType: 'application/json',
-                url: path+'auth/login',
-                data: JSON.stringify({
-                    username: $('#username').val(),
-                    password: $('#password').val()
-                }),
-                success: function(response, status, xhr) {
-                    // Kiểm tra xem có phải là trang đăng nhập thất bại không
-                    if (xhr.getResponseHeader('X-Login-Status') === 'fail') {
-                        $('#loginError').show();
-                        return;
-                    }
-                    // Đăng nhập thành công
-                    $('#loginModal').modal('hide');
-
-                    // Reload hoặc chuyển trang
-                    window.location.reload();
-                },
-                error: function() {
-                    $('#loginError').show();
-                }
-            });
-        });
-    });
-</script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
