@@ -20,13 +20,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     UserRepository userRepository;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        Spring Security gọi loadUserByUsername để nạp thông tin người dùng từ cơ sở dữ liệu.
-//                Phương thức kiểm tra:
-//        Nếu tìm thấy người dùng, trả về một đối tượng UserDetails.
-//                Nếu không, ném UsernameNotFoundException.
-//                Spring Security sẽ so sánh:
-//        Mật khẩu nhập vào (sau khi mã hóa) với mật khẩu trong cơ sở dữ liệu.
-//        Nếu khớp, xác thực thành công và cấp quyền dựa trên vai trò (roles).
         User user = userRepository.findByAccount_Username(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
 //        Logger.log(user.getAccount());
         return org.springframework.security.core.userdetails.User.builder()

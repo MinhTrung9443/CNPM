@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,7 @@ import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RestController
+@Controller
 @RequestMapping("/auth")
 public class AuthController {
     @Autowired
@@ -28,21 +29,29 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
-        @GetMapping("")
+    @GetMapping("/login")
+    public String showLoginForm() {
+        return "login"; // Trả về view "login"
+    }
+
+
+    @GetMapping("")
     public String t(){
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             UserDetails userDetails = (UserDetails) auth.getPrincipal();
             System.out.println("Người dùng hiện tại: " + userDetails.getUsername());
             return "Người dùng hiện tại: " + userDetails.getUsername();
     }
+
+    @ResponseBody
     @RequestMapping(value = "/username", method = RequestMethod.GET)
     public String currentUserName(Principal principal) {
         return principal.getName();
     }
 
+    @ResponseBody
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO) {
-        System.out.println("Đăng nhập với tên đăng nhập: " + loginDTO.getUsername() + ", mật khẩu: " + loginDTO.getPassword());
         Logger.log("Đăng nhập với tên đăng nhập: " + loginDTO.getUsername() + ", mật khẩu: " + loginDTO.getPassword());
         try {
             Authentication authentication = authenticationManager.authenticate(

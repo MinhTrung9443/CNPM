@@ -8,17 +8,15 @@ import com.cnpm.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService implements IUserService {
     @Autowired
     private UserRepository userRepository;
-
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public User getUser(String name) {
@@ -32,7 +30,8 @@ public class UserService implements IUserService {
         Customer customer = new Customer();
         Account account = new Account();
         account.setUsername(username);
-        account.setPassword(new BCryptPasswordEncoder().encode(password));
+        String encodedPassword = passwordEncoder.encode("123456");
+        account.setPassword(encodedPassword);
         account.setUser(customer);
         customer.setAccount(account);
         userRepository.save(customer);
