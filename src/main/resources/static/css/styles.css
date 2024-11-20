@@ -1,0 +1,37 @@
+.navbar {
+    background-color: #f8f9fa;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.navbar-brand img {
+    width: 90px;
+}
+
+
+.navbar-nav .nav-link:hover {
+    color: #0b89ff; /* Màu đậm hơn khi hover */
+}
+
+.dropdown-menu {
+    background-color: #f8f9fa;
+    border: none; /* Bỏ viền dropdown */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Thêm shadow cho dropdown */
+}
+
+
+
+.dropdown-item:hover {
+    background-color: #e9ecef; /* Màu nền nhạt khi hover */
+    color: #23527c;
+}
+
+
+
+.search-submit:hover {
+    background-color: #23527c;
+}
+
+.fa-shopping-cart {
+    font-size: 25px;
+}

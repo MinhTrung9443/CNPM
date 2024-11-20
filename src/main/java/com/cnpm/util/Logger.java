@@ -20,5 +20,10 @@ public class Logger {
 //        System.out.println(ANSI_LIGHT_YELLOW_BACKGROUND + ANSI_BLACK + message + ": " + e.getMessage() + ANSI_RESET);
         log.info(ANSI_LIGHT_YELLOW_BACKGROUND + ANSI_BLACK + "{}" + ANSI_RESET, message.toString());
     }
+    public static void log(String[] args) {
+        for (String arg : args) {
+            log.info(ANSI_LIGHT_YELLOW_BACKGROUND + ANSI_BLACK + "{}" + ANSI_RESET, arg);
+        }
+    }
 
 }

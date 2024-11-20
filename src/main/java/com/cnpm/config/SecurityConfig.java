@@ -4,10 +4,15 @@ import com.cnpm.custom.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,20 +28,34 @@ public class SecurityConfig {
 
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
+//    @Autowired
+//    private CustomAuthenticationSuccessHandler authenticationSuccessHandler;
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        tạm thời làm vậy, để khi đặt hàng lấy username từ principal mới tra ra được mã khách hàng cũng như phục vụ các chức năng khác
-        http
+        http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/**").hasAnyRole("SHOP_OWNER", "EMPLOYEE", "CUSTOMER")
-//                        .requestMatchers("/user/signup", "/user/signin", "/user/order/**", "/error","/").permitAll()
-//                        .requestMatchers("/assets/**","/css/**", "/js/**", "/images/**", "/favicon.ico").permitAll()
+                        .requestMatchers("/**").permitAll()
+//                        .requestMatchers("/admin/**").hasRole("SHOP_OWNER")
+//                        .requestMatchers("/employee/**").hasRole("EMPLOYEE")
+//                        .requestMatchers("/customer/**").hasRole("CUSTOMER")
+//                        .requestMatchers("/shop/**").permitAll()
+//                        .requestMatchers("/auth/**", "/error").permitAll()
+//                        .requestMatchers("/api/**").permitAll()
+//                        .requestMatchers("/assets/**", "/css/**", "/js/**", "/images/**", "/favicon.ico").permitAll()
                         .anyRequest().authenticated()
                 )
-//                tạm thời xài form login và logout mặc định trc, sau này sẽ ấy sau
-                .formLogin(form -> form.permitAll())
-                .logout(logout -> logout.permitAll());
+
+                .formLogin(Customizer.withDefaults()
+
+//                        .loginProcessingUrl("/auth/login")
+//                        .successHandler(authenticationSuccessHandler))
+                );
+//                .logout(LogoutConfigurer::permitAll);
         return http.build();
     }
 
@@ -52,8 +71,5 @@ public class SecurityConfig {
         return authenticationManagerBuilder.build();  // Trả về AuthenticationManager
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+
 }

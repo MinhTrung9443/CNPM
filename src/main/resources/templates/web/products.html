@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <style>
+
+        .category-nav {
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+        }
+
+        .category-nav__heading {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .category-nav__list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .category-nav__item {
+            margin-bottom: 10px;
+        }
+
+
+        .home-product {
+            padding: 20px;
+        }
+
+        .home-product-item {
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .home-product-item__img {
+            border-radius: 10px;
+            width: 50%;
+        }
+
+        .home-product-item__name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .home-product-item__price {
+            margin-bottom: 10px;
+        }
+
+        .home-product-item__price-current {
+            font-size: 18px;
+            font-weight: bold;
+            color: #c01508;
+        }
+
+        .home-product-item__action {
+            margin-bottom: 10px;
+        }
+
+        .home-product-item__sold {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .home-product-item__origin {
+            margin-bottom: 10px;
+        }
+
+        .home-product-item__brand {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .home-product-item__origin-name {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .home-product-item__cart {
+            text-decoration: none;
+            color: #337ab7;
+        }
+
+
+    </style>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+
+</head>
+<body>
+<header class="navbar navbar-expand-md fixed-top" th:fragment="nav">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/home}"><img src="https://placehold.co/90x90" class="img-fluid p-0 mr-2"
+                                                        alt=""></a>
+        <ul class="navbar-nav navbar-expand-md d-flex justify-content-between">
+            <li class="nav-item p-2">
+                <a class="nav-link" th:href="@{/home}">Trang chủ <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item p-2">
+                <a class="nav-link" th:href="@{/shop}">Sản Phẩm</a>
+            </li>
+        </ul>
+        <nav class="navbar-nav navbar-right col-4 p-0">
+            <div class="container-fluid d-flex justify-content-end">
+                <form th:action="@{/shop/search}" method="post" class="form-inline my-2 my-lg-0">
+                    <div class="input-group input-group-sm">
+                        <input type="text" class="form-control" placeholder="Tên sản phẩm" name="name"
+                               th:value="${name}"
+                               aria-label="Recipient's username" aria-describedby="basic-addon2">
+                        <button type="submit" class="btn search-submit">
+                            <span style="font-size: 28px;" class="fa fa-search"></span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </nav>
+        <div class="col-2 p-0 d-flex justify-content-start">
+            <button class="navbar-toggler float-right" type="button" data-toggle="collapse"
+                    data-target="#navbarResponsive"
+                    aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/cart}">
+                            <i class="fa fa-shopping-cart"></i>
+                            <small id="countt" class="badge badge-light">[[${totalCartItems}]]</small>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown pl-1">
+                        <!--                        <a class="nav-link dropdown-toggle" href="#" id="dropdownMenuLink" data-toggle="dropdown"> Tài-->
+                        <!--                            khoản </a>-->
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdownMenuLink" data-toggle="dropdown">
+                            <th:block th:if="${isLogin}">
+                                [[${fullName}]]
+                            </th:block>
+                            <th:block th:unless="${isLogin}">
+                                Tài khoản
+                            </th:block>
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" th:href="@{/customer/info}" th:if="${isLogin}">Thông tin cá
+                                nhân</a>
+                            <a class="dropdown-item" th:href="@{/customer/seen}" th:if="${isLogin}">Hàng đã xem</a>
+                            <a class="dropdown-item" th:href="@{/customer/editProfile}" th:if="${isLogin}">Chỉnh sửa
+                                thông tin</a>
+                            <a class="dropdown-item" th:href="@{/logout}" th:if="${isLogin}">Đăng xuất</a>
+                            <a class="dropdown-item nav-link" data-toggle="modal"
+                               data-target="#loginModal" th:unless="${isLogin}">Đăng nhập</a>
+                            <a class="dropdown-item" th:href="@{/register}" th:unless="${isLogin}">Đăng kí</a>
+                            <a class="dropdown-item" th:href="@{/forgotPassword}" th:unless="${isLogin}">Quên mật
+                                khẩu</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!--empty box-->
+<div class="empty-box" style="height: 200px;"></div>
+
+<div class="container" style="margin-top: 3%; padding: 20px;">
+    <div class="row">
+        <div class="col-3">
+            <div class="category-nav">
+                <h3 class="category-nav__heading">Danh mục</h3>
+                <ul class="category-nav__list">
+                    <li class="category-nav__item" th:each="cate : ${categories}">
+                        <a th:href="@{/shop(category=${cate})}" class="category-nav__link" th:text="${cate}"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="home-product col-9">
+            <div class="row">
+                <div th:each="product : ${products}" class="col-md-3"> <!-- changed to col-md-3 -->
+                    <div class="home-product-item"
+                         style="width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                        <img alt="" class="home-product-item__img" th:src="${product.image}">
+                        <h4 class="home-product-item__name" th:text="${product.productName}"></h4>
+                        <div class="home-product-item__price">
+                            <span class="home-product-item__price-current" th:text="${product.cost} + 'đ'"></span>
+                        </div>
+                        <div class="home-product-item__action">
+                            <span class="home-product-item__sold">88 Đã bán</span>
+                        </div>
+                        <div class="home-product-item__origin">
+                            <span class="home-product-item__brand" th:text="${product.brand}"></span>
+                            <span class="home-product-item__origin-name" th:text="${product.origin}"></span>
+                        </div>
+                        <a href="#" class="home-product-item__cart">
+                            <i class="fa fa-shopping-cart"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <nav aria-label="Page navigation">
+        <ul id="pagination" class="pagination justify-content-center">
+            <li class="page-item" id="previousPage">
+                <a class="page-link" href="#" tabindex="-1">Previous</a>
+            </li>
+
+            <li id="pageButtons" style="display: flex;"></li>
+
+            <li class="page-item" id="nextPage">
+                <a class="page-link" href="#">Next</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Đăng Nhập</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Form đăng nhập -->
+                <form id="loginForm" method="post">
+                    <div class="form-group">
+                        <label for="username">Tên đăng nhập</label>
+                        <input type="text" class="form-control" id="username"
+                               name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Mật khẩu</label>
+                        <input type="password" class="form-control"
+                               id="password" name="password" required>
+                    </div>
+
+                    <!-- Hiển thị lỗi -->
+                    <div id="loginError" class="alert alert-danger" style="display:none;">
+                        Tên đăng nhập hoặc mật khẩu không đúng
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">
+                        Đăng Nhập
+                    </button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a href="/forgot-password">Quên mật khẩu?</a>
+                <a href="/register">Đăng ký</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+<!--    xoa nut cu-->
+
+    // lay tu backend
+    const paginationData = {
+        currentPage: [[${page}]],    // Trang hiện tại
+        totalPages: [[${totalPages}]],    // Tổng số trang
+        category: [[${category}]],    // Danh mục hiện tại
+        baseUrl: '/shop'   // URL cơ sở cho phân trang
+    }
+
+    function initPagination() {
+        const {currentPage, totalPages, baseUrl} = paginationData;
+        const pageButtonsContainer = document.getElementById('pageButtons');
+        const previousPageButton = document.getElementById('previousPage');
+        const nextPageButton = document.getElementById('nextPage');
+        // Hàm tạo nút trang
+        function createPageButton(pageNumber) {
+            const pageItem = document.createElement('li');
+            pageItem.classList.add('page-item');
+
+            if (pageNumber === currentPage) {
+                pageItem.classList.add('active');
+            }
+
+            const pageLink = document.createElement('a');
+            pageLink.classList.add('page-link');
+            pageLink.href = `${baseUrl}?page=${pageNumber}&category=` + paginationData.category;
+            pageLink.textContent = pageNumber;
+
+            pageLink.addEventListener('click', (e) => {
+                // e.preventDefault();
+                handlePageChange(pageNumber);
+            });
+
+            pageItem.appendChild(pageLink);
+            return pageItem;
+        }
+
+        // Hàm tạo dấu 3 chấm
+        function createEllipsis() {
+            const ellipsisItem = document.createElement('li');
+            ellipsisItem.classList.add('page-item', 'disabled');
+
+            const ellipsisLink = document.createElement('a');
+            ellipsisLink.classList.add('page-link');
+            ellipsisLink.textContent = '...';
+
+            ellipsisItem.appendChild(ellipsisLink);
+            return ellipsisItem;
+        }
+
+        // Xóa các nút cũ
+        pageButtonsContainer.innerHTML = '';
+
+        // Logic hiển thị nút với dấu 3 chấm
+        if (totalPages <= 7) {
+            // Nếu ít hơn hoặc bằng 7 trang, hiển thị hết
+            for (let i = 1; i <= totalPages; i++) {
+                pageButtonsContainer.appendChild(createPageButton(i));
+            }
+        } else {
+            // Hiển thị các trang với logic phức tạp hơn
+            if (currentPage <= 4) {
+                // Trường hợp ở đầu
+                for (let i = 1; i <= 5; i++) {
+                    pageButtonsContainer.appendChild(createPageButton(i));
+                }
+                pageButtonsContainer.appendChild(createEllipsis());
+                pageButtonsContainer.appendChild(createPageButton(totalPages));
+            } else if (currentPage >= totalPages - 3) {
+                // Trường hợp ở cuối
+                pageButtonsContainer.appendChild(createPageButton(1));
+                pageButtonsContainer.appendChild(createEllipsis());
+                for (let i = totalPages - 4; i <= totalPages; i++) {
+                    pageButtonsContainer.appendChild(createPageButton(i));
+                }
+            } else {
+                // Trường hợp ở giữa
+                pageButtonsContainer.appendChild(createPageButton(1));
+                pageButtonsContainer.appendChild(createEllipsis());
+
+                // Các trang xung quanh trang hiện tại
+                for (let i = currentPage - 1; i <= currentPage + 1; i++) {
+                    pageButtonsContainer.appendChild(createPageButton(i));
+                }
+
+                pageButtonsContainer.appendChild(createEllipsis());
+                pageButtonsContainer.appendChild(createPageButton(totalPages));
+            }
+        }
+
+        // Xử lý nút Previous (giữ nguyên logic cũ)
+        previousPageButton.querySelector('a').href =
+            (currentPage > 1 ? `${baseUrl}?page=${currentPage - 1}` : '#') + '&category=' + paginationData.category;
+        previousPageButton.classList.toggle('disabled', currentPage === 1);
+
+
+        // Xử lý nút Next (giữ nguyên logic cũ)
+        nextPageButton.querySelector('a').href =
+            (currentPage < totalPages ? `${baseUrl}?page=${currentPage + 1}` : '#') + '&category=' + paginationData.category;
+        nextPageButton.classList.toggle('disabled', currentPage === totalPages);
+
+    }
+
+    // xử lý active trang hiện tại
+    // Khởi tạo phân trang khi trang load
+    document.addEventListener('DOMContentLoaded', initPagination);
+</script>
+
+<!--ajax-->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    // Thêm kiểm tra jQuery
+    if (typeof jQuery == 'undefined') {
+        console.error('jQuery chưa được nạp');
+        // Nạp jQuery động nếu cần
+        var script = document.createElement('script');
+        script.src = 'https://code.jquery.com/jquery-3.6.0.min.js';
+        document.head.appendChild(script);
+    }
+    const path=window.location.origin+'/';
+    $(document).ready(function() {
+        $('#loginForm').on('submit', function(e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                contentType: 'application/json',
+                url: path+'auth/login',
+                data: JSON.stringify({
+                    username: $('#username').val(),
+                    password: $('#password').val()
+                }),
+                success: function(response, status, xhr) {
+                    // Kiểm tra xem có phải là trang đăng nhập thất bại không
+                    if (xhr.getResponseHeader('X-Login-Status') === 'fail') {
+                        $('#loginError').show();
+                        return;
+                    }
+                    // Đăng nhập thành công
+                    $('#loginModal').modal('hide');
+
+                    // Reload hoặc chuyển trang
+                    window.location.reload();
+                },
+                error: function() {
+                    $('#loginError').show();
+                }
+            });
+        });
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

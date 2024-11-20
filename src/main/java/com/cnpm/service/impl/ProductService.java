@@ -20,21 +20,6 @@ public class ProductService implements IProductService{
     private ProductRepository productRepository;
     @Override
     public List<ProductResponse> findDistinctProduct(Pageable page) {
-//        List<Product> products = productRepository.findAll();
-//        List<Product> distinctProducts = products.stream()
-//                .collect(Collectors.groupingBy(Product::getProductCode))
-//                .values()
-//                .stream()
-//                .map(List::getFirst)
-//                .toList();
-//        return distinctProducts.stream()
-//                .map(product -> {
-//                    ProductResponse productResponse = new ProductResponse();
-//                    BeanUtils.copyProperties(product, productResponse);
-//                    productResponse.setStock(getStockByProductCode(product.getProductCode()));
-//                    return productResponse;
-//                })
-//                .collect(Collectors.toList());
         List<Product> products = productRepository.findDistinctProduct(page).getContent();
         Logger.log(products.toString());
         return products.stream()
@@ -53,10 +38,38 @@ public class ProductService implements IProductService{
         Optional<Long> stock = productRepository.countAllByProductCode(productCode);
         return stock.orElse(0L);
     }
-    public Long count(){
+    public Long countDistinct(){
         return productRepository.countDistinct();
     }
     public Long countByCategory(String category){
         return productRepository.countByCategory(category);
+    }
+
+
+    public List<String> getAllCategoryName(){
+        return productRepository.findDistinctCategoryName();
+    }
+
+    public List<ProductResponse> findDistinctProductsByCategory(String category, Pageable page){
+        List<Product> products = productRepository.findDistinctProductsByProductCodeAndCategory(category,page).getContent();
+        return products.stream()
+                .map(product -> {
+                    ProductResponse productResponse = new ProductResponse();
+                    BeanUtils.copyProperties(product, productResponse);
+                    productResponse.setStock(getStockByProductCode(product.getProductCode()));
+                    return productResponse;
+                })
+                .collect(Collectors.toList());
+    }
+    public List<ProductResponse> findDistinctProductsByCategory(String category){
+        List<Product> products = productRepository.findDistinctProductsByProductCodeAndCategoryWithoutPaging(category);
+        return products.stream()
+                .map(product -> {
+                    ProductResponse productResponse = new ProductResponse();
+                    BeanUtils.copyProperties(product, productResponse);
+                    productResponse.setStock(getStockByProductCode(product.getProductCode()));
+                    return productResponse;
+                })
+                .collect(Collectors.toList());
     }
 }

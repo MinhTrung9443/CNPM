@@ -44,9 +44,27 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 """)
     Page<Product> findDistinctProductsByProductCodeAndCategory(@Param("category") String category, Pageable pageable);
 
+
+    @Query(value = """
+    SELECT *
+    FROM Product p
+    WHERE p.productId IN (
+        SELECT MIN(productId)
+        FROM Product
+        WHERE category = :category
+        GROUP BY productCode
+    )
+    ORDER BY productCode ASC
+""",
+            nativeQuery = true
+            )
+    List<Product> findDistinctProductsByProductCodeAndCategoryWithoutPaging(@Param("category") String category);
     Long countByCategory(String category);
 
     @Query(value = "SELECT COUNT(*) FROM (SELECT DISTINCT productCode FROM Product) tmp",nativeQuery = true)
     Long countDistinct();
+
+    @Query("SELECT DISTINCT p.category FROM Product p")
+    List<String> findDistinctCategoryName();
 }
 
