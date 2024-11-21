@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+ <head>
+ </head>
+ <body>
+ <header th:fragment="header">
+ <div class="header scrolling" id="myHeader">
+  <div class="grid wide">
+   <div class="header__top">
+   
+	<div class="header__logo">
+	<a href="index.html" >
+     <img src="./assets/logo.png" alt="">
+    </a>
+	</div>
+    
+    <div class="header__account" th:if="${session.user != null}">
+     <a href="MyAccount" class="header__account-login">Tài khoản cá nhân <i class="fa-solid fa-user"></i></a>
+    </div>
+  
+   </div>
+  </div>
+  <!-- Menu -->
+  <div class="header__nav">
+   <ul class="header__nav-list">
+   <li class="header__nav-item index">
+     <a href="index.html" class="header__nav-link"><i class="fa-solid fa-list"></i></a>
+    </li>
+    <li class="header__nav-item">
+     <a href="index.html" class="header__nav-link">Trang chủ</a>
+    </li>
+    <li class="header__nav-item">
+     <a href="#" class="header__nav-link">Quản lý sản phẩm</a>
+    </li>
+    <li class="header__nav-item">
+     <a href="#" class="header__nav-link">Quản lý đơn hàng</a>
+    </li>
+        <li class="header__nav-item">
+     <a href="signout" class="header__nav-link">Đăng xuất</a>
+    </li>
+   </ul>
+  </div>
+ </div>
+ </header>
+ </body>
+</html>
