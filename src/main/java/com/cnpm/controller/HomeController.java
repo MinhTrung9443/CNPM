@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeController {
     @GetMapping({"","/index","/index.html"})
     public String home() {
-        return "employee/index";
+        return "customer/index";
     }
 }

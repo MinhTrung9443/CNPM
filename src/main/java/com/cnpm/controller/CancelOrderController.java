@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.websocket.server.PathParam;
 
 @Controller
-@RequestMapping("")
+@RequestMapping("/cancel")
 public class CancelOrderController implements Serializable{
 	@GetMapping
 	public ModelAndView cancelOrder(HttpSession session, ModelMap model, @PathParam("orderId") Long orderId)
