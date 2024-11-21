@@ -23,9 +23,14 @@
       </a>
      </div>
     </div>
-    <div class="header__account">
-     <a href="#my-Login" class="header__account-login">Đăng Nhập</a>
-     <a href="#my-Register" class="header__account-register">Đăng Kí</a>
+    
+    <div class="header__account" th:if="${session.user == null}">
+     <a href="signin" class="header__account-login">Đăng Nhập</a>
+     <a href="signup" class="header__account-register">Đăng Kí</a>
+    </div>
+    <div class="header__account" th:if="${session.user != null}">
+     <a href="MyAccount" class="header__account-login">Tài khoản cá nhân</a>
+
     </div>
     <!-- Cart -->
     <div class="header__cart have" href="#">
