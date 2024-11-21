@@ -5,14 +5,24 @@ import java.util.regex.Pattern;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.*;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cnpm.dto.mail.MailDto;
-import com.cnpm.entity.*;
-import com.cnpm.service.*;
+import com.cnpm.entity.Account;
+import com.cnpm.entity.Customer;
+import com.cnpm.entity.Role;
+import com.cnpm.entity.ShopOwner;
+import com.cnpm.entity.User;
+import com.cnpm.service.IAccountService;
+import com.cnpm.service.IUserService;
 import com.cnpm.service.mail.MailService;
 
 import io.netty.util.internal.ThreadLocalRandom;
