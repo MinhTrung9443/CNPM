@@ -1,6 +1,7 @@
 package com.cnpm.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Data
 @Entity
+@PrimaryKeyJoinColumn(name = "userId")
 public class Customer extends User implements Serializable {
     private LocalDate birthDate;
 }

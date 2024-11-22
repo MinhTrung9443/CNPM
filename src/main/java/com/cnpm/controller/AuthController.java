@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.cnpm.dto.mail.MailDto;
 import com.cnpm.entity.Account;
 import com.cnpm.entity.Customer;
+import com.cnpm.entity.Employee;
 import com.cnpm.entity.Role;
 import com.cnpm.entity.ShopOwner;
 import com.cnpm.entity.User;
@@ -26,6 +27,7 @@ import com.cnpm.service.IUserService;
 import com.cnpm.service.mail.MailService;
 
 import io.netty.util.internal.ThreadLocalRandom;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
@@ -38,9 +40,12 @@ public class AuthController {
 	IAccountService accService;
 	@Autowired
 	MailService mailservice;
-
+	@Autowired
+	private HttpServletRequest request;
+	
 	@GetMapping("/signup")
 	String signup(Model model, HttpSession session) {
+		session = request.getSession(false);
 		String url = checkSignIn(session);
 		if (url != "")
 		{
@@ -53,6 +58,7 @@ public class AuthController {
 
 	@GetMapping("/signin")
 	String signin(Model model, HttpSession session) {
+		session = request.getSession(false);
 		String url = checkSignIn(session);
 		if (url != "")
 		{
@@ -141,11 +147,11 @@ public class AuthController {
 		}
 		int roleid = account.getRole().getRoleId().intValue();
 		if (roleid == 3) {
-			User customer =  account.getUser();
+			Customer customer = (Customer) account.getUser();
 			session.setAttribute("user", customer);
 			return new ModelAndView("customer/index", model);
 		} else if (roleid == 2) {
-			User employee =  account.getUser();
+			Employee employee = (Employee) account.getUser();
 			session.setAttribute("user", employee);
 			return new ModelAndView("employee/index", model);
 		} else {
@@ -179,7 +185,7 @@ public class AuthController {
 				return new ModelAndView("user/AuthOTP", model);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();// TODO: handle exception
+			e.printStackTrace();
 		}
 		return new ModelAndView("customer/index", model);
 
@@ -203,6 +209,7 @@ public class AuthController {
 	}
 
 	private String checkSignIn(HttpSession session) {
+		
 		User user = (User) session.getAttribute("user");
 		if (user != null) {
 			int roleid = user.getAccount().getRole().getRoleId().intValue();

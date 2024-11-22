@@ -1,6 +1,7 @@
 package com.cnpm.entity;
 
 import com.cnpm.enums.OrderStatus;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,7 +21,7 @@ public class Order implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
-    private Long customerId;
+
     private LocalDateTime orderDate;
     private String shippingAddress;
 
@@ -35,6 +36,10 @@ public class Order implements Serializable {
     @JsonManagedReference
     private Set<OrderLine> orderLines=new HashSet<>();
 
-
+    @ManyToOne
+    @JoinColumn(name = "customerId", referencedColumnName = "userId")
+    @JsonBackReference
+    private Customer customer;
+    
 
 }
