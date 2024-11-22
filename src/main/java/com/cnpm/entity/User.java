@@ -29,7 +29,6 @@ public abstract class User implements Serializable {
     protected Gender gender;
     @Column(columnDefinition = "nvarchar(max)")
     protected String address;
-    @Column(columnDefinition = "nvarchar(max)")
     protected String email;
 
     @OneToOne(cascade = CascadeType.PERSIST)

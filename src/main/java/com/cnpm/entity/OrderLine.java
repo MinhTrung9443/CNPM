@@ -1,5 +1,6 @@
 package com.cnpm.entity;
 
+import com.cnpm.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -30,4 +31,5 @@ public class OrderLine implements Serializable {
     @JoinColumn(name = "orderId", referencedColumnName = "orderId")
     @JsonBackReference
     private Order order;
+    
 }
