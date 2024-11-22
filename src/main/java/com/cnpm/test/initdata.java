@@ -6,6 +6,10 @@ import com.google.gson.*;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -19,17 +23,16 @@ public class initdata {
     @PostConstruct
     public void init() {
         try {
-            // Đọc JSON từ file
-//            JsonElement root = JsonParser.parseReader(new InputStreamReader(new FileInputStream("D:\\BodyVietnamese.json"), StandardCharsets.UTF_8));
-//            parseJson(root);
-//            root = JsonParser.parseReader(new InputStreamReader(new FileInputStream("D:\\WellnessVietnamese.json"), StandardCharsets.UTF_8));
-//            parseJson(root);
-//            root = JsonParser.parseReader(new InputStreamReader(new FileInputStream("D:\\SkinVietnamese.json"), StandardCharsets.UTF_8));
-//            parseJson(root);
-//            root = JsonParser.parseReader(new InputStreamReader(new FileInputStream("D:\\MakeUpVietnamese.json"), StandardCharsets.UTF_8));
-//            parseJson(root);
-//            root = JsonParser.parseReader(new InputStreamReader(new FileInputStream("D:\\HairVietnamese.json"), StandardCharsets.UTF_8));
-//            parseJson(root);
+            JsonElement root = JsonParser.parseReader(new InputStreamReader(new FileInputStream("D:\\BodyVietnamese.json"), StandardCharsets.UTF_8));
+            parseJson(root);
+           root = JsonParser.parseReader(new InputStreamReader(new FileInputStream("D:\\WellnessVietnamese.json"), StandardCharsets.UTF_8));
+           parseJson(root);
+            root = JsonParser.parseReader(new InputStreamReader(new FileInputStream("D:\\SkinVietnamese.json"), StandardCharsets.UTF_8));
+            parseJson(root);
+            root = JsonParser.parseReader(new InputStreamReader(new FileInputStream("D:\\MakeUpVietnamese.json"), StandardCharsets.UTF_8));
+            parseJson(root);
+            root = JsonParser.parseReader(new InputStreamReader(new FileInputStream("D:\\HairVietnamese.json"), StandardCharsets.UTF_8));
+            parseJson(root);
         } catch (Exception e) {
             e.printStackTrace();
         }

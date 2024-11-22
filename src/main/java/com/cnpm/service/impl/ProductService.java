@@ -59,4 +59,9 @@ public class ProductService implements IProductService{
     public Long countByCategory(String category){
         return productRepository.countByCategory(category);
     }
+
+    public List<Product> searchProducts(String keyword) {
+        // Tìm kiếm trong bất kỳ trường nào (description, brand, category)
+        return productRepository.findByDescriptionContainingIgnoreCaseOrBrandContainingIgnoreCaseOrCategoryContainingIgnoreCase(keyword, keyword, keyword);
+    }
 }
