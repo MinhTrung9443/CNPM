@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details</title>
+    <style>
+        /* General styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7fc;
+            color: #333;
+        }
+
+        h1, h2 {
+            color: #444;
+        }
+
+        /* Container for the whole page */
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Styling the sections */
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section p {
+            margin: 8px 0;
+        }
+
+        .section p strong {
+            color: #007bff;
+        }
+
+        /* Styling the table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        td {
+            background-color: #f9f9f9;
+        }
+
+        tr:nth-child(even) td {
+            background-color: #f1f1f1;
+        }
+
+        /* Styling for buttons */
+        .button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .button:hover {
+            background-color: #218838;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                width: 90%;
+            }
+
+            table, th, td {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Order Details</h1>
+        
+        <div class="section">
+            <p><strong>Order ID:</strong> <span th:text="${orderDetails.orderId}"></span></p>
+            <p><strong>Order Date:</strong> <span th:text="${orderDetails.orderDate}"></span></p>
+            <p><strong>Shipping Address:</strong> <span th:text="${orderDetails.shippingAddress}"></span></p>
+            <p><strong>Order Status:</strong> <span th:text="${orderDetails.orderStatus}"></span></p>
+            <p><strong>Delivery Date:</strong> <span th:text="${orderDetails.deliveryDate}"></span></p>
+            <p><strong>Customer Name:</strong> <span th:text="${orderDetails.customerName}"></span></p>
+            <p><strong>Account Number:</strong> <span th:text="${orderDetails.accountNumber}"></span></p>
+        </div>
+
+        <!-- Section for Payment Information -->
+        <div class="section" th:if="${orderDetails.paymentMethod}">
+            <h2>Payment Details</h2>
+            <p><strong>Payment Method:</strong> <span th:text="${orderDetails.paymentMethod}"></span></p>
+            <p><strong>Payment Status:</strong> <span th:text="${orderDetails.paymentStatus}"></span></p>
+            <p><strong>Payment Date:</strong> <span th:text="${orderDetails.paymentDate}"></span></p>
+            <p><strong>Total Payment:</strong> <span th:text="${orderDetails.paymentTotal}"></span></p>
+        </div>
+
+        <div class="section" th:if="${orderDetails.paymentMethod == null}">
+            <h2>Payment Details</h2>
+            <p>No payment details available for this order.</p>
+        </div>
+
+        <!-- Section for Order Lines -->
+        <div class="section">
+            <h2>Order Lines</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product ID</th>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="orderLine : ${orderDetails.orderLines}">
+                        <td th:text="${orderLine.productId}"></td>
+                        <td th:text="${orderLine.productName}"></td>
+                        <td th:text="${orderLine.quantity}"></td>
+                        <td th:text="${orderLine.price}"></td>
+                        <td th:text="${orderLine.totalPrice}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Optional button -->
+        <a href="/employee/order-management" class="button">Back to Orders</a>
+    </div>
+
+</body>
+</html>
