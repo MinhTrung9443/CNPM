@@ -37,6 +37,7 @@ public class Product implements Serializable {
     private String origin;
     @Column(columnDefinition = "nvarchar(max)")
     private String image;
+    private Boolean isUsed=false;//default value
 
 
     @ToString.Exclude
