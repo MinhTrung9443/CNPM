@@ -1,7 +1,7 @@
 package com.cnpm.service.impl;
 
 import com.cnpm.entity.Product;
-import com.cnpm.payload.response.ProductResponse;
+import com.cnpm.dto.ProductResponse;
 import com.cnpm.repository.ProductRepository;
 import com.cnpm.service.IProductService;
 import com.cnpm.util.Logger;
@@ -50,7 +50,7 @@ public class ProductService implements IProductService{
 
     @Override
     public Long getStockByProductCode(String productCode) {
-        Optional<Long> stock = productRepository.countAllByProductCode(productCode);
+        Optional<Long> stock = productRepository.countAllByProductCodeAndIsUsedFalse(productCode);
         return stock.orElse(0L);
     }
     public Long count(){

@@ -16,4 +16,9 @@ public class Logger {
 //        System.out.println(ANSI_LIGHT_YELLOW_BACKGROUND + ANSI_BLACK + message + ": " + e.getMessage() + ANSI_RESET);
         log.info(ANSI_LIGHT_YELLOW_BACKGROUND + ANSI_BLACK + "{}" + ANSI_RESET, message);
     }
+    public static void log(Object[] messages) {
+        for (Object message : messages) {
+            log.info(ANSI_LIGHT_YELLOW_BACKGROUND + ANSI_BLACK + "{}" + ANSI_RESET, message.toString());
+        }
+    }
 }

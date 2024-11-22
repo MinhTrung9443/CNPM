@@ -8,7 +8,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
@@ -49,5 +52,12 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Long countDistinct();
     
     Optional<Product> findByProductCode(String productCode);
+
+//    List<Product> findAllByProductCodeIn(Set<String> productCodes);
+    Optional<Long> countAllByProductCodeAndIsUsedFalse(String productCode);
+
+    Optional<Long> countAllByProductCodeAndIsUsedFalseOrIsUsedNull(String productCode);
+
+    Optional<Product> findFirstByProductCode(String productCode);
 }
 

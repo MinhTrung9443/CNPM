@@ -1,6 +1,6 @@
 package com.cnpm.service;
 
-import com.cnpm.payload.response.ProductResponse;
+import com.cnpm.dto.ProductResponse;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
