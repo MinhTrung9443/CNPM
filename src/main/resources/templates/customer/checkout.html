@@ -28,7 +28,7 @@
                 <!--         get from controller cartItems-->
                 <div class="row g-0" th:each="cartItem : ${cartItems}" style="margin: 4px; border: #4CAF50; border-style: ridge; border-width: 1px; padding: 5px">
                     <div class="col-md-2">
-                        <img th:src="${cartItem.image}" class="img-fluid rounded-start" alt="Product Image">
+                        <img th:src="@{/api/images(imageName=${cartItem.image})}" class="img-fluid rounded-start" alt="Product Image">
                     </div>
                     <div class="col-md-8">
 <!--                        hidden productCode-->
