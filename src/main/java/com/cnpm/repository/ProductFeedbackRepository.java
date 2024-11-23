@@ -1,5 +1,6 @@
 package com.cnpm.repository;
 
+
 import com.cnpm.entity.ProductFeedback;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

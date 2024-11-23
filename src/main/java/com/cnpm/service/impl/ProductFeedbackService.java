@@ -18,10 +18,14 @@ public class ProductFeedbackService implements IProductFeedbackService {
 	@Autowired
 	ProductFeedbackRepository feedbackrepo;
 
+	
+	
 	@Override
-	public Optional<Product> findByProductCode(String productCode) {
-		return productrepon.findByProductCode(productCode);
+	public Optional<Product> findById(Long id) {
+		return productrepon.findById(id);
 	}
+
+
 
 	@Override
 	public <S extends ProductFeedback> S save(S entity) {

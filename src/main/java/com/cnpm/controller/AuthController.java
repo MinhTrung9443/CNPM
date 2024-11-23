@@ -145,7 +145,7 @@ public class AuthController {
 			model.addAttribute("Err", "Ten dang nhap hoac mat khau khong dung");
 			return new ModelAndView("user/signin", model);
 		}
-		int roleid = account.getRole().getRoleId().intValue();
+		long roleid = account.getRole().getRoleId();
 		if (roleid == 3) {
 			Customer customer = (Customer) account.getUser();
 			session.setAttribute("user", customer);
@@ -212,7 +212,7 @@ public class AuthController {
 		
 		User user = (User) session.getAttribute("user");
 		if (user != null) {
-			int roleid = user.getAccount().getRole().getRoleId().intValue();
+			long roleid = user.getAccount().getRole().getRoleId();
 			if (roleid == 3) {
 				return "customer/index";
 			} else if (roleid == 2) {

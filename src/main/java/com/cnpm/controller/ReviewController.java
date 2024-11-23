@@ -24,12 +24,12 @@ public class ReviewController {
 	@Autowired
 	private IProductFeedbackService feedbackservice;
 	@PostMapping("/review")
-	public ModelAndView feedback(ModelMap model,HttpSession session, @ModelAttribute ProductFeedback feedback , @PathParam("productCode") String code)
+	public ModelAndView feedback(ModelMap model,HttpSession session, @ModelAttribute ProductFeedback feedback , @PathParam("productId") Long id)
 	{
 		Customer customer = (Customer) session.getAttribute("user");
 		feedback.setFeedbackDate(LocalDateTime.now());
 		feedback.setCustomerId(customer.getUserId());
-		Product pro = feedbackservice.findByProductCode(code).get();
+		Product pro = feedbackservice.findById(id).get();
 		if (pro != null)
 		{
 			feedback.setProduct(pro);

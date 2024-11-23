@@ -7,6 +7,7 @@ import com.cnpm.service.IProductService;
 import com.cnpm.util.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -59,4 +60,21 @@ public class ProductService implements IProductService{
     public Long countByCategory(String category){
         return productRepository.countByCategory(category);
     }
+
+	@Override
+	public Page<Product> findProductsByCodeAndIsUsedAndProductId(String productCode, Long productId,
+			Pageable pageable) {
+		return productRepository.findProductsByCodeAndIsUsedAndProductId(productCode, productId, pageable);
+	}
+
+	@Override
+	public Optional<Product> findById(Long id) {
+		return productRepository.findById(id);
+	}
+
+	@Override
+	public <S extends Product> S save(S entity) {
+		return productRepository.save(entity);
+	}
+    
 }

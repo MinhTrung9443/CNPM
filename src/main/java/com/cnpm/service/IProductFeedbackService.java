@@ -11,8 +11,8 @@ import com.cnpm.entity.ProductFeedback;
 @Service
 public interface IProductFeedbackService {
 
-	Optional<Product> findByProductCode(String productCode);
-
 	<S extends ProductFeedback> S save(S entity);
+
+	Optional<Product> findById(Long id);
 
 }
