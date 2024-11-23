@@ -1,5 +1,7 @@
 package com.cnpm.service;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import com.cnpm.entity.Account;
@@ -19,4 +21,6 @@ public interface IUserService {
 	Account findByUsername(String username);
 
 	void delete(User entity);
+
+	Optional<User> findById(Long id);
 }
