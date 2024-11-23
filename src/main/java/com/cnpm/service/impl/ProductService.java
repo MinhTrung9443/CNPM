@@ -1,7 +1,10 @@
 package com.cnpm.service.impl;
 
+import com.cnpm.dto.ProductDTO;
 import com.cnpm.entity.Product;
+import com.cnpm.entity.ProductFeedback;
 import com.cnpm.payload.response.ProductResponse;
+import com.cnpm.repository.ProductFeedbackRepository;
 import com.cnpm.repository.ProductRepository;
 import com.cnpm.service.IProductService;
 import com.cnpm.util.Logger;
@@ -18,6 +21,8 @@ import java.util.stream.Collectors;
 public class ProductService implements IProductService{
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private ProductFeedbackRepository productFeedbackRepository;
     @Override
     public List<ProductResponse> findDistinctProduct(Pageable page) {
 //        List<Product> products = productRepository.findAll();
@@ -63,5 +68,42 @@ public class ProductService implements IProductService{
     public List<Product> searchProducts(String keyword) {
         // Tìm kiếm trong bất kỳ trường nào (description, brand, category)
         return productRepository.findByDescriptionContainingIgnoreCaseOrBrandContainingIgnoreCaseOrCategoryContainingIgnoreCase(keyword, keyword, keyword);
+    }
+
+    
+    public ProductDTO getProductDTOById(Long productId) {
+        // Lấy thông tin sản phẩm từ bảng Product
+        Optional<Product> optionalProduct = productRepository.findById(productId);
+
+        if (optionalProduct.isPresent()) {
+            Product product = optionalProduct.get();
+
+            // Tạo đối tượng ProductDTO
+            ProductDTO productDTO = new ProductDTO();
+            productDTO.setProductCode(product.getProductCode());
+            productDTO.setProductName(product.getProductName());
+            productDTO.setCategory(product.getCategory());
+            productDTO.setCost(product.getCost());
+            productDTO.setDescription(product.getDescription());
+            productDTO.setBrand(product.getBrand());
+            productDTO.setManufactureDate(product.getManufactureDate());
+            productDTO.setExpirationDate(product.getExpirationDate());
+            productDTO.setIngredient(product.getIngredient());
+            productDTO.setHow_to_use(product.getHow_to_use());
+            productDTO.setVolume(product.getVolume());
+            productDTO.setOrigin(product.getOrigin());
+            productDTO.setImage(product.getImage());
+
+            // Lấy tồn kho từ productCode
+            Long stock = getStockByProductCode(product.getProductCode());
+            productDTO.setStock(stock);
+
+            return productDTO;
+        }
+        return null; // Trả về null nếu không tìm thấy sản phẩm
+    }
+    public List<ProductFeedback> getProductFeedbacksByProductId(String productCode) {
+        // Lấy danh sách nhận xét từ ProductFeedback
+        return productFeedbackRepository.findAllByProduct_productCode(productCode);
     }
 }

@@ -29,8 +29,8 @@
 
 
 					<div class="header__account" th:if="${session.user == null}">
-						<a href="signin" class="header__account-login">Đăng Nhập</a> <a
-							href="signup" class="header__account-register">Đăng Kí</a>
+						<a href="/signin" class="header__account-login">Đăng Nhập</a> <a
+							href="/signup" class="header__account-register">Đăng Kí</a>
 					</div>
 					<div class="header__account" th:if="${session.user != null}">
 						<a href="/MyAccount" class="header__account-login">Tài khoản
@@ -43,55 +43,9 @@
 						<div class="header__cart-amount">3</div>
 						<div class="header__cart-wrap">
 							<ul class="order__list">
-								<li class="item-order">
-									<div class="order-wrap">
-										<a href="product.html" class="order-img"> <img
-											src="./assets/img/product/product1.jpg" alt="">
-										</a>
-										<div class="order-main">
-											<a href="product.html" class="order-main-name">Áo sơ mi
-												caro kèm belt caro kèm belt Áo sơ mi caro kèm belt</a>
-											<div class="order-main-price">2 x 45,000 ₫</div>
-										</div>
-										<a href="product.html" class="order-close"><i
-											class="far fa-times-circle"></i></a>
-									</div>
-								</li>
-								<li class="item-order">
-									<div class="order-wrap">
-										<a href="product.html" class="order-img"> <img
-											src="./assets/img/product/product1.jpg" alt="">
-										</a>
-										<div class="order-main">
-											<a href="product.html" class="order-main-name">Áo sơ mi
-												caro kèm belt caro kèm belt Áo sơ mi caro kèm belt</a>
-											<div class="order-main-price">2 x 45,000 ₫</div>
-										</div>
-										<a href="product.html" class="order-close"><i
-											class="far fa-times-circle"></i></a>
-									</div>
-								</li>
-								<li class="item-order">
-									<div class="order-wrap">
-										<a href="product.html" class="order-img"> <img
-											src="./assets/img/product/product1.jpg" alt="">
-										</a>
-										<div class="order-main">
-											<a href="product.html" class="order-main-name">Áo sơ mi
-												caro kèm belt caro kèm belt Áo sơ mi caro kèm belt</a>
-											<div class="order-main-price">2 x 45,000 ₫</div>
-										</div>
-										<a href="product.html" class="order-close"><i
-											class="far fa-times-circle"></i></a>
-									</div>
-								</li>
-							</ul>
-							<div class="total-money">Tổng cộng: 120.000đ</div>
-							<a href="cart.html" class="btn btn--default cart-btn">Xem giỏ
-								hàng</a> <a href="pay.html" class="btn btn--default cart-btn orange">Thanh
-								toán</a>
-							<!-- norcart -->
-							<!-- <img class="header__cart-img-nocart" src="http://www.giaybinhduong.com/images/empty-cart.png" alt=""> -->
+
+								<!-- norcart -->
+								<!-- <img class="header__cart-img-nocart" src="http://www.giaybinhduong.com/images/empty-cart.png" alt=""> -->
 						</div>
 					</div>
 				</div>
@@ -120,66 +74,19 @@
 						class="header__nav-link">Trang chủ</a></li>
 					<li class="header__nav-item"><a href="#"
 						class="header__nav-link">Giới Thiệu</a></li>
-					<li class="header__nav-item"><a href="#"
+					<li class="header__nav-item product-menu"><a href="#"
 						class="header__nav-link">Sản Phẩm</a>
-						<div class="sub-nav-wrap grid wide">
+						<div class="sub-nav-wrap">
 							<ul class="sub-nav">
-								<li class="sub-nav__item"><a href=""
-									class="sub-nav__link heading">Nước hoa</a></li>
-								<li class="sub-nav__item"><a href="listProduct.html"
-									class="sub-nav__link">Chăm sóc toàn thân vvv</a></li>
-								<li class="sub-nav__item"><a href="listProduct.html"
-									class="sub-nav__link">Khuyến mãi</a></li>
-								<li class="sub-nav__item"><a href="listProduct.html"
-									class="sub-nav__link">Chăm sóc cơ thể</a></li>
-								<li class="sub-nav__item"><a href="listProduct.html"
-									class="sub-nav__link">Nước hoa</a></li>
-								<li class="sub-nav__item"><a href="listProduct.html"
-									class="sub-nav__link">Chăm sóc miệng</a></li>
-							</ul>
-							<ul class="sub-nav">
-								<li class="sub-nav__item"><a href=""
-									class="sub-nav__link heading">Nước hoa</a></li>
-								<li class="sub-nav__item"><a href="listProduct.html"
-									class="sub-nav__link">Chăm sóc toàn thân vvv</a></li>
-								<li class="sub-nav__item"><a href="listProduct.html"
-									class="sub-nav__link">Khuyến mãi</a></li>
-								<li class="sub-nav__item"><a href="listProduct.html"
-									class="sub-nav__link">Chăm sóc cơ thể</a></li>
-								<li class="sub-nav__item"><a href="listProduct.html"
-									class="sub-nav__link">Nước hoa</a></li>
-								<li class="sub-nav__item"><a href="listProduct.html"
-									class="sub-nav__link">Chăm sóc miệng</a></li>
-							</ul>
-							<ul class="sub-nav">
-								<li class="sub-nav__item"><a href=""
-									class="sub-nav__link heading">Nước hoa</a></li>
-								<li class="sub-nav__item"><a href="listProduct.html"
-									class="sub-nav__link">Chăm sóc toàn thân vvv</a></li>
-								<li class="sub-nav__item"><a href="listProduct.html"
-									class="sub-nav__link">Khuyến mãi</a></li>
-								<li class="sub-nav__item"><a href="listProduct.html"
-									class="sub-nav__link">Chăm sóc cơ thể</a></li>
-								<li class="sub-nav__item"><a href="listProduct.html"
-									class="sub-nav__link">Nước hoa</a></li>
-								<li class="sub-nav__item"><a href="listProduct.html"
-									class="sub-nav__link">Chăm sóc miệng</a></li>
-							</ul>
-							<ul class="sub-nav">
-								<li class="sub-nav__item"><a href=""
-									class="sub-nav__link heading">Nước hoa</a></li>
-								<li class="sub-nav__item"><a href="listProduct.html"
-									class="sub-nav__link">Chăm sóc toàn thân vvv</a></li>
-								<li class="sub-nav__item"><a href="listProduct.html"
-									class="sub-nav__link">Khuyến mãi</a></li>
-								<li class="sub-nav__item"><a href="listProduct.html"
-									class="sub-nav__link">Chăm sóc cơ thể</a></li>
-								<li class="sub-nav__item"><a href="listProduct.html"
-									class="sub-nav__link">Nước hoa</a></li>
-								<li class="sub-nav__item"><a href="listProduct.html"
-									class="sub-nav__link">Chăm sóc miệng</a></li>
+								<li class="sub-nav__item"><a href="" class="sub-nav__link">Wellness</a></li>
+								<li class="sub-nav__item"><a href="" class="sub-nav__link">Body</a></li>
+								<li class="sub-nav__item"><a href="" class="sub-nav__link">Make
+										up</a></li>
+								<li class="sub-nav__item"><a href="" class="sub-nav__link">Hair</a></li>
+								<li class="sub-nav__item"><a href="" class="sub-nav__link">Skin</a></li>
 							</ul>
 						</div></li>
+
 					<li class="header__nav-item"><a href="news.html"
 						class="header__nav-link">Tin Tức</a></li>
 					<li class="header__nav-item"><a href="contact.html"
