@@ -1,17 +1,17 @@
-package com.cnpm.controller;
+package com.cnpm.controller.Payment;
 
 import com.cnpm.service.impl.OrderService;
 import com.cnpm.service.vnpay.VNPAYService;
 import com.cnpm.util.Logger;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-@org.springframework.stereotype.Controller
+@Controller
 public class VNPayController {
     @Autowired
     private VNPAYService vnPayService;

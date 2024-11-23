@@ -5,24 +5,19 @@ import com.cnpm.dto.CreateOrderRequest;
 import com.cnpm.dto.OrderResponse;
 import com.cnpm.entity.*;
 import com.cnpm.enums.OrderStatus;
-import com.cnpm.enums.PaymentMethod;
 import com.cnpm.enums.PaymentStatus;
 import com.cnpm.repository.*;
 import com.cnpm.service.IOrderService;
 import com.cnpm.service.vnpay.VNPAYService;
 import com.cnpm.util.Logger;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Service
 public class OrderService implements IOrderService {
@@ -127,7 +122,9 @@ public class OrderService implements IOrderService {
         return orderResponse;
     }
 
+    @Override
     public void updateOrderStatus(Long orderId, String paymentTime) {
+        Logger.log("updating order status");
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
         order.setOrderStatus(OrderStatus.CONFIRMED);
@@ -137,8 +134,11 @@ public class OrderService implements IOrderService {
         payment.setPaymentDate(LocalDateTime.parse(paymentTime, DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
         paymentRepository.save(payment);
         orderRepository.save(order);
+        Logger.log("updated order status");
+
     }
 
+    @Override
     public void updateOrderStatus(Long orderId) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
@@ -149,5 +149,12 @@ public class OrderService implements IOrderService {
         payment.setPaymentDate(order.getOrderDate());
         paymentRepository.save(payment);
         orderRepository.save(order);
+    }
+
+    @Override
+    public Double getOrderTotal(Long orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+        return order.getTotal();
     }
 }

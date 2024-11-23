@@ -73,6 +73,7 @@ public class OrderController {
         model.addAttribute("voucherCode", voucherCode);
         Long userId = (Long) session.getAttribute("userId");
         userId = userId == null ? 1 : userId;
+//        TODO: Add user id to the model, above is just fake data
         model.addAttribute("userId", userId);
 //        return "customer/checkout";
         return new ModelAndView("customer/checkout", model);
@@ -82,6 +83,7 @@ public class OrderController {
     public ResponseEntity<?> create(@RequestBody @Valid CreateOrderRequest createOrderRequest, HttpSession session, HttpServletRequest request) {
         try {
             OrderResponse orderResponse = orderService.createOrder(createOrderRequest);
+            session.setAttribute("orderId", orderResponse.getOrderId());
             // Kiểm tra phương thức thanh toán
             if (createOrderRequest.getPaymentMethod().equals(PaymentMethod.COD)) {
                 // Trả về chi tiết đơn hàng nếu thanh toán COD
@@ -91,7 +93,13 @@ public class OrderController {
                 String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
                 String vnpayUrl = vnpayService.createOrder(request, orderResponse.getTotal(), orderResponse.getOrderId().toString(), baseUrl);
                 return ResponseEntity.ok().body(Map.of("redirectUrl", vnpayUrl));
-            } else {
+            } else if (createOrderRequest.getPaymentMethod().equals(PaymentMethod.PAYPAL)) {
+                // Tạo liên kết thanh toán Paypal và trả về
+                String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+//                return ResponseEntity.ok().body(Map.of("redirectUrl", "/paypal/checkout?orderId=" + orderResponse.getOrderId()));
+                return ResponseEntity.ok().body(Map.of("redirectUrl", "/paypal/checkout"));
+            }
+            else{
                 return ResponseEntity.badRequest().body("Invalid payment method");
             }
         } catch (RuntimeException e) {
