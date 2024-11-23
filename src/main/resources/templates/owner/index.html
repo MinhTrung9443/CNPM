@@ -21,6 +21,11 @@
 </head>
 <body>
 	<header th:replace="~{owner/fragments/header::header}"></header>
+		<section class="section">
+						<div class="card-body">
+							<div layout:fragment="content"></div>
+						</div>
+		</section>
 
 	<footer th:replace="~{owner/fragments/footer :: footer}"></footer>
 
