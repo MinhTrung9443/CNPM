@@ -66,9 +66,10 @@ public class ProductService implements IProductService{
     }
 
     public List<Product> searchProducts(String keyword) {
-        // Tìm kiếm trong bất kỳ trường nào (description, brand, category)
-        return productRepository.findByDescriptionContainingIgnoreCaseOrBrandContainingIgnoreCaseOrCategoryContainingIgnoreCase(keyword, keyword, keyword);
+        // Chỉ tìm kiếm các sản phẩm chưa được mua
+        return productRepository.findDistinctProductsByKeyword(keyword);
     }
+
 
     
     public ProductDTO getProductDTOById(Long productId) {
@@ -106,4 +107,6 @@ public class ProductService implements IProductService{
         // Lấy danh sách nhận xét từ ProductFeedback
         return productFeedbackRepository.findAllByProduct_productCode(productCode);
     }
+
+    
 }

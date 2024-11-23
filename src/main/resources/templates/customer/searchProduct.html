@@ -226,73 +226,52 @@ h1 {
 		<!-- Sidebar: Bộ lọc -->
 		<aside class="filters">
 			<br><br><br><br><br><br><h2>BỘ LỌC TÌM KIẾM</h2> <br>
-			<!-- Thêm các bộ lọc -->
-			<div class="filter-item">
-				<label>Nhãn hàng:</label> <select>
-					<option value="all">Tất cả</option>
-					<option value="Aesop">Aesop</option>
-					<option value="Amika">Amika</option>
-					<option value="CeraVe">CeraVe</option>
-					<option value="Cult Beauty">Cult Beauty</option>
-					<option value="Davines">Davines</option>
-					<option value="Fable & Mane">Fable & Mane</option>
-					<option value="ghd">ghd</option>
-					<option value="Glow Recipe">Glow Recipe</option>
-					<option value="Grow Gorgeous">Grow Gorgeous</option>
-					<option value="Hair Gain">Hair Gain</option>
-					<option value="HELLO KLEAN">HELLO KLEAN</option>
-					<option value="Hello Sunday">Hello Sunday</option>
-					<option value="Herlum">Herlum</option>
-					<option value="Hourglass">Hourglass</option>
-					<option value="Huda Beauty">Huda Beauty</option>
-					<option value="La Roche-Posay">La Roche-Posay</option>
-					<option value="Lanolips">Lanolips</option>
-					<option value="Laura Mercier">Laura Mercier</option>
-					<option value="Le Labo">Le Labo</option>
-					<option value="LELO">LELO</option>
-					<option value="Mario Badescu">Mario Badescu</option>
-					<option value="Medik8">Medik8</option>
-					<option value="Megababe">Megababe</option>
-					<option value="Milk Makeup">Milk Makeup</option>
-					<option value="Mio Skincare">Mio Skincare</option>
-					<option value="Mutha">Mutha</option>
-					<option value="NARS">NARS</option>
-					<option value="Olaplex">Olaplex</option>
-					<option value="Paula's Choice">Paula's Choice</option>
-					<option value="The INKEY List">The INKEY List</option>
-					<option value="The Nue Co.">The Nue Co.</option>
-					<option value="The Ordinary">The Ordinary</option>
-					<option value="Tweezerman">Tweezerman</option>
-					<option value="Versed">Versed</option>
-				</select>
-			</div>
-			<div class="filter-item">
-				<label>Khoảng giá:</label> <input type="number" placeholder="Từ">
-				<input type="number" placeholder="Đến">
-			</div>
-			<div class="filter-item">
-				<label>Nguồn gốc:</label>
-				<select name="origin">
-					<option value="">Tất cả</option>
-					<option value="Anh">Anh</option>
-					<option value="Đức">Đức</option>
-					<option value="Việt Nam">Việt Nam</option>
-					<option value="Pháp">Pháp</option>
-					<option value="Nhật Bản">Nhật Bản</option>
-					<option value="Mỹ">Mỹ</option>
-					<option value="Ý">Ý</option>
-					<option value="Hàn Quốc">Hàn Quốc</option>
-				</select>
-			</div>
-			<button>Áp dụng bộ lọc</button>
+			<!-- Form bộ lọc -->
+			<form method="GET" action="/search">
+				<!-- Thương hiệu -->
+				<div class="filter-item">
+					<label for="brand">Nhãn hàng:</label>
+					<select id="brand" name="brand">
+						<option value="">Tất cả</option>
+						<option value="Aesop" th:selected="${param.brand == 'Aesop'}">Aesop</option>
+						<option value="Amika" th:selected="${param.brand == 'Amika'}">Amika</option>
+						<option value="CeraVe" th:selected="${param.brand == 'CeraVe'}">CeraVe</option>
+						<option value="Cult Beauty" th:selected="${param.brand == 'Cult Beauty'}">Cult Beauty</option>
+						<option value="Davines" th:selected="${param.brand == 'Davines'}">Davines</option>
+						<!-- Thêm các thương hiệu khác nếu cần -->
+					</select>
+				</div>
+				<!-- Khoảng giá -->
+				<div class="filter-item">
+					<label>Khoảng giá:</label>
+					<input type="number" name="minPrice" placeholder="Từ" value="${param.minPrice}">
+					<input type="number" name="maxPrice" placeholder="Đến" value="${param.maxPrice}">
+				</div>
+				<!-- Nguồn gốc -->
+				<div class="filter-item">
+					<label for="origin">Nguồn gốc:</label>
+					<select id="origin" name="origin">
+						<option value="">Tất cả</option>
+						<option value="Anh" th:selected="${param.origin == 'Anh'}">Anh</option>
+						<option value="Đức" th:selected="${param.origin == 'Đức'}">Đức</option>
+						<option value="Việt Nam" th:selected="${param.origin == 'Việt Nam'}">Việt Nam</option>
+						<option value="Pháp" th:selected="${param.origin == 'Pháp'}">Pháp</option>
+						<option value="Nhật Bản" th:selected="${param.origin == 'Nhật Bản'}">Nhật Bản</option>
+						<option value="Mỹ" th:selected="${param.origin == 'Mỹ'}">Mỹ</option>
+					</select>
+				</div>
+				<!-- Nút áp dụng -->
+				<button type="submit">Áp dụng bộ lọc</button>
+			</form>
 		</aside>
 
 		<!-- Nội dung: Kết quả tìm kiếm -->
 		<section class="content">
 			<h1>Kết quả tìm kiếm</h1>
 			<div class="product-container">
+				<!-- Hiển thị sản phẩm -->
 				<div class="product-card" th:each="product : ${products}">
-					<img th:src="@{ ${product.image}}" alt="Product Image" />
+					<img th:src="@{${product.image}}" alt="Product Image" />
 					<div class="overlay">
 						<button><a th:href="@{/product/{productId}(productId=${product.productId})}" class="btn">Xem chi tiết</a></button>
 						<button th:text="'Thêm vào giỏ'"></button>
@@ -303,11 +282,14 @@ h1 {
 						<p class="price" th:text="'Giá: ' + ${product.cost} + '₫'"></p>
 					</div>
 				</div>
+				<!-- Hiển thị thông báo nếu không có sản phẩm -->
+				<p th:if="${#lists.isEmpty(products)}">Không tìm thấy sản phẩm nào phù hợp.</p>
 			</div>
 		</section>
 	</div>
 
 	<footer th:replace="customer/fragments/footer :: footer"></footer>
 </body>
+
 
 </html>

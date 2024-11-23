@@ -20,6 +20,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     WHERE p.productId IN (
         SELECT MIN(productId)
         FROM Product
+        WHERE isUsed = 0
         GROUP BY productCode
     )
 """, nativeQuery = true,
@@ -32,7 +33,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     WHERE p.productId IN (
         SELECT MIN(productId)
         FROM Product
-        WHERE category = :category
+        WHERE category = :category AND isUsed = 0
         GROUP BY productCode
     )
     ORDER BY productCode ASC
@@ -49,7 +50,21 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query(value = "SELECT COUNT(*) FROM (SELECT DISTINCT productCode FROM Product) tmp",nativeQuery = true)
     Long countDistinct();
     
-    Optional<Product> findByProductCode(String productCode);
-    List<Product> findByDescriptionContainingIgnoreCaseOrBrandContainingIgnoreCaseOrCategoryContainingIgnoreCase(String description, String brand, String category);
-}
+    @Query(value = """
+    	    SELECT *
+    	    FROM Product p
+    	    WHERE p.productId IN (
+    	        SELECT MIN(productId)
+    	        FROM Product
+    	        WHERE (LOWER(description) LIKE LOWER(CONCAT('%', :keyword, '%'))
+    	            OR LOWER(brand) LIKE LOWER(CONCAT('%', :keyword, '%'))
+    	            OR LOWER(category) LIKE LOWER(CONCAT('%', :keyword, '%')))
+    	          AND isUsed = 0
+    	        GROUP BY productCode
+    	    )
+    	""", nativeQuery = true)
+    	List<Product> findDistinctProductsByKeyword(@Param("keyword") String keyword);
+
+        
+    }
 

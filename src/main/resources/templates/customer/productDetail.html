@@ -161,16 +161,19 @@ body {
 .feedback-date span, .feedback-comment span {
 	color: #555;
 }
+
 .feedback-header p {
 	font-size: 14px;
 	line-height: 1.5;
 	color: #333;
 }
+
 .feedback-date p {
 	font-size: 14px;
 	line-height: 1.5;
 	color: #333;
 }
+
 .feedback-comment p {
 	font-size: 14px;
 	line-height: 1.5;
@@ -197,12 +200,14 @@ hr {
 
 .product-info i {
 	margin-right: 6px; /* Thêm khoảng cách nhỏ giữa icon và văn bản */
-	color: #28a745; 
+	color: #28a745;
 }
+
 .product-info1 i {
 	margin-right: 6px; /* Thêm khoảng cách nhỏ giữa icon và văn bản */
-	color: #FF5733; 
+	color: #FF5733;
 }
+
 #toggle-description:hover, #toggle-ingredient:hover, #toggle-how-to-use:hover
 	{
 	text-decoration: underline;
@@ -210,7 +215,7 @@ hr {
 </style>
 </head>
 <body>
-		<header th:replace="~{customer/fragments/header::header}"></header>
+	<header th:replace="~{customer/fragments/header::header}"></header>
 
 	<div class="container">
 		<br> <br> <br> <br> <br> <br> <br>
@@ -277,15 +282,16 @@ hr {
 						th:text="${product.stock} + ' sản phẩm có sẵn'"></span>
 				</p>
 				<div class="product-actions">
-					<button>Thêm vào giỏ hàng</button>
+					<button th:disabled="${product.stock == 0}">Thêm vào giỏ
+						hàng</button>
 					<div class="product-info">
 						<i class="fas fa-check-circle"></i> Hàng chính hãng 100%
 					</div>
-					
 					<div class="product-info1">
-						 <i class="fas fa-truck"></i>Miễn phí vận chuyển
+						<i class="fas fa-truck"></i> Miễn phí vận chuyển
 					</div>
 				</div>
+
 
 
 			</div>
@@ -401,7 +407,7 @@ hr {
 												}
 											});
 						});
-	</script>	
+	</script>
 	<footer th:replace="~{customer/fragments/footer::footer}"></footer>
 </body>
 
