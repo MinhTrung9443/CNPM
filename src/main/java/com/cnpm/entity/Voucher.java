@@ -23,7 +23,4 @@ public class Voucher implements Serializable {
     @ManyToOne
     @JoinColumn(name = "orderId", referencedColumnName = "orderId")
     private Order order;
-
-
-
 }
