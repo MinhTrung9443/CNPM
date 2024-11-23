@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Xem lịch sử mua hàng</title>
-    <link rel="stylesheet" href="/assets/css/common.css">
+<!--    <link rel="stylesheet" href="/assets/css/common.css">-->
     <link rel="stylesheet" href="/assets/css/order-history.css">
 </head>
 <body>
@@ -70,7 +70,7 @@
                     <div th:if="${order.orderStatus.toString() == 'COMPLETED'}">
                         <button type="button" class="btn btn-outline me-2" style="border: 2px solid black">Đánh giá</button>
                     </div>
-                    <div th:if="${order.orderStatus.toString() == 'COMPLETED' or order.orderStatus.toString() == 'CANCELLED'}">
+                    <div th:if="${order.orderStatus.toString() == 'COMPLETED' or order.orderStatus.toString() == 'CANCELLED' or order.orderStatus.toString() == 'REFUNDED'}">
                         <button type="button" class="btn btn-danger">Mua lại</button>
                     </div>
                 </div>
@@ -242,12 +242,15 @@
                 </div>
                 <hr>
             </div>
+            <div class="text-end mb-2" style="color: green;">
+                <p class="card-text" th:text="${order.orderStatus}"></p>
+            </div>
             <div class="row">
                 <div class="col-md-12 text-end mb-4">
                     <strong class="card-text" th:text="'Tổng tiền: ' + ${order.totalCost}"></strong>
                 </div>
             </div>
-            <div class="row text-end mb-4">
+            <div class="text-end mb-4">
                 <button type="button" class="btn btn-danger me-2">Mua lại</button>
             </div>
         </div>

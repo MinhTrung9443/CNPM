@@ -57,7 +57,8 @@ public class OrderHistoryController {
                 orders = orderService.getPurchaseHistory(customerId, OrderStatus.COMPLETED); // Đơn đã giao
                 break;
             case "don-huy":
-                orders = orderService.getPurchaseHistory(customerId, OrderStatus.CANCELLED); // Đơn hủy
+                orders = orderService.getPurchaseHistory(customerId, OrderStatus.CANCELLED);
+                orders.addAll(orderService.getPurchaseHistory(customerId, OrderStatus.REFUNDED));
                 break;
             default:
                 orders = orderService.getAllOrders(customerId); // Mặc định là tất cả đơn hàng của người dùng
