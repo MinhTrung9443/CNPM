@@ -14,6 +14,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Data
 public class ProductResponse {
+	private Long productId;
     private String productCode;
     private String productName;
     private String category;
@@ -27,5 +28,6 @@ public class ProductResponse {
     private String volume;
     private String origin;
     private String image;
+    private int isUsed;
     private Long stock;
 }

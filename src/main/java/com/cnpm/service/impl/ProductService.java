@@ -45,7 +45,6 @@ public class ProductService implements IProductService{
                     return productResponse;
                 })
                 .collect(Collectors.toList());
-
     }
 
     @Override
@@ -53,10 +52,46 @@ public class ProductService implements IProductService{
         Optional<Long> stock = productRepository.countAllByProductCode(productCode);
         return stock.orElse(0L);
     }
-    public Long count(){
+    @Override
+	public Long count(){
         return productRepository.countDistinct();
     }
     public Long countByCategory(String category){
         return productRepository.countByCategory(category);
+    }
+    @Override
+	public List<Product> findAll()
+    {
+    	return productRepository.findAll();
+    }
+    
+    @Override
+	public void save(Product product)
+    {
+    	productRepository.save(product);
+    }
+    
+    @Override
+	public Optional<Product> findById(long id)
+    {
+    	return productRepository.findById(id);
+    }
+    
+    @Override
+	public void delete(Product product)
+    {
+    	productRepository.delete(product);
+    }
+    
+    @Override
+	public List<Product> findAllDistinctProduct()
+    {
+    	return productRepository.findDistinctProductsByProductCode();
+    }
+    
+    @Override
+	public List<Product> findAllProductsByProductCode(String productCode)
+    {
+    	return productRepository.findProductsByProductCode(productCode);
     }
 }

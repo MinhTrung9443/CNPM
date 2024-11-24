@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.cnpm.dto.mail.MailDto;
 import com.cnpm.entity.Account;
 import com.cnpm.entity.Customer;
+import com.cnpm.entity.Employee;
 import com.cnpm.entity.Role;
 import com.cnpm.entity.ShopOwner;
 import com.cnpm.entity.User;
@@ -141,11 +142,11 @@ public class AuthController {
 		}
 		int roleid = account.getRole().getRoleId().intValue();
 		if (roleid == 3) {
-			User customer =  account.getUser();
+			Customer customer = (Customer) account.getUser();
 			session.setAttribute("user", customer);
 			return new ModelAndView("customer/index", model);
 		} else if (roleid == 2) {
-			User employee =  account.getUser();
+			Employee employee = (Employee) account.getUser();
 			session.setAttribute("user", employee);
 			return new ModelAndView("employee/index", model);
 		} else {
