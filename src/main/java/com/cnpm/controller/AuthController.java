@@ -137,7 +137,8 @@ public class AuthController {
 		System.out.println(acc.toString() + " " + cus.toString());
 
 		userService.save(cus);
-		session.setAttribute("user", cus);
+		Customer newCustomer = (Customer) userService.findByEmail(cus.getEmail());
+		session.setAttribute("user", newCustomer);
 		return new ModelAndView("customer/index", model);
 	}
 

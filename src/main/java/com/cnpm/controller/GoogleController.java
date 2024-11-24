@@ -53,7 +53,10 @@ public class GoogleController {
 				account.setRole(role);
 				customer.setAccount(account);
 				userservice.save(customer);
-				session.setAttribute("user", customer);
+				
+				Customer newCustomer = (Customer) userservice.findByEmail(customer.getEmail());
+				session.setAttribute("user", newCustomer);
+
 				return new ModelAndView("customer/index",model);
 			} else {
 				int roleid = user.getAccount().getRole().getRoleId().intValue();

@@ -42,8 +42,10 @@ public class FacebookController {
 				role.setRoleId((long) 3);
 				account.setRole(role);
 				customer.setAccount(account);
-				session.setAttribute("user", customer);
+				
 				userservice.save(customer);
+				Customer newCustomer = (Customer) userservice.findByUsername(customer.getAccount().getUsername()).getUser();
+				session.setAttribute("user", newCustomer);
 				return new ModelAndView("customer/index",model);
 			}
 			else 
