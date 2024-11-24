@@ -73,7 +73,7 @@ public class InforCustomerController {
 
         model.addAttribute("user", user);
 
-        return "redirect:/customer/profile"; 
+        return "/customer/profile"; 
     }
 
 

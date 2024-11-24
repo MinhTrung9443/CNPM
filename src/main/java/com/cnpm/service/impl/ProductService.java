@@ -107,6 +107,32 @@ public class ProductService implements IProductService{
         // Lấy danh sách nhận xét từ ProductFeedback
         return productFeedbackRepository.findAllByProduct_productCode(productCode);
     }
+ 
 
-    
-}
+    public List<Product> searchProductsWithFilters(String keyword, Double minPrice, Double maxPrice, String brand, String origin) {
+        // Lấy danh sách sản phẩm theo từ khóa
+        List<Product> products = productRepository.findDistinctProductsByKeyword(keyword);
+
+        // Áp dụng bộ lọc
+        if (minPrice != null) {
+            products = products.stream()
+                               .filter(p -> p.getCost() >= minPrice)
+                               .collect(Collectors.toList()); }
+        
+        if (maxPrice != null) {
+            products = products.stream()
+                               .filter(p -> p.getCost() <= maxPrice)
+                               .collect(Collectors.toList()); }
+        if (brand != null && brand != "") {
+            products = products.stream()
+                               .filter(p -> p.getBrand().equalsIgnoreCase(brand))
+                               .collect(Collectors.toList());}
+        if (origin != null && origin != "") {
+            products = products.stream()
+                               .filter(p -> p.getOrigin().equalsIgnoreCase(origin))
+                               .collect(Collectors.toList()); }
+        return products;
+    }
+    }
+
+

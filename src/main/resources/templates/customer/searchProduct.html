@@ -217,53 +217,250 @@ h1 {
 .overlay button:hover {
 	background-color: #ff4a00;
 }
+/* Cập nhật bố cục chung */
+body {
+	font-family: Arial, sans-serif;
+	background-color: #f4f4f4;
+	margin: 0;
+	padding: 0;
+}
+
+header {
+	background-color: #333;
+	color: white;
+	padding: 15px 0;
+	text-align: center;
+}
+
+/* Footer */
+footer {
+	background-color: #333;
+	color: white;
+	padding: 15px 0;
+	text-align: center;
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+}
+
+/* Bố cục chính */
+.main-container {
+	display: flex;
+	min-height: calc(100vh - 100px); /* Trừ chiều cao header và footer */
+	margin: 20px;
+	padding-bottom: 60px;
+}
+
+/* Bộ lọc */
+.filters {
+	flex: 1;
+	max-width: 280px;
+	background-color: #fff;
+	padding: 20px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	border-radius: 8px;
+	font-size: 14px;
+	margin-right: 20px;
+}
+
+.filters h2 {
+	margin-top: 0;
+	font-size: 18px;
+	color: #333;
+}
+
+.filter-item {
+	margin-bottom: 20px;
+}
+
+.filter-item label {
+	display: block;
+	margin-bottom: 5px;
+	color: #555;
+	font-size: 14px;
+}
+
+.filter-item input, .filter-item select {
+	width: 100%;
+	padding: 8px;
+	margin-bottom: 10px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+}
+
+button[type="submit"] {
+	width: 100%;
+	padding: 12px;
+	background-color: #ff7a00;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	font-size: 16px;
+	cursor: pointer;
+	transition: background-color 0.3s;
+}
+
+button[type="submit"]:hover {
+	background-color: #ff4a00;
+}
+
+/* Nội dung sản phẩm */
+.searchResults {
+	flex: 3;
+}
+
+h3 {
+	font-size: 24px;
+	font-weight: bold;
+	margin-bottom: 20px;
+	color: #333;
+}
+
+.product-container {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+	gap: 20px;
+	padding: 10px;
+}
+
+.product-card {
+	background-color: white;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	overflow: hidden;
+	text-align: center;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	position: relative;
+	cursor: pointer;
+	transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+	transform: translateY(-5px);
+}
+
+.product-card img {
+	width: 100%;
+	height: 200px;
+	object-fit: cover;
+	border-bottom: 1px solid #ddd;
+}
+
+.product-info {
+	padding: 10px;
+}
+
+.product-info h3 {
+	margin: 10px 0;
+	font-size: 16px;
+	color: #333;
+	font-weight: 600;
+}
+
+.product-info .price {
+	color: #e63946;
+	font-weight: bold;
+	font-size: 18px;
+}
+
+.product-info .brand {
+	color: #007bff;
+	font-size: 14px;
+}
+
+/* Overlay */
+.overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	color: #fff;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	opacity: 0;
+	transition: opacity 0.3s ease;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.product-card:hover .overlay {
+	opacity: 1;
+}
+
+.overlay button {
+	background-color: #ff7a00;
+	color: #fff;
+	border: none;
+	padding: 8px 15px;
+	border-radius: 5px;
+	font-size: 14px;
+	cursor: pointer;
+	transition: background-color 0.3s;
+}
+
+.overlay button:hover {
+	background-color: #ff4a00;
+}
+
 </style>
 </head>
 <body>
 	<header th:replace="~{customer/fragments/header::header}"></header>
 
 	<div class="main-container">
-		<!-- Sidebar: Bộ lọc -->
-		<aside class="filters">
-			<br><br><br><br><br><br><h2>BỘ LỌC TÌM KIẾM</h2> <br>
-			<!-- Form bộ lọc -->
-			<form method="GET" action="/search">
-				<!-- Thương hiệu -->
-				<div class="filter-item">
-					<label for="brand">Nhãn hàng:</label>
-					<select id="brand" name="brand">
-						<option value="">Tất cả</option>
-						<option value="Aesop" th:selected="${param.brand == 'Aesop'}">Aesop</option>
-						<option value="Amika" th:selected="${param.brand == 'Amika'}">Amika</option>
-						<option value="CeraVe" th:selected="${param.brand == 'CeraVe'}">CeraVe</option>
-						<option value="Cult Beauty" th:selected="${param.brand == 'Cult Beauty'}">Cult Beauty</option>
-						<option value="Davines" th:selected="${param.brand == 'Davines'}">Davines</option>
-						<!-- Thêm các thương hiệu khác nếu cần -->
+		<div class="container">
+			<br><br><br><br><br><br><br><br><br><br>
+			<div class="sidebar">
+				<h3>Bộ Lọc</h3>
+				<form action="/search" method="get">
+					<input name="keyword" th:value="${keyword}" hidden="hidden">
+					<!-- Bộ lọc giá -->
+					<label for="minPrice">Min Price:</label> <input type="number"
+						id="minPrice" name="minPrice" value="{{ minPrice }}"><br><br> <label
+						for="maxPrice">Max Price:</label> <input type="number"
+						id="maxPrice" name="maxPrice" value="{{ maxPrice }}"><br><br>
+
+					<!-- Bộ lọc thương hiệu -->
+					<label for="brand">Brand:</label> <select name="brand" id="brand">
+						<option value="">All</option>
+						<option value="ESPA" {{ brand=='ESPA' ? 'selected' : '' }}>ESPA</option>
+						<option value="OSKIA" {{ brand=='OSKIA' ? 'selected' : '' }}>OSKIA</option>
+						<option value="Ultra Violette" {{ brand=='UltraViolette' ? 'selected' : '' }}>Ultra Violette</option>
+						<option value="La Roche-Posay" {{ brand=='LaRochePosay' ? 'selected' : '' }}>La Roche-Posay</option>
+						<option value="Hello Sunday" {{ brand=='HelloSunday' ? 'selected' : '' }}>Hello Sunday</option>
+						<option value="Mario Badescu" {{ brand=='MarioBadescu' ? 'selected' : '' }}>Mario Badescu</option>
+					
+					
 					</select>
+<br><br>
+					<!-- Bộ lọc xuất xứ -->
+					<label for="origin">Origin:</label> <select name="origin"
+						id="origin">
+						<option value="">All</option>
+						<option value="my" {{ origin=='my' ? 'selected' : '' }}>Mỹ</option>
+						<option value="nhatban" {{ origin=='nhatban' ? 'selected' : '' }}>Nhật Bản</option>
+						<option value="anh" {{ origin=='anh' ? 'selected' : '' }}>Anh</option>
+						<option value="hanquoc" {{ origin=='hanquoc' ? 'selected' : '' }}>Hàn Quốc</option>
+						<option value="phap" {{ origin=='phap' ? 'selected' : '' }}>Pháp</option>
+						<option value="vietnam" {{ origin=='vietnam' ? 'selected' : '' }}>Việt Nam</option>
+					
+					
+					</select><br><br><br><br>
+
+					<!-- Nút tìm kiếm -->
+					<button type="submit">Search</button>
+				</form>
+			</div>
+
+			<div class="searchResults">
+				<div id="productResults">
+					<!-- Kết quả tìm kiếm sẽ được hiển thị tại đây -->
 				</div>
-				<!-- Khoảng giá -->
-				<div class="filter-item">
-					<label>Khoảng giá:</label>
-					<input type="number" name="minPrice" placeholder="Từ" value="${param.minPrice}">
-					<input type="number" name="maxPrice" placeholder="Đến" value="${param.maxPrice}">
-				</div>
-				<!-- Nguồn gốc -->
-				<div class="filter-item">
-					<label for="origin">Nguồn gốc:</label>
-					<select id="origin" name="origin">
-						<option value="">Tất cả</option>
-						<option value="Anh" th:selected="${param.origin == 'Anh'}">Anh</option>
-						<option value="Đức" th:selected="${param.origin == 'Đức'}">Đức</option>
-						<option value="Việt Nam" th:selected="${param.origin == 'Việt Nam'}">Việt Nam</option>
-						<option value="Pháp" th:selected="${param.origin == 'Pháp'}">Pháp</option>
-						<option value="Nhật Bản" th:selected="${param.origin == 'Nhật Bản'}">Nhật Bản</option>
-						<option value="Mỹ" th:selected="${param.origin == 'Mỹ'}">Mỹ</option>
-					</select>
-				</div>
-				<!-- Nút áp dụng -->
-				<button type="submit">Áp dụng bộ lọc</button>
-			</form>
-		</aside>
+			</div>
+		</div>
 
 		<!-- Nội dung: Kết quả tìm kiếm -->
 		<section class="content">
@@ -273,22 +470,31 @@ h1 {
 				<div class="product-card" th:each="product : ${products}">
 					<img th:src="@{${product.image}}" alt="Product Image" />
 					<div class="overlay">
-						<button><a th:href="@{/product/{productId}(productId=${product.productId})}" class="btn">Xem chi tiết</a></button>
+						<button>
+							<a
+								th:href="@{/product/{productId}(productId=${product.productId})}"
+								class="btn">Xem chi tiết</a>
+						</button>
 						<button th:text="'Thêm vào giỏ'"></button>
 					</div>
 					<div class="product-info">
 						<h3 th:text="${product.productName}"></h3>
-						<p class="brand" th:text="'Thương hiệu: ' + ${product.brand}"></p><br>
+						<p class="brand" th:text="'Thương hiệu: ' + ${product.brand}"></p>
+						<br>
 						<p class="price" th:text="'Giá: ' + ${product.cost} + '₫'"></p>
 					</div>
 				</div>
 				<!-- Hiển thị thông báo nếu không có sản phẩm -->
-				<p th:if="${#lists.isEmpty(products)}">Không tìm thấy sản phẩm nào phù hợp.</p>
+				<p th:if="${#lists.isEmpty(products)}">Không tìm thấy sản phẩm
+					nào phù hợp.</p>
 			</div>
 		</section>
 	</div>
 
 	<footer th:replace="customer/fragments/footer :: footer"></footer>
+	<script>
+		
+	</script>
 </body>
 
 

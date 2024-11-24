@@ -133,7 +133,7 @@ footer {
 					</div>
 					<div class="mb-3">
 						<label for="birthDate" class="form-label">Ngày sinh:</label> <input
-							type="date" id="birthDate" th:field="*{birthDate}"
+							type="date" id="birthDate" th:value="*{birthDate}"
 							class="form-control" />
 					</div>
 					<div class="mb-3">
@@ -145,8 +145,8 @@ footer {
 					<div class="mb-3">
 						<label for="gender" class="form-label">Giới tính:</label> <select
 							id="gender" th:field="*{gender}" class="form-select">
-							<option value="MALE">Nam</option>
-							<option value="FEMALE">Nữ</option>
+							<option value="MALE">MALE</option>
+							<option value="FEMALE">FEMALE</option>
 						</select>
 					</div>
 

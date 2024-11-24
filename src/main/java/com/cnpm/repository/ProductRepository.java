@@ -10,61 +10,59 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    Optional<Long> countAllByProductCode(String productCode);
-    @Query(value = """
-    SELECT *
-    FROM Product p
-    WHERE p.productId IN (
-        SELECT MIN(productId)
-        FROM Product
-        WHERE isUsed = 0
-        GROUP BY productCode
-    )
-""", nativeQuery = true,
-            countQuery = "SELECT COUNT(*) FROM (SELECT DISTINCT productCode FROM Product) tmp")
-    Page<Product> findDistinctProduct(Pageable pageable);
+	Optional<Long> countAllByProductCode(String productCode);
 
-    @Query(value = """
-    SELECT *
-    FROM Product p
-    WHERE p.productId IN (
-        SELECT MIN(productId)
-        FROM Product
-        WHERE category = :category AND isUsed = 0
-        GROUP BY productCode
-    )
-    ORDER BY productCode ASC
-""",
-            nativeQuery = true,
-            countQuery = """
-    SELECT COUNT(*) 
-    FROM (SELECT DISTINCT productCode FROM Product WHERE category = :category) AS tmp
-""")
-    Page<Product> findDistinctProductsByProductCodeAndCategory(@Param("category") String category, Pageable pageable);
+	@Query(value = """
+			    SELECT *
+			    FROM Product p
+			    WHERE p.productId IN (
+			        SELECT MIN(productId)
+			        FROM Product
+			        WHERE isUsed = 0
+			        GROUP BY productCode
+			    )
+			""", nativeQuery = true, countQuery = "SELECT COUNT(*) FROM (SELECT DISTINCT productCode FROM Product) tmp")
+	Page<Product> findDistinctProduct(Pageable pageable);
 
-    Long countByCategory(String category);
+	@Query(value = """
+			    SELECT *
+			    FROM Product p
+			    WHERE p.productId IN (
+			        SELECT MIN(productId)
+			        FROM Product
+			        WHERE category = :category AND isUsed = 0
+			        GROUP BY productCode
+			    )
+			    ORDER BY productCode ASC
+			""", nativeQuery = true, countQuery = """
+			    SELECT COUNT(*)
+			    FROM (SELECT DISTINCT productCode FROM Product WHERE category = :category) AS tmp
+			""")
+	Page<Product> findDistinctProductsByProductCodeAndCategory(@Param("category") String category, Pageable pageable);
 
-    @Query(value = "SELECT COUNT(*) FROM (SELECT DISTINCT productCode FROM Product) tmp",nativeQuery = true)
-    Long countDistinct();
-    
-    @Query(value = """
-    	    SELECT *
-    	    FROM Product p
-    	    WHERE p.productId IN (
-    	        SELECT MIN(productId)
-    	        FROM Product
-    	        WHERE (LOWER(description) LIKE LOWER(CONCAT('%', :keyword, '%'))
-    	            OR LOWER(brand) LIKE LOWER(CONCAT('%', :keyword, '%'))
-    	            OR LOWER(category) LIKE LOWER(CONCAT('%', :keyword, '%')))
-    	          AND isUsed = 0
-    	        GROUP BY productCode
-    	    )
-    	""", nativeQuery = true)
-    	List<Product> findDistinctProductsByKeyword(@Param("keyword") String keyword);
+	Long countByCategory(String category);
 
-        
-    }
+	@Query(value = "SELECT COUNT(*) FROM (SELECT DISTINCT productCode FROM Product) tmp", nativeQuery = true)
+	Long countDistinct();
 
+	@Query(value = """
+			    SELECT *
+			    FROM Product p
+			    WHERE p.productId IN (
+			        SELECT MIN(productId)
+			        FROM Product
+			        WHERE (LOWER(productName) LIKE LOWER(CONCAT('%', :keyword, '%')))
+			          AND isUsed = 0
+			        GROUP BY productCode
+			    )
+			""", nativeQuery = true)
+	List<Product> findDistinctProductsByKeyword(@Param("keyword") String keyword);
+	
+	
+
+
+}
