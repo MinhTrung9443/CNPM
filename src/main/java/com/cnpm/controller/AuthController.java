@@ -32,7 +32,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
-@RequestMapping("")
+@RequestMapping({"","*/"})
 public class AuthController {
 	@Autowired
 	IUserService userService;
