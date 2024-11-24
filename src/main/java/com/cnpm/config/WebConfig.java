@@ -12,26 +12,23 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebSecurity
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
-    // Add only custom configurations here
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        if (!registry.hasMappingForPattern("/static/**")) {
-            registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
-        }
-    }
-    @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
-    
+	// Add only custom configurations here
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		if (!registry.hasMappingForPattern("/static/**")) {
+			registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+		}
+	}
 
 	@Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests(requests -> requests
-                        .anyRequest().permitAll())
-                .csrf(csrf -> csrf.disable());  
+	public RestTemplate restTemplate() {
+		return new RestTemplate();
+	}
 
-        return http.build();
-    }
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		http.authorizeHttpRequests(requests -> requests.anyRequest().permitAll()).csrf(csrf -> csrf.disable());
+
+		return http.build();
+	}
 }

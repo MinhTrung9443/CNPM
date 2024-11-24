@@ -1,6 +1,7 @@
 package com.cnpm.service;
 
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -14,5 +15,7 @@ public interface IProductFeedbackService {
 	<S extends ProductFeedback> S save(S entity);
 
 	Optional<Product> findById(Long id);
+
+	List<ProductFeedback> findAllByCustomerIdAndProduct_ProductId(long customerId, long productId);
 
 }

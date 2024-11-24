@@ -10,4 +10,5 @@ import java.util.List;
 public interface ProductFeedbackRepository extends JpaRepository<ProductFeedback, Long> {
 
     List<ProductFeedback> findAllByProduct_productCode(String productCode);
+    List<ProductFeedback> findAllByCustomerIdAndProduct_ProductId(long customerId, long productId);
 }

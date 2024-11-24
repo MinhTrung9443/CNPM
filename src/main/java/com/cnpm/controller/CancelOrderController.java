@@ -1,6 +1,8 @@
 package com.cnpm.controller;
 
 import java.io.Serializable;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -27,34 +29,35 @@ public class CancelOrderController implements Serializable{
 	private IOrderService orderservice;
 	@Autowired
 	private IProductService productservice;
-	@GetMapping("/cancel/{orderId}")
+	@GetMapping("/cancelOrder/{orderId}")
 	public ModelAndView cancelOrder(HttpSession session, ModelMap model, @PathVariable("orderId") Long orderId)
 	{
-		Order order = orderservice.findById(orderId).get();
-		if (order.getOrderStatus() == OrderStatus.PENDING || order.getOrderStatus() == OrderStatus.CONFIRMED)
+		Optional<Order> opOrder = orderservice.findById(orderId);
+		Order order = new Order();
+		try
 		{
-			order.setOrderStatus(OrderStatus.CANCELLED);
-			orderservice.save(order);
+			order = opOrder.get();
+			return new ModelAndView("redirect:/followOrder/100",model);
+		}catch (Exception e) {
+			e.printStackTrace();// TODO: handle exception
+		}
+		order.setOrderStatus(OrderStatus.CANCELLED);
+		orderservice.save(order);
+		
+		for (OrderLine orderline : order.getOrderLines())
+		{
 			
-			for (OrderLine orderline : order.getOrderLines())
+			int quantity =  orderline.getQuantity();
+			Product pro = productservice.findById(orderline.getProduct().getProductId()).get();
+			pro.setProductId(null);
+			pro.setIsUsed(0);
+			for (int i = 0;i<quantity;i++)
 			{
-				
-				int quantity =  orderline.getQuantity();
-				Product pro = productservice.findById(orderline.getProduct().getProductId()).get();
-				pro.setProductId(null);
-				pro.setIsUsed(0);
-				for (int i = 0;i<quantity;i++)
-				{
-					productservice.save(pro);
-				}
-				
+				productservice.save(pro);
 			}
-			return new ModelAndView("",model);
+			
 		}
-		else 
-		{
-			model.addAttribute("Err", "Đơn hàng không đủ điều kiện để hủy. Mong quý khách thông cảm.");
-			return new ModelAndView("",model);
-		}
+		return new ModelAndView("",model);
+
 	}
 }

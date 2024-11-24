@@ -33,13 +33,17 @@ h1 {
 }
 
 /* Định dạng tiêu đề phụ */
-h2 {
+h2, .Error{
 	font-size: 24px;
 	margin-bottom: 15px;
 	color: #555;
 	border-bottom: 2px solid #ddd;
 	padding-bottom: 5px;
 }
+
+.Error{
+color: red;
+text-align: center;}
 
 /* Định dạng bảng hiển thị thông tin sản phẩm */
 table {
@@ -100,6 +104,151 @@ p {
 	line-height: 1.6;
 	color: #444;
 }
+/* Định dạng cho phần đánh giá */
+.rating {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    width: 500px;
+}
+
+
+.rating label {
+    font-size: 35px;
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.3s;
+    padding: 0 5px;
+}
+
+.rating {
+display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+
+}
+
+/* Định dạng chung cho form */
+.review-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 25px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+    background-color: #f8f8f8;
+}
+
+.review-form h2 {
+    font-size: 28px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.form-group textarea {
+    width: 100%;
+    height: 120px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: vertical;
+    font-size: 16px;
+    box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+.form-group input[type="file"] {
+    display: block;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.submit-btn {
+    display: block;
+    width: 100%;
+    padding: 12px 0;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s;
+    margin-top: 15px;
+}
+
+.submit-btn:hover {
+    background-color: #218838;
+}
+
+/* Định dạng chung cho input khi có lỗi */
+.form-group input[type="file"]:focus,
+.form-group textarea:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Định dạng chung cho combobox */
+select {
+    width: 100%; /* Chiều rộng chiếm toàn bộ vùng chứa */
+    padding: 12px; /* Khoảng cách bên trong */
+    border: 1px solid #ccc; /* Đường viền */
+    border-radius: 5px; /* Bo góc */
+    background-color: #f9f9f9; /* Màu nền */
+    font-size: 16px; /* Cỡ chữ */
+    color: #333; /* Màu chữ */
+    appearance: none; /* Ẩn mũi tên mặc định (trình duyệt hiện đại) */
+    -webkit-appearance: none; /* Ẩn mũi tên mặc định trên WebKit */
+    -moz-appearance: none; /* Ẩn mũi tên mặc định trên Firefox */
+    cursor: pointer; /* Đổi con trỏ chuột khi di chuyển vào */
+}
+
+/* Thêm mũi tên tùy chỉnh cho combobox */
+select:focus {
+    outline: none; /* Bỏ đường viền mặc định khi được chọn */
+    border-color: #66afe9; /* Đổi màu đường viền khi chọn */
+    box-shadow: 0 0 5px rgba(102, 175, 233, 0.6); /* Hiệu ứng bóng đổ khi focus */
+}
+
+/* Thêm biểu tượng mũi tên cho combobox */
+select::-ms-expand {
+    display: none; /* Ẩn mũi tên mặc định trên IE */
+}
+
+.select-wrapper {
+    position: relative; /* Định vị tương đối để thêm mũi tên tùy chỉnh */
+    display: inline-block;
+    width: 100%; /* Chiều rộng vùng chứa combobox */
+}
+
+.select-wrapper::after {
+    content: '\25BC'; /* Ký tự Unicode cho mũi tên xuống */
+    font-size: 16px; /* Cỡ mũi tên */
+    color: #333; /* Màu của mũi tên */
+    position: absolute; /* Định vị tuyệt đối */
+    top: 50%; /* Canh giữa theo chiều dọc */
+    right: 10px; /* Khoảng cách bên phải */
+    pointer-events: none; /* Vô hiệu hóa sự kiện chuột trên mũi tên */
+    transform: translateY(-50%); /* Canh giữa theo chiều dọc */
+}
+
+
 </style>
 </head>
 <body>
@@ -198,7 +347,7 @@ p {
 			<table border="1">
 				<thead>
 					<tr>
-						<th>Product Code</th>
+						<th>Product Image</th>
 						<th>Product Name</th>
 						<th>Category</th>
 						<th>Brand</th>
@@ -220,7 +369,104 @@ p {
 				</tbody>
 			</table>
 		</div>
+		
+		<div th:if="${list != null}">
+			<h2>Đánh giá</h2>
+			<table>
+			<thead>
+			<tr>
+			<td>Product name</td>
+			<td>Rating</td>
+			<td>Comment</td>
+			<td>Review Date</td>
+			</tr>
+			</thead>
+			<tbody>
+			<tr th:each="review : ${list}">
+			<td th:text="${review.product.productName}"></td>
+			<td th:text="${review.rating}"></td>
+			<td th:text="${review.comment}"></td>
+			<td th:text="${review.feedbackDate}"></td>
+			</tr>
+			</tbody>
+			</table>
+		</div>
+		
+		<div th:if="${order.orderStatus.name() == 'COMPLETED'}">
+				<h2>Đánh Giá Sản Phẩm</h2>
+				<form action="/review" method="post">
+					<div class="form-group" style="width: 400px">
+						<label>Sản phẩm đánh giá</label>
+						<select id="productId" name="productId">
+							<option th:each="orderLine : ${order.orderLines}"
+								th:value="${orderLine.product.productId}"
+								th:text="${orderLine.product.productName}"></option>
+						</select>
+					</div>
+
+					<div class="form-group">
+						<label for="rating">Đánh giá bằng sao:</label>
+						<div class="rating">
+							<label>1</label>
+							<input type="radio" name="rating" id="star5" value="1"> 
+							<input type="radio" name="rating" id="star4" value="2">
+							<input type="radio" name="rating" id="star3" value="3">
+							<input type="radio" name="rating" id="star2" value="4"> 
+							<input type="radio" name="rating" id="star1" value="5">
+							<label>5</label>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="review">Lời đánh giá:</label>
+						<textarea id="comment" name="comment"
+							placeholder="Nhập lời đánh giá của bạn..."></textarea>
+					</div>
+
+					<div class="form-group">
+						<label for="image">Thêm ảnh:</label> <input type="file" id="image"
+							name="image" accept="image/*">
+					</div>
+
+					<button type="submit" class="submit-btn">Gửi đánh giá</button>
+				</form>
+			</div>
+			
+		
+	</div>
+	<div>
+	<button class="submit-btn" type="button" onclick="cancelOrder()" th:data-order-id="${order.orderId}" th:data-order-status="${order.orderStatus.name()}">Hủy đơn hàng</button>
+	</div>
+	<div th:if="${Err != null}" class = "Error">
+		<strong th:text="${Err}"></strong>
 	</div>
 	<footer th:replace="~{customer/fragments/footer::footer}"></footer>
+
+	<script>
+		function cancelOrder() {
+			// Lấy giá trị orderId từ thuộc tính data của nút
+			const orderId = document.querySelector(
+					'button[onclick="cancelOrder()"]').getAttribute(
+					'data-order-id');
+
+			const orderstatus = document.querySelector(
+			'button[onclick="cancelOrder()"]').getAttribute(
+			'data-order-status');
+			
+			 if (orderstatus !== "PENDING" && orderstatus !== "CONFIRMED") {
+			        alert('Đơn hàng không đủ điều kiện để hủy.');
+			        return; // Dừng hàm nếu điều kiện không đúng
+			    }
+			
+			
+			const userConfirmed = confirm('Bạn có chắc chắn muốn hủy đơn hàng này?');
+
+			
+			if (userConfirmed) {
+				
+				window.location.href = '/cancelOrder/' + orderId;
+			}
+		}
+	</script>
 </body>
 </html>
