@@ -217,6 +217,7 @@ h1 {
 .overlay button:hover {
 	background-color: #ff4a00;
 }
+
 /* Cập nhật bố cục chung */
 body {
 	font-family: Arial, sans-serif;
@@ -414,17 +415,17 @@ h3 {
 		<div class="container">
 			<br><br><br><br><br><br><br><br><br><br>
 			<div class="sidebar">
-				<h3>Bộ Lọc</h3>
+				<h3>Bộ Lọc Tìm Kiếm</h3>
 				<form action="/search" method="get">
 					<input name="keyword" th:value="${keyword}" hidden="hidden">
 					<!-- Bộ lọc giá -->
-					<label for="minPrice">Min Price:</label> <input type="number"
+					<label for="minPrice">Giá tối thiểu:</label> <input type="number"
 						id="minPrice" name="minPrice" value="{{ minPrice }}"><br><br> <label
-						for="maxPrice">Max Price:</label> <input type="number"
+						for="maxPrice">Giá tối đa:</label> <input type="number"
 						id="maxPrice" name="maxPrice" value="{{ maxPrice }}"><br><br>
 
 					<!-- Bộ lọc thương hiệu -->
-					<label for="brand">Brand:</label> <select name="brand" id="brand">
+					<label for="brand">Thương hiệu:</label> <select name="brand" id="brand">
 						<option value="">All</option>
 						<option value="ESPA" {{ brand=='ESPA' ? 'selected' : '' }}>ESPA</option>
 						<option value="OSKIA" {{ brand=='OSKIA' ? 'selected' : '' }}>OSKIA</option>
@@ -437,8 +438,7 @@ h3 {
 					</select>
 <br><br>
 					<!-- Bộ lọc xuất xứ -->
-					<label for="origin">Origin:</label> <select name="origin"
-						id="origin">
+					<label for="origin">Nguồn gốc:</label> <select name="origin" id="origin">
 						<option value="">All</option>
 						<option value="my" {{ origin=='my' ? 'selected' : '' }}>Mỹ</option>
 						<option value="nhatban" {{ origin=='nhatban' ? 'selected' : '' }}>Nhật Bản</option>
@@ -446,12 +446,20 @@ h3 {
 						<option value="hanquoc" {{ origin=='hanquoc' ? 'selected' : '' }}>Hàn Quốc</option>
 						<option value="phap" {{ origin=='phap' ? 'selected' : '' }}>Pháp</option>
 						<option value="vietnam" {{ origin=='vietnam' ? 'selected' : '' }}>Việt Nam</option>
-					
-					
-					</select><br><br><br><br>
-
+					</select>
+					<br><br>
+					<!-- Bộ lọc thể loại -->
+					<label for="category">Thể loại:</label> <select name="category" id="category">
+						<option value="">All</option>
+						<option value="Skin" {{ category=='Skin' ? 'selected' : '' }}>Skin</option>
+						<option value="Body" {{ category=='Body' ? 'selected' : '' }}>Body</option>
+						<option value="MakeUp" {{ category=='MakeUp' ? 'selected' : '' }}>MakeUp</option>
+						<option value="Wellness" {{ category=='Wellness' ? 'selected' : '' }}>Wellness</option>
+						<option value="Hair" {{ category=='Hair' ? 'selected' : '' }}>Hair</option>
+					</select>
+<br><br><br><br>
 					<!-- Nút tìm kiếm -->
-					<button type="submit">Search</button>
+					<button type="submit">Áp dụng bộ lọc</button>
 				</form>
 			</div>
 

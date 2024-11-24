@@ -109,7 +109,7 @@ public class ProductService implements IProductService{
     }
  
 
-    public List<Product> searchProductsWithFilters(String keyword, Double minPrice, Double maxPrice, String brand, String origin) {
+    public List<Product> searchProductsWithFilters(String keyword, Double minPrice, Double maxPrice, String brand, String origin, String category) {
         // Lấy danh sách sản phẩm theo từ khóa
         List<Product> products = productRepository.findDistinctProductsByKeyword(keyword);
 
@@ -130,6 +130,10 @@ public class ProductService implements IProductService{
         if (origin != null && origin != "") {
             products = products.stream()
                                .filter(p -> p.getOrigin().equalsIgnoreCase(origin))
+                               .collect(Collectors.toList()); }
+        if (category != null && category != "") {
+            products = products.stream()
+                               .filter(p -> p.getCategory().equalsIgnoreCase(category))
                                .collect(Collectors.toList()); }
         return products;
     }

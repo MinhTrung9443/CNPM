@@ -18,80 +18,75 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/customer")
 public class InforCustomerController {
 	@Autowired
-    IUserService userService;
+	IUserService userService;
 
-    @GetMapping("/profile")
-    public String viewUserProfile(HttpSession session, Model model) {
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            return "redirect:/signin";
-        }
-        if (user instanceof Customer) {
-            Customer customer = (Customer) user; // Chuyển kiểu xuống Customer
-            model.addAttribute("birthDate", customer.getBirthDate());
-        }
+	@GetMapping("/profile")
+	public String viewUserProfile(HttpSession session, Model model) {
+		User user = (User) session.getAttribute("user");
+		if (user == null) {
+			return "redirect:/signin";
+		}
+		if (user instanceof Customer) {
+			Customer customer = (Customer) user; // Chuyển kiểu xuống Customer
+			model.addAttribute("birthDate", customer.getBirthDate());
+		}
 
-        model.addAttribute("user", user);
+		model.addAttribute("user", user);
 
-        return "customer/profile";
-    }
+		return "customer/profile";
+	}
 
-    
-    @GetMapping("/update")
-    public String editUserProfile(HttpSession session, Model model) {
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            return "redirect:/signin"; 
-        }
-        if (user instanceof Customer) {
-            Customer customer = (Customer) user; // Chuyển kiểu xuống Customer
-            model.addAttribute("user", customer); 
-        }
- 
-        model.addAttribute("user", user);
+	@GetMapping("/update")
+	public String editUserProfile(HttpSession session, Model model) {
+		User user = (User) session.getAttribute("user");
+		if (user == null) {
+			return "redirect:/signin";
+		}
+		if (user instanceof Customer) {
+			Customer customer = (Customer) user; // Chuyển kiểu xuống Customer
+			model.addAttribute("user", customer);
+		} else {
+			model.addAttribute("user", user);
+		}
 
-        return "customer/updateProfile"; 
-    }
+		return "customer/updateProfile";
+	}
 
-    @PostMapping("/update")
-    public String updateUserProfile(HttpSession session, Model model, @ModelAttribute Customer updatedUser) {
-        Customer user = (Customer) userService.findById(updatedUser.getUserId()).get();
-        if (user == null) {
-            return "redirect:/signin"; 
-        }
+	@PostMapping("/update")
+	public String updateUserProfile(HttpSession session, Model model, @ModelAttribute Customer updatedUser) {
+		Customer user = (Customer) userService.findById(updatedUser.getUserId()).get();
+		if (user == null) {
+			return "redirect:/signin";
+		}
 
-        User existingUser = userService.findByEmail(updatedUser.getEmail());
-        if (existingUser != null && !existingUser.getUserId().equals(updatedUser.getUserId())) {
-            // Nếu email đã tồn tại và không phải của người dùng hiện tại
-            model.addAttribute("error", "Email đã được sử dụng, vui lòng nhập email khác.");
-            model.addAttribute("user", updatedUser);
-            return "customer/updateProfile"; // Quay lại trang chỉnh sửa
-        }
-        
-        User existing = userService.findByPhone(updatedUser.getPhone());
-        if (existing != null && !existing.getUserId().equals(updatedUser.getUserId())) {
-            // Nếu phone đã tồn tại và không phải của người dùng hiện tại
-            model.addAttribute("error", "Số điện thoại đã được sử dụng, vui lòng nhập số điện thoại khác.");
-            model.addAttribute("user", updatedUser);
-            return "customer/updateProfile"; // Quay lại trang chỉnh sửa
-        }
-        
-        user.setBirthDate(updatedUser.getBirthDate());
-        user.setFullName(updatedUser.getFullName());
-        user.setEmail(updatedUser.getEmail());
-        user.setPhone(updatedUser.getPhone());
-        user.setAddress(updatedUser.getAddress());
-        user.setGender(updatedUser.getGender());
+		User existingUser = userService.findByEmail(updatedUser.getEmail());
+		if (existingUser != null && !existingUser.getUserId().equals(updatedUser.getUserId())) {
+			model.addAttribute("error", "Email đã được sử dụng, vui lòng nhập email khác.");
+			model.addAttribute("user", updatedUser);
+			return "customer/updateProfile";
+		}
 
-        userService.save(user);
+		User existing = userService.findByPhone(updatedUser.getPhone());
+		if (existing != null && !existing.getUserId().equals(updatedUser.getUserId())) {
+			model.addAttribute("error", "Số điện thoại đã được sử dụng, vui lòng nhập số điện thoại khác.");
+			model.addAttribute("user", updatedUser);
+			return "customer/updateProfile";
+		}
 
-        session.setAttribute("user", user);
+		user.setBirthDate(updatedUser.getBirthDate());
+		user.setFullName(updatedUser.getFullName());
+		user.setEmail(updatedUser.getEmail());
+		user.setPhone(updatedUser.getPhone());
+		user.setAddress(updatedUser.getAddress());
+		user.setGender(updatedUser.getGender());
 
-        model.addAttribute("user", user);
+		userService.save(user);
 
-        return "/customer/profile"; 
-    }
+		session.setAttribute("user", user);
 
+		model.addAttribute("user", user);
 
+		return "/customer/profile";
+	}
 
 }

@@ -28,19 +28,21 @@ public class SearchProductController {
         @RequestParam(value = "maxPrice", required = false) Double maxPrice,
         @RequestParam(value = "brand", required = false) String brand,
         @RequestParam(value = "origin", required = false) String origin,
+        @RequestParam(value = "category", required = false) String category,
         Model model
     ) {
     	if (keyword == null) {
         keyword = ""; // hoặc có thể hiển thị tất cả sản phẩm
     	}
-    	System.out.println(keyword + minPrice + maxPrice + brand + origin);        // Tìm sản phẩm theo từ khóa và bộ lọc
-        List<Product> products = productService.searchProductsWithFilters(keyword, minPrice, maxPrice, brand, origin);
+    	System.out.println(keyword + minPrice + maxPrice + brand + origin + category);        // Tìm sản phẩm theo từ khóa và bộ lọc
+        List<Product> products = productService.searchProductsWithFilters(keyword, minPrice, maxPrice, brand, origin, category);
         model.addAttribute("products", products);
         model.addAttribute("keyword", keyword);
         model.addAttribute("minPrice", minPrice);
         model.addAttribute("maxPrice", maxPrice);
         model.addAttribute("brand", brand);
         model.addAttribute("origin", origin);
+        model.addAttribute("category", category);
         return "customer/searchProduct";
     }
 }
