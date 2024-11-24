@@ -60,16 +60,16 @@ public class ProductService implements IProductService{
     public Long countByCategory(String category){
         return productRepository.countByCategory(category);
     }
-
-
-	@Override
+    @Override
+	public <S extends Product> S save(S entity) {
+		return productRepository.save(entity);
+	}
+    @Override
 	public Optional<Product> findById(Long id) {
 		return productRepository.findById(id);
 	}
 
-	@Override
-	public <S extends Product> S save(S entity) {
-		return productRepository.save(entity);
-	}
+
+	
     
 }
