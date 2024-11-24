@@ -59,5 +59,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Optional<Long> countAllByProductCodeAndIsUsedFalseOrIsUsedNull(String productCode);
 
     Optional<Product> findFirstByProductCode(String productCode);
+    Optional<Product> findFirstByProductCodeAndIsUsedFalse(String productCode);
 }
 

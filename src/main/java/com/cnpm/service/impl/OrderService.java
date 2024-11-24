@@ -69,7 +69,7 @@ public class OrderService implements IOrderService {
 //          đánh dấu sản phẩm đã được mua, số sp được đánh dấu là số lượng mua
             for (int i = 0; i < cartItem.getQuantity(); i++) {
 //                tìm và đánh dấu sản phẩm đã được mua
-                Product product1 = productRepository.findFirstByProductCode(product.getProductCode())
+                Product product1 = productRepository.findFirstByProductCodeAndIsUsedFalse(product.getProductCode())
                         .orElseThrow(() -> new RuntimeException("Product not found"));
                 product1.setIsUsed(true);
                 productRepository.save(product1);
