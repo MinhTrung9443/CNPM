@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/owner/index.html}">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Quản Lý Tài Khoản Nhân Viên</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+	<link rel="stylesheet" href="/owner/account/list.css">
+</head>
+
+<body layout:fragment="content">
+	<h1 class="header-title">DANH SÁCH TÀI KHOẢN NHÂN VIÊN</h1>
+	
+	<div class="search-and-add">	
+		
+		<form action="/owner/account/search" method="get">
+			<input type="text" class="search-bar" placeholder="Nhập mã số nhân viên để tìm kiếm" id="userId" name="userId"
+				required th:value="${userId}">
+			<button type="submit" class= "search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+		</form>
+		
+		<a href="/owner/account/add" class="add-button">Thêm nhân viên</a>
+		
+	</div>
+	<table>
+		<tr>
+			<th>STT</th>
+			<th>Mã nhân viên</th>
+			<th>Tên người dùng</th>
+			<th>Mật khẩu</th>
+			<th>Họ và tên</th>
+			<th>Giới tính</th>
+			<th>Số điện thoại</th>
+			<th>Địa chỉ</th>
+			<th>Email</th>
+			<th>Ngày bắt đầu làm việc</th>
+			<th>Action</th>
+		</tr>
+		<tr th:each="user, iterStat : ${list}">
+			
+			<td th:text="${iterStat.index + 1}"></td>
+			
+			<td th:text="${user.userId}"></td>
+			<div th:if="${user.account != null } ">
+				<td th:text="${user.account.username}"></td>
+			
+				<td th:text="${user.account.password}"></td>
+			</div>
+				
+			<td th:text="${user.fullName}"></td>
+			
+			<td th:if="${user.gender.name() == 'MALE'}">Nam</td>
+			<td th:if="${user.gender.name() == 'FEMALE'}">Nữ</td>
+
+			<td th:text="${user.phone}"></td>
+			
+			<td th:text="${user.address}"></td>
+			
+			<td th:text="${user.email}"></td>
+			
+			<td th:text="${user.startDate}"></td>
+			
+			<td>
+				<a th:href="@{/owner/account/edit/{id}(id=${user.userId})}" class="edit-button">Sửa</a> |
+				<a th:href="@{/owner/account/delete/{id}(id=${user.userId})}" class="delete-button" onclick="return confirmDelete();">Xóa</a>
+			</td>		
+		</tr>
+	</table>
+			
+	<div th:if="${message}" class="alert alert-info">
+		<span th:text="${message}"></span>
+	</div>
+		
+	<div class="pagination">
+		<a th:if="${currentPage > 1}" th:href="@{/owner/account?page=(${currentPage - 1})}" >Trangtrước</a>
+				
+		<a th:each="page : ${pageNumbers}" th:href="@{'/owner/account?page=' + ${page}}" th:text="${page}"
+				th:classappend="${page == currentPage ? 'active' : ''}"></a>
+				
+		<a th:if="${currentPage < totalPages}" th:href="@{/owner/account?page=(${currentPage + 1})}">Trang sau</a>
+	</div>
+
+
+	<script>
+	    function confirmDelete(url) {
+	        if (confirm("Bạn có chắc chắn muốn xóa nhân viên này không?")) {
+	            window.location.href = url;
+	            return true;
+	        }
+	        return false;
+	    }
+	</script>
+ </body>
+	
+</html>

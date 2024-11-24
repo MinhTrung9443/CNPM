@@ -14,4 +14,6 @@ public interface IAccountService {
 	<S extends Account> Optional<S> findOne(Example<S> example);
 
 	<S extends Account> S save(S entity);
+
+	void deleteByAccountId(Long id);
 }

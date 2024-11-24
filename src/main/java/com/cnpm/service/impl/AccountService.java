@@ -25,6 +25,11 @@ public class AccountService implements IAccountService{
 	public <S extends Account> Optional<S> findOne(Example<S> example) {
 		return accRepo.findOne(example);
 	}
+
+	@Override
+	public void deleteByAccountId(Long id) {
+		accRepo.deleteByAccountId(id);
+	}
 	
 	
 }
