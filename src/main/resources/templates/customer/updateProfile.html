@@ -106,13 +106,21 @@ footer {
 	<header th:replace="~{customer/fragments/header::header}"></header>
 
 	<div class="container">
-	<br><br><br><br><br><br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
 		<div class="card">
 			<div class="card-header">
 				<h2>Chỉnh sửa thông tin cá nhân</h2>
 			</div>
 			<div class="card-body">
 				<!-- Form chỉnh sửa thông tin -->
+				<div th:if="${error}" class="alert alert-danger">
+					<span th:text="${error}"></span>
+				</div>
 				<form action="/customer/update" method="POST" th:object="${user}">
 					<input type="text" id="userId" name="userId" th:field="*{userId}"
 						hidden="hidden" />

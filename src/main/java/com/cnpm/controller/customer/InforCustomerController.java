@@ -60,6 +60,14 @@ public class InforCustomerController {
             return "redirect:/signin"; 
         }
 
+        User existingUser = userService.findByEmail(updatedUser.getEmail());
+        if (existingUser != null && !existingUser.getUserId().equals(updatedUser.getUserId())) {
+            // Nếu email đã tồn tại và không phải của người dùng hiện tại
+            model.addAttribute("error", "Email đã được sử dụng, vui lòng nhập email khác.");
+            model.addAttribute("user", updatedUser);
+            return "customer/updateProfile"; // Quay lại trang chỉnh sửa
+        }
+        
         user.setBirthDate(updatedUser.getBirthDate());
         user.setFullName(updatedUser.getFullName());
         user.setEmail(updatedUser.getEmail());
