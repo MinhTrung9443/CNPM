@@ -68,6 +68,14 @@ public class InforCustomerController {
             return "customer/updateProfile"; // Quay lại trang chỉnh sửa
         }
         
+        User existing = userService.findByPhone(updatedUser.getPhone());
+        if (existing != null && !existing.getUserId().equals(updatedUser.getUserId())) {
+            // Nếu phone đã tồn tại và không phải của người dùng hiện tại
+            model.addAttribute("error", "Số điện thoại đã được sử dụng, vui lòng nhập số điện thoại khác.");
+            model.addAttribute("user", updatedUser);
+            return "customer/updateProfile"; // Quay lại trang chỉnh sửa
+        }
+        
         user.setBirthDate(updatedUser.getBirthDate());
         user.setFullName(updatedUser.getFullName());
         user.setEmail(updatedUser.getEmail());
