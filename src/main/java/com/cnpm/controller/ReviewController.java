@@ -32,8 +32,7 @@ public class ReviewController {
 		feedback.setFeedbackDate(LocalDateTime.now());
 		feedback.setCustomerId(customer.getUserId());
 		Product pro = feedbackservice.findById(productId).get();
-		for (int i = 0;i<10;i++)
-		System.out.println("ALLLLLLLLLLLLLLLLLLLLL" + feedback.toString());
+		
 		if (pro != null)
 		{
 			feedback.setProduct(pro);

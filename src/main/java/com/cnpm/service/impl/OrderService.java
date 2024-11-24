@@ -140,17 +140,16 @@ public class OrderService implements IOrderService {
 	public void deleteOrder(Long id) {
 		orderRepository.deleteById(id);
 	}
-	@Autowired
-	private OrderRepository orderrepo;
+
 
 	@Override
 	public Optional<Order> findById(Long id) {
-		return orderrepo.findById(id);
+		return orderRepository.findById(id);
 	}
 
 	@Override
 	public <S extends Order> S save(S entity) {
-		return orderrepo.save(entity);
+		return orderRepository.save(entity);
 	}
 	
 	
