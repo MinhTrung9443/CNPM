@@ -137,8 +137,8 @@ public class AuthController {
 		System.out.println(acc.toString() + " " + cus.toString());
 
 		userService.save(cus);
-		session.setAttribute("account", acc);
-		return new ModelAndView("redirect:/index", model);
+		session.setAttribute("user", cus);
+		return new ModelAndView("customer/index", model);
 	}
 
 	@PostMapping("/signin")
