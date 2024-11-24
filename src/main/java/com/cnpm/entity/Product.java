@@ -1,12 +1,22 @@
 package com.cnpm.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.*;
-import lombok.*;
-
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -37,7 +47,8 @@ public class Product implements Serializable {
     private String origin;
     @Column(columnDefinition = "nvarchar(max)")
     private String image;
-    private int isUsed=0;
+    @Column(nullable = false, columnDefinition = "int default 0")
+    private int isUsed;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
