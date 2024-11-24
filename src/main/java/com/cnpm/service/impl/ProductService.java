@@ -61,11 +61,6 @@ public class ProductService implements IProductService{
         return productRepository.countByCategory(category);
     }
 
-	@Override
-	public Page<Product> findProductsByCodeAndIsUsedAndProductId(String productCode, Long productId,
-			Pageable pageable) {
-		return productRepository.findProductsByCodeAndIsUsedAndProductId(productCode, productId, pageable);
-	}
 
 	@Override
 	public Optional<Product> findById(Long id) {

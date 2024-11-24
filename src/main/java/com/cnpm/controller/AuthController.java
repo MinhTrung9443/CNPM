@@ -88,10 +88,7 @@ public class AuthController {
 
 		boolean check = false;
 
-		if (!confirmPassword.equals(account.getPassword())) {
-			model.addAttribute("Confirmpass", "Mật khẩu không khớp");
-			check = true;
-		}
+		
 
 		if (userService.findByEmail(customer.getEmail()) != null) {
 			model.addAttribute("emailExit", "Email đã tồn tại");
@@ -102,15 +99,23 @@ public class AuthController {
 			model.addAttribute("phoneExit", "Số điện thoại đã tồn tại");
 			check = true;
 		}
+		
+		if (userService.findByUsername(account.getUsername()) != null) {
+			model.addAttribute("usernameExit", "Tên đăng nhập đã tồn tại");
+			check = true;
+		}
+		
+		if (!confirmPassword.equals(account.getPassword())) {
+			model.addAttribute("Confirmpass", "Mật khẩu không khớp");
+			check = true;
+		}
+		
 		String phoneRegex = "^\\d{10}$";
 		if (!Pattern.matches(phoneRegex, customer.getPhone())) {
 			model.addAttribute("phoneErr", "Số điện thoại không hợp lệ");
 			check = true;
 		}
-		if (userService.findByUsername(account.getUsername()) != null) {
-			model.addAttribute("usernameExit", "Tên đăng nhập đã tồn tại");
-			check = true;
-		}
+		
 		if (check == true) {
 			model.addAttribute("customer", customer);
 			return new ModelAndView("user/signup", model);
@@ -120,7 +125,7 @@ public class AuthController {
 		Account acc = new Account();
 		Role role = new Role();
 		role.setRoleId((long) 3);
-		role.setRoleName("user");
+		role.setRoleName("customer");
 
 		BeanUtils.copyProperties(customer, cus);
 		BeanUtils.copyProperties(account, acc);
@@ -196,9 +201,7 @@ public class AuthController {
 			@RequestParam String newPassword) {
 		String OTP = session.getAttribute("OTP").toString();
 		User user = (User) session.getAttribute("userSetpass");
-		if (user == null) {
-			System.out.println("null");
-		}
+
 		if (otp.equals(OTP)) {
 			user.getAccount().setPassword(newPassword);
 			accService.save(user.getAccount());

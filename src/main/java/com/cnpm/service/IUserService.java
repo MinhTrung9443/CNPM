@@ -9,6 +9,8 @@ import com.cnpm.entity.User;
 @Service
 public interface IUserService {
 	<S extends User> S save(S entity);
+	
+	
 
 	User findByEmail(String email);
 
@@ -19,4 +21,5 @@ public interface IUserService {
 	Account findByUsername(String username);
 
 	void delete(User entity);
+
 }

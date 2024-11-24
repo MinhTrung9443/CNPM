@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Order Details</title>
+<link rel="stylesheet" href="/css/styles.css">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link
+	href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"
+	rel="stylesheet">
+<!-- Icon fontanwesome -->
+<link rel="stylesheet"
+	href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+	integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+	crossorigin="anonymous">
+<!-- Reset css & grid sytem -->
+<link rel="stylesheet" href="/assets/css/library.css">
+<link href="/assets/owlCarousel/assets/owl.carousel.min.css"
+	rel="stylesheet">
+<!-- Layout -->
+<link rel="stylesheet" href="/assets/css/common.css">
+<!-- index -->
+<link href="/assets/css/home.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Owl caroucel Js-->
+<script src="/assets/owlCarousel/owl.carousel.min.js"></script>
+<style>
+h1 {
+	font-size: 32px;
+	margin-bottom: 20px;
+	text-align: center;
+	color: #333;
+}
+
+/* Định dạng tiêu đề phụ */
+h2 {
+	font-size: 24px;
+	margin-bottom: 15px;
+	color: #555;
+	border-bottom: 2px solid #ddd;
+	padding-bottom: 5px;
+}
+
+/* Định dạng bảng hiển thị thông tin sản phẩm */
+table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 20px;
+	background-color: #fff;
+}
+
+table th, table td {
+	padding: 15px;
+	text-align: center;
+	border: 1px solid #ddd;
+	font-size: 16px;
+}
+
+table th {
+	background-color: #e0e0e0;
+	color: #333;
+	font-weight: 600;
+}
+
+table tr:nth-child(even) {
+	background-color: #f2f2f2;
+}
+
+table tr:hover {
+	background-color: #e8f0fe;
+}
+
+/* Định dạng ảnh sản phẩm */
+table img {
+	width: 80px;
+	height: 80px;
+	object-fit: cover;
+	border-radius: 5px;
+	box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Định dạng phần thông tin đơn hàng và khách hàng */
+.order-info, .customer-info {
+	margin-bottom: 30px;
+}
+
+.order-info p, .customer-info p {
+	font-size: 16px;
+	line-height: 1.6;
+	color: #444;
+}
+
+.order-info p strong, .customer-info p strong {
+	color: #000;
+	font-weight: 600;
+}
+
+p {
+	font-size: 20px;
+	line-height: 1.6;
+	color: #444;
+}
+</style>
+</head>
+<body>
+	<header th:replace="~{customer/fragments/header::header}"></header>
+	<!-- Slider -->
+	<div class="main__slice">
+		<div class="slider">
+			<div class="slide active"
+				style="background-image: url(/assets/img/slider/slide-6.jpg)">
+				<div class="container">
+					<div class="caption">
+						<h1>Giảm giá 30%</h1>
+						<p>Giảm giá cực sốc trong tháng 6!</p>
+						<a href="listProduct.html" class="btn btn--default">Xem ngay</a>
+					</div>
+				</div>
+			</div>
+			<div class="slide active"
+				style="background-image: url(/assets/img/slider/slide-4.jpg)">
+				<div class="container">
+					<div class="caption">
+						<h1>Giảm giá 30%</h1>
+						<p>Giảm giá cực sốc trong tháng 6!</p>
+						<a href="listProduct.html" class="btn btn--default">Xem ngay</a>
+					</div>
+				</div>
+			</div>
+			<div class="slide active"
+				style="background-image: url(/assets/img/slider/slide-5.jpg)">
+				<div class="container">
+					<div class="caption">
+						<h1>Giảm giá 30%</h1>
+						<p>Giảm giá cực sốc trong tháng 6!</p>
+						<a href="listProduct.html" class="btn btn--default">Xem ngay</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- controls  -->
+		<div class="controls">
+			<div class="prev">
+				<i class="fas fa-chevron-left"></i>
+			</div>
+			<div class="next">
+				<i class="fas fa-chevron-right"></i>
+			</div>
+		</div>
+		<!-- indicators -->
+		<div class="indicator"></div>
+	</div>
+	<!--Product Category -->
+	<div class="containt">
+
+
+		<h1>Order Details</h1>
+
+		<!-- Thông tin chi tiết của đơn hàng -->
+		<div>
+			<h2>Order Information</h2>
+			<p>
+				<strong>Order ID:</strong> <span th:text="${order.orderId}"></span>
+			</p>
+			<p>
+				<strong>Order Date:</strong> <span th:text="${order.orderDate}"></span>
+			</p>
+			<p>
+				<strong>Shipping Address:</strong> <span
+					th:text="${order.shippingAddress}"></span>
+			</p>
+			<p>
+				<strong>Status:</strong> <span th:text="${order.orderStatus}" style="color: blue; "></span>
+			</p>
+			<p>
+				<strong>Delivery Date:</strong> <span
+					th:text="${order.deliveryDate}"></span>
+			</p>
+		</div>
+
+		<!-- Thông tin chi tiết của khách hàng -->
+		<div>
+			<h2>Customer Information</h2>
+			<p>
+				<strong>Name:</strong> <span th:text="${order.customer.fullName}"></span>
+			</p>
+			<p>
+				<strong>Email:</strong> <span th:text="${order.customer.email}"></span>
+			</p>
+			<p>
+				<strong>Phone:</strong> <span th:text="${order.customer.phone}"></span>
+			</p>
+		</div>
+
+		<!-- Danh sách sản phẩm trong đơn hàng -->
+		<div>
+			<h2>Order Items</h2>
+			<table border="1">
+				<thead>
+					<tr>
+						<th>Product Code</th>
+						<th>Product Name</th>
+						<th>Category</th>
+						<th>Brand</th>
+						<th>Cost</th>
+						<th>Quantity</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="orderLine : ${order.orderLines}">
+						<td><a href="#"><img th:src="@{${orderLine.product.image}}"
+							alt="Product Image"
+							style="width: 100px; height: 100px; object-fit: cover;"></a></td>
+						<td th:text="${orderLine.product.productName}"></td>
+						<td th:text="${orderLine.product.category}"></td>
+						<td th:text="${orderLine.product.brand}"></td>
+						<td th:text="${orderLine.product.cost}"></td>
+						<td th:text="${orderLine.quantity}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<footer th:replace="~{customer/fragments/footer::footer}"></footer>
+</body>
+</html>
