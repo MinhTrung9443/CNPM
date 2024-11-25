@@ -19,64 +19,153 @@
     <title>Giỏ Hàng</title>
 </head>
 <body>
-<!--<header th:replace="~{customer/fragments/header::header}"></header>-->
-<style>
 
+<style>
+    /* Tổng thể bố cục giỏ hàng */
     .main__cart {
         margin: 20px 0;
         padding: 20px;
-        border: 1px solid #ccc;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
     }
 
+    /* Dòng sản phẩm và các tiêu đề */
     .row {
         display: flex;
         justify-content: space-between;
-        padding: 10px 0;
+        align-items: center;
+        padding: 15px 0;
+        border-bottom: 1px solid #e5e5e5;
     }
 
     .title {
         font-weight: bold;
-        border-bottom: 2px solid #000;
+        font-size: 1.1rem;
+        border-bottom: 2px solid #007bff;
+        margin-bottom: 10px;
+        color: #333;
     }
 
-    .item {
-        border-bottom: 1px solid #eee;
+    .item:last-child {
+        border-bottom: none;
     }
 
+    /* Phần sản phẩm với hình ảnh */
     .main__cart-product {
         display: flex;
         align-items: center;
+        gap: 15px;
     }
 
     .main__cart-product img {
-        width: 70px;
-        height: 70px;
-        margin-right: 10px;
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        background-color: #fff;
     }
 
+    .main__cart-product .name {
+        font-size: 1rem;
+        color: #555;
+        font-weight: 500;
+    }
+
+    /* Giá sản phẩm */
     .main__cart-price {
         font-size: 1.2rem;
+        font-weight: 600;
+        color: #333;
     }
 
+    /* Nhập số lượng sản phẩm */
     .input-qty {
-        width: 50px;
+        width: 60px;
+        height: 35px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        text-align: center;
+        font-size: 1rem;
     }
 
+    /* Nút hành động */
     .btn {
-        padding: 5px 10px;
-        background-color: #007bff;
-        color: white;
-        border: none;
+        padding: 7px 15px;
+        border-radius: 5px;
+        font-size: 0.9rem;
+        transition: background-color 0.3s ease;
+        display: inline-block;
+        text-align: center;
         cursor: pointer;
+    }
+
+    .btn--default {
+        background-color: #28a745;
+        color: #fff;
+        margin-top: 20px;
+        display: inline-block;
+        text-decoration: none;
+        text-align: center;
+    }
+
+    .btn--default:hover {
+        background-color: #218838;
     }
 
     .btn.remove {
         background-color: #dc3545;
+        color: #fff;
+    }
+
+    .btn.remove:hover {
+        background-color: #c82333;
+    }
+
+    /* Tổng tiền */
+    .total-money {
+        font-size: 1.3rem;
+        font-weight: bold;
+        text-align: right;
+        margin: 20px 0;
+        color: #007bff;
     }
 </style>
+
+<header th:replace="~{customer/fragments/header::header}"></header>
+<!-- Slider -->
+		<div class="main__slice">
+			<div class="slider">
+				<div class="slide active"
+					style="background-image: url(/assets/img/slider/slide-10.jpg)">
+					<div class="container">
+						<div class="caption">
+
+							<p></p>
+							<a href="listProduct.html" class="btn btn--default">Xem ngay</a>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<!-- controls  -->
+			<div class="controls">
+				<div class="prev">
+					<i class="fas fa-chevron-left"></i>
+				</div>
+				<div class="next">
+					<i class="fas fa-chevron-right"></i>
+				</div>
+			</div>
+			<!-- indicators -->
+			<div class="indicator"></div>
+		</div>
+
 <div class="main">
     <div class="grid wide">
-        <h1>Giỏ Hàng</h1>
+        <h1 style="font-size: 25px; text-align: center">Giỏ Hàng</h1>
         <div class="main__cart">
             <div class="row title">
                 <div class="col">Sản phẩm</div>
@@ -115,6 +204,10 @@
         </div>
     </div>
 </div>
+<footer th:replace="~{customer/fragments/footer::footer}"></footer>
+
+		
+		
 <script src="/assets/js/cart.js"></script>
 <script>
     // Function to handle the removal of cart items
