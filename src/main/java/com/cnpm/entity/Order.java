@@ -24,7 +24,7 @@ public class Order implements Serializable {
 
     private LocalDateTime orderDate;
     private String shippingAddress;
-
+    private Double total;
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
@@ -32,7 +32,7 @@ public class Order implements Serializable {
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL,orphanRemoval = true)
     @JsonManagedReference
     private Set<OrderLine> orderLines=new HashSet<>();
 

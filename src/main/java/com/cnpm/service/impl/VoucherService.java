@@ -56,4 +56,14 @@ public class VoucherService {
             voucherRepository.save(voucher);
             return voucher;
     }
+    @Override
+    public Double getDiscount(String voucherCode) {
+        Voucher voucher = voucherRepository.findFirstByVoucherCodeAndIsUsedFalseAndStartDateBeforeAndEndDateAfter(voucherCode, LocalDateTime.now(), LocalDateTime.now()).orElseThrow(() -> new RuntimeException("Voucher "+voucherCode+" is not available"));
+        return voucher.getVoucherValue();
+    }
+
+    @Override
+    public Optional<Voucher> findFirst(String voucherCode) {
+        return voucherRepository.findFirstByVoucherCodeAndIsUsedFalseAndStartDateBeforeAndEndDateAfter(voucherCode, LocalDateTime.now(), LocalDateTime.now());
+    }
 }

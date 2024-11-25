@@ -1,9 +1,11 @@
 package com.cnpm.controller;
 
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -36,7 +38,8 @@ import jakarta.validation.Valid;
 public class AuthController {
 	@Autowired
 	IUserService userService;
-	@Autowired
+    @Qualifier("accountService")
+    @Autowired
 	IAccountService accService;
 	@Autowired
 	MailService mailservice;

@@ -16,8 +16,6 @@ public class OrderLine implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderLineId;
 
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     @ManyToOne
     @JsonManagedReference
     private Product product;

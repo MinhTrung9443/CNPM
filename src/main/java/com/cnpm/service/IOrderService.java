@@ -10,6 +10,8 @@ import com.cnpm.entity.Order;
 import com.cnpm.enums.OrderStatus;
 
 
+import java.time.LocalDateTime;
+
 @Service
 public interface IOrderService{
 
@@ -30,5 +32,9 @@ public interface IOrderService{
 	Optional<Order> findById(Long id);
 
 	<S extends Order> S save(S entity);
+	void updateOrderStatus(Long orderId, String paymentTime);
 
+    void updateOrderStatus(Long orderId);
+
+    Double getOrderTotal(Long orderId);
 }

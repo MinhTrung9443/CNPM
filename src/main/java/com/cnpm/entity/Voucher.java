@@ -16,9 +16,11 @@ public class Voucher implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long voucherId;
+    private String voucherCode;
     private Double voucherValue;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
+    private Boolean isUsed=false;
 
     @ManyToOne
     @JoinColumn(name = "orderId", referencedColumnName = "orderId")

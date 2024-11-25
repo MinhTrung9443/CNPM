@@ -12,7 +12,10 @@ import org.springframework.stereotype.Repository;
 import com.cnpm.entity.Product;
 
 import java.util.List;
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Repository
@@ -85,4 +88,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     	    )
     	""", nativeQuery = true)
     List<Product> findDistinctProductsByProductCode();
+	Optional<Long> countAllByProductCodeAndIsUsedFalse(String productCode);
+
+    Optional<Long> countAllByProductCodeAndIsUsedFalseOrIsUsedNull(String productCode);
+
+    Optional<Product> findFirstByProductCode(String productCode);
+    Optional<Product> findFirstByProductCodeAndIsUsedFalse(String productCode);
 }
