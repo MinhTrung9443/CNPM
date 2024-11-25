@@ -28,7 +28,7 @@ import com.cnpm.service.IAccountService;
 import com.cnpm.service.IUserService;
 import com.cnpm.service.mail.MailService;
 
-import io.netty.util.internal.ThreadLocalRandom;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;

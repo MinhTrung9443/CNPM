@@ -3,6 +3,7 @@ package com.cnpm.controller;
 
 import com.cnpm.dto.VoucherDTO;
 import com.cnpm.entity.Voucher;
+import com.cnpm.service.IVoucherService;
 import com.cnpm.service.impl.VoucherService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ import java.util.Optional;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class VoucherController {
 
-    VoucherService voucherService;
+    IVoucherService voucherService;
 
     @PostMapping("/add")
     public ResponseEntity<Voucher> creationVoucher(@RequestBody VoucherDTO request){

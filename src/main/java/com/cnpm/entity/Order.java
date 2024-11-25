@@ -36,10 +36,7 @@ public class Order implements Serializable {
     @JsonManagedReference
     private Set<OrderLine> orderLines=new HashSet<>();
 
-    @ManyToOne
-    @JoinColumn(name = "customerId", referencedColumnName = "userId")
-    @JsonBackReference
-    private Customer customer;
+    private Long customerId;
     
 
 }

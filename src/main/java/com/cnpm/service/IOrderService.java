@@ -32,7 +32,7 @@ public interface IOrderService{
 	Optional<Order> findById(Long id);
 
 	<S extends Order> S save(S entity);
-	void updateOrderStatus(Long orderId, String paymentTime);
+	void updateOrderStatusPaymentTime(Long orderId, String paymentTime);
 
     void updateOrderStatus(Long orderId);
 

@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cnpm.dto.ProductDTO;
+import com.cnpm.dto.ProductResponse;
 import com.cnpm.entity.Product;
-import com.cnpm.payload.response.ProductResponse;
 import com.cnpm.service.IProductService;
 
 import jakarta.servlet.annotation.MultipartConfig;

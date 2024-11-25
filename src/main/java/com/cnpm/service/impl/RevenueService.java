@@ -40,7 +40,7 @@ public class RevenueService implements IRevenueService {
             return new RevenueDTO(
                 payment.getPaymentId(),
                 payment.getPaymentDate(),
-                payment.getPaymentMethod(),
+                payment.getPaymentMethod().name(),
                 payment.getPaymentStatus(),
                 payment.getTotal(),
                 order.getOrderId(),

@@ -15,15 +15,9 @@ import com.cnpm.util.Logger;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import jakarta.persistence.EntityNotFoundException;
-
 import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -80,7 +74,7 @@ public class OrderService implements IOrderService {
 //                tìm và đánh dấu sản phẩm đã được mua
                 Product product1 = productRepository.findFirstByProductCodeAndIsUsedFalse(product.getProductCode())
                         .orElseThrow(() -> new RuntimeException("Product not found"));
-                product1.setIsUsed(true);
+                product1.setIsUsed(1);
                 productRepository.save(product1);
             }
             OrderLine orderLine = new OrderLine();
@@ -132,7 +126,7 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public void updateOrderStatus(Long orderId, String paymentTime) {
+    public void updateOrderStatusPaymentTime(Long orderId, String paymentTime) {
         Logger.log("updating order status");
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
@@ -185,21 +179,21 @@ public class OrderService implements IOrderService {
 	private OrderDetailEmployeeDTO mapToOrderDetailDTO(Order order) {
 		// Lấy thông tin khách hàng từ cơ sở dữ liệu (giả sử có một phương thức lấy
 		// thông tin khách hàng)
-		User customer = getUserById(order.getCustomer().getUserId());
+		User customer = getUserById(order.getCustomerId());
 		System.out.println(customer);
 		// Lấy thông tin thanh toán
 		Payment payment = paymentRepository.findByOrder_OrderId(order.getOrderId());
 
 		return OrderDetailEmployeeDTO.builder().orderId(order.getOrderId()).orderDate(order.getOrderDate())
 				.shippingAddress(order.getShippingAddress()).orderStatus(order.getOrderStatus().toString())
-				.deliveryDate(order.getDeliveryDate()).customerId(order.getCustomer().getUserId()) // Gán ID khách hàng
+				.deliveryDate(order.getDeliveryDate()).customerId(order.getCustomerId()) // Gán ID khách hàng
 				.customerName(customer.getFullName()) // Gán tên khách hàng
 				.accountNumber(String.valueOf(customer.getAccount().getAccountId()))
 				.orderLines(order.getOrderLines().stream().map(this::mapOrderLineToDTO) // Chuyển đổi từng OrderLine //
 																						// sang DTO
 						.collect(Collectors.toSet()))
 				// Thông tin thanh toán
-				.paymentMethod(payment != null ? payment.getPaymentMethod() : null)
+				.paymentMethod(payment != null ? payment.getPaymentMethod().name() : null)
 				.paymentStatus(payment != null ? payment.getPaymentStatus().toString() : null)
 				.paymentDate(payment != null ? payment.getPaymentDate().toString() : null)
 				.paymentTotal(payment != null ? payment.getTotal() : null).build();
