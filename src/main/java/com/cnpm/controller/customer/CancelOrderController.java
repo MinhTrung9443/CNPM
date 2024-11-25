@@ -1,4 +1,4 @@
-package com.cnpm.controller;
+package com.cnpm.controller.customer;
 
 import java.io.Serializable;
 import java.util.Optional;

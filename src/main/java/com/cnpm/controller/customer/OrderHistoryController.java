@@ -1,4 +1,4 @@
-package com.cnpm.controller;
+package com.cnpm.controller.customer;
 
 import com.cnpm.dto.ProductHistoryDTO;
 import com.cnpm.dto.PurchaseHistoryDTO;

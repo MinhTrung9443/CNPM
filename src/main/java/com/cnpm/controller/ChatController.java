@@ -1,6 +1,9 @@
 package com.cnpm.controller;
 
 import com.cnpm.model.ChatMessage;
+
+import jakarta.servlet.http.HttpSession;
+
 import com.cnpm.dto.SessionInfoDTO;
 
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -20,8 +23,14 @@ public class ChatController {
 
 	@GetMapping("/chat/{SessionInfoname}")
 	public String showChatPage(@PathVariable String SessionInfoname, Model model) {
-		model.addAttribute("SessionInfoname", SessionInfoname); // Truyền tên người dùng vào model
-		return "chat/index"; // Đảm bảo trả về đúng template
+		try {
+			model.addAttribute("SessionInfoname", SessionInfoname); // Truyền tên người dùng vào model
+			return "chat/index"; // Đảm bảo trả về đúng template
+		}
+		catch (Exception e) {
+			e.printStackTrace();// TODO: handle exception
+			return "redirect/signin";
+		}
 	}
 
 	// Phương thức gửi SessionInfoname vào WebSocket session

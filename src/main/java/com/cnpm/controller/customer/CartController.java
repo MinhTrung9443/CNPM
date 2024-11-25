@@ -55,6 +55,10 @@ public class CartController {
 	public String addProductToCart(@RequestParam Long productId, HttpSession session) {
 		
 		Customer user = (Customer) session.getAttribute("user");
+		if (user == null)
+		{
+			return "redirect:/signin";
+		}
 		for (int i = 0;i<10;i++)
 		{
 			System.out.println("asdfasdfas" + user.toString());

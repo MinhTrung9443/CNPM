@@ -37,7 +37,7 @@ body {
 	background-color: white;
 }
 
-form {
+.form-signin {
 	width: 100%;
 	max-width: 400px;
 	padding: 20px;
@@ -130,7 +130,7 @@ button:hover {
 }
 </style>
 </head>
-<body>
+<body style="font-size: 20px">
 	<header th:replace="~{customer/fragments/header::header}"></header>
 	<div class="main__slice">
 		<div class="slider">
@@ -179,7 +179,7 @@ button:hover {
 	</div>
 	<div class="main">
 		<div class="signinForm">
-			<form action="/signin" method="post">
+			<form class="form-signin" action="/signin" method="post">
 				<div th:if="${Err != null}">
 					<span th:text="${Err}" class="error"></span>
 				</div>

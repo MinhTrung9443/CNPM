@@ -1,4 +1,4 @@
-package com.cnpm.controller;
+package com.cnpm.controller.owner;
 
 
 import com.cnpm.dto.VoucherDTO;
