@@ -37,7 +37,7 @@
 		<a class="btn btn-primary" href="/employee/products/create">Create
 			Product</a>
 
-		<table class="table">
+		<table class="table" style="margin-left:-70px; width: 100%; word-wrap: break-word;">
 			<thead>
 				<tr>
 					<th>Product Code</th>
@@ -62,18 +62,22 @@
 					<td th:text="${product.productCode}"></td>
 					<td th:text="${product.productName}"></td>
 					<td th:text="@{${product.cost} + '$'}"></td>
-					<td th:text="${product.description}"></td>
+					<td th:text="${product.description.substring(0, product.description.length < 50 ? product.description.length : 50) + '...'}"></td>
 					<td th:text="${product.category}"></td>
 					<td th:text="${product.brand}"></td>
 					<td th:text="${product.expirationDate}"></td>
 					<td th:text="${product.manufactureDate}"></td>
-					<td th:text="${product.ingredient}"></td>
-					<td th:text="${product.how_to_use}"></td>
+					<td th:text="${product.ingredient.substring(0, product.ingredient.length < 50 ? product.ingredient.length : 50) + '...'}"></td>
+					<td th:text="${product.how_to_use.substring(0, product.how_to_use.length < 50 ? product.how_to_use.length : 50) + '...'}"></td>
 					<td th:text="${product.volume}"></td>
 					<td th:text="${product.origin}"></td>
 
-					<td><img th:src="@{'/assets/img/product/' + ${product.image}}"
-						alt="..." width="100"></td>
+					<td th:if="${product.image.substring(0,4) != 'http'}"><img
+						th:src="@{'/assets/img/product/' + ${product.image}}" alt="..."
+						width="100"></td>
+					<td th:if="${product.image.substring(0,4) == 'http'}"><img
+						th:src="${product.image}" alt="..."
+						width="100"></td>
 					<td th:text="${product.stock}"></td>
 					<td style="white-space: nowrap"><a
 						class="btn btn-primary btn-sm"
@@ -84,27 +88,52 @@
 				</tr>
 			</tbody>
 		</table>
-		<nav aria-label="Page navigation example">
+
+		<nav aria-label="Page navigation example" style="display: flex; justify-content: center;">
 			<ul class="pagination">
 				<!-- Nút "Previous" -->
 				<li class="page-item"
 					th:classappend="${currentPage == 1} ? 'disabled'"><a
-					class="page-link" th:href="@{'/page/' + (${currentPage} - 1)}">Previous</a>
-				</li>
-				<!-- Các số trang -->
-				<li class="page-item"
-					th:each="i : ${#numbers.sequence(1, totalPages)}"
-					th:classappend="${i == currentPage} ? 'active'"><a
-					class="page-link" th:href="@{'/page/' + i}" th:text="${i}"></a></li>
+					class="page-link"
+					th:href="${currentPage > 1} ? @{'/employee/products/page/' + ${currentPage-1}} : '#'"
+					aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+				</a></li>
 
+				<!-- Hiển thị các số trang -->
+				<li class="page-item" th:if="${currentPage > 3}"><a
+					class="page-link" th:href="@{'/employee/products/page/' + 1}">1</a>
+				</li>
+				<li class="page-item disabled" th:if="${currentPage > 4}"><a
+					class="page-link">...</a></li>
+
+				<!-- Hiển thị trang trước, trang hiện tại và trang tiếp theo -->
+				<li class="page-item"
+					th:each="i : ${#numbers.sequence(currentPage - 1, currentPage + 1)}"
+					th:if="${i >= 1 and i <= totalPages}"
+					th:classappend="${i == currentPage} ? 'active'"><a
+					class="page-link" th:href="@{'/employee/products/page/' + ${i}}"
+					th:text="${i}"></a></li>
+
+				<li class="page-item disabled"
+					th:if="${currentPage < totalPages - 3}"><a class="page-link">...</a>
+				</li>
+				<li class="page-item" th:if="${currentPage < totalPages - 2}">
+					<a class="page-link"
+					th:href="@{'/employee/products/page/' + ${totalPages}}"
+					th:text="${totalPages}"></a>
+				</li>
 
 				<!-- Nút "Next" -->
 				<li class="page-item"
 					th:classappend="${currentPage == totalPages} ? 'disabled'"><a
-					class="page-link" th:href="@{'/page/' + (${currentPage} + 1)}">Next</a>
-				</li>
+					class="page-link"
+					th:href="${currentPage < totalPages} ? @{'/employee/products/page/' + ${currentPage+1}} : '#'"
+					aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+				</a></li>
 			</ul>
 		</nav>
+
+
 	</div>
 
 	<footer th:replace="~{employee/fragments/footer :: footer}"></footer>

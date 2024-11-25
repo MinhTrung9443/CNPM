@@ -186,7 +186,10 @@
 								th:href="@{/product/{productId}(productId=${product.productId})}"
 								class="btn-link">Xem chi tiết</a>
 						</button>
-						<button class="btn">Thêm vào giỏ</button>
+						<button class="btn">
+							<a
+								th:href="@{'/add-to-cart?productId=' + ${product.productId}}" class="btn">Thêm vào giỏ hàng</a>
+						</button>
 					</div>
 					<div class="product-info">
 						<h3 th:text="${product.productName}"></h3>

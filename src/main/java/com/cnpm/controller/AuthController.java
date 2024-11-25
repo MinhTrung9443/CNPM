@@ -1,5 +1,6 @@
 package com.cnpm.controller;
 
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Pattern;
 
@@ -21,10 +22,12 @@ import com.cnpm.dto.mail.MailDto;
 import com.cnpm.entity.Account;
 import com.cnpm.entity.Customer;
 import com.cnpm.entity.Employee;
+import com.cnpm.entity.Product;
 import com.cnpm.entity.Role;
 import com.cnpm.entity.ShopOwner;
 import com.cnpm.entity.User;
 import com.cnpm.service.IAccountService;
+import com.cnpm.service.IProductService;
 import com.cnpm.service.IUserService;
 import com.cnpm.service.mail.MailService;
 
@@ -45,6 +48,8 @@ public class AuthController {
 	MailService mailservice;
 	@Autowired
 	private HttpServletRequest request;
+	@Autowired
+	private IProductService productService;
 	
 	@GetMapping("/signup")
 	String signup(Model model, HttpSession session) {
@@ -76,6 +81,8 @@ public class AuthController {
     @GetMapping("/signout")
     public String signout(Model model, HttpSession session) {
         session.invalidate();
+        List<Product> allProducts = productService.findAllDistinctProduct();
+        model.addAttribute("products", allProducts);
         return "customer/index";
     }
 
@@ -153,6 +160,8 @@ public class AuthController {
 
         int roleid = account.getRole().getRoleId().intValue();
         if (roleid == 3 && account.getUser() instanceof Customer) {
+        	List<Product> allProducts = productService.findAllDistinctProduct();
+            model.addAttribute("products", allProducts);
             Customer customer = (Customer) account.getUser();
             session.setAttribute("user", customer);
             session.setAttribute("username", username); // Set username in session

@@ -286,8 +286,10 @@ hr {
 						th:text="${product.stock} + ' sản phẩm có sẵn'"></span>
 				</p>
 				<div class="product-actions">
-					<button th:disabled="${product.stock == 0}">Thêm vào giỏ
-						hàng</button>
+					<button th:disabled="${product.stock == 0}">
+						<a th:href="@{'/add-to-cart?productId=' + ${product.productId}}"
+							class="btn">Thêm vào giỏ hàng</a>
+					</button>
 					<div class="product-info">
 						<i class="fas fa-check-circle"></i> Hàng chính hãng 100%
 					</div>

@@ -17,11 +17,18 @@ public class HomeController {
     @Autowired
     private ProductService productService;
 
-    @GetMapping("/")
+    @GetMapping({"", "/index", "/index.html", "/customer/index.html", "/Customer*/index"})
     public String showHomePage(Model model) {
         // Lấy danh sách tất cả sản phẩm
         List<Product> allProducts = productService.findAllDistinctProduct();
         model.addAttribute("products", allProducts);
         return "customer/index";
+    }
+    @GetMapping({"/employee/index.html", "/employee*/index"})
+    public String showEmployeePage(Model model) {
+        // Lấy danh sách tất cả sản phẩm
+        List<Product> allProducts = productService.findAllDistinctProduct();
+        model.addAttribute("products", allProducts);
+        return "Employee/index";
     }
 }
