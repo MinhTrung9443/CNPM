@@ -13,7 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@Controller
+@Controller("/employee")
 public class ChatController {
 
 	@GetMapping("/chat/{SessionInfoname}")
