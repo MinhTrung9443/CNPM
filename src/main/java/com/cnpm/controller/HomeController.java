@@ -13,7 +13,7 @@ import com.cnpm.entity.Product;
 import com.cnpm.service.impl.ProductService;
 
 @Controller
-@RequestMapping("")
+@RequestMapping("/")
 public class HomeController {
     @Autowired
     private ProductService productService;
