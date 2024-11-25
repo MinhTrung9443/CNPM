@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Quản Lý Đơn Hàng</title>
+	    <!-- Our files -->
+    <link rel="stylesheet" href="/employee/header.css">
+    <link rel="stylesheet" href="/employee/footer.css">
 	<style>
 		body {
 			font-family: Arial, sans-serif;
@@ -217,7 +220,7 @@
 
 		</table>
 	</div>
-
+<footer th:replace="~{employee/fragments/footer::footer}"></footer>
 </body>
 
 </html>
