@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.mock.web.MockMultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -82,19 +84,21 @@ public class ProductService implements IProductService{
 
             // Tạo đối tượng ProductDTO
             ProductDTO productDTO = new ProductDTO();
-            productDTO.setProductCode(product.getProductCode());
-            productDTO.setProductName(product.getProductName());
-            productDTO.setCategory(product.getCategory());
-            productDTO.setCost(product.getCost());
-            productDTO.setDescription(product.getDescription());
-            productDTO.setBrand(product.getBrand());
-            productDTO.setManufactureDate(product.getManufactureDate());
-            productDTO.setExpirationDate(product.getExpirationDate());
-            productDTO.setIngredient(product.getIngredient());
-            productDTO.setHow_to_use(product.getHow_to_use());
-            productDTO.setVolume(product.getVolume());
-            productDTO.setOrigin(product.getOrigin());
-            productDTO.setImage(product.getImage());
+//            productDTO.setProductCode(product.getProductCode());
+//            productDTO.setProductName(product.getProductName());
+//            productDTO.setCategory(product.getCategory());
+//            productDTO.setCost(product.getCost());
+//            productDTO.setDescription(product.getDescription());
+//            productDTO.setBrand(product.getBrand());
+//            productDTO.setManufactureDate(product.getManufactureDate());
+//            productDTO.setExpirationDate(product.getExpirationDate());
+//            productDTO.setIngredient(product.getIngredient());
+//            productDTO.setHow_to_use(product.getHow_to_use());
+//            productDTO.setVolume(product.getVolume());
+//            productDTO.setOrigin(product.getOrigin());
+//            productDTO.setImage(product.getImage());
+            
+            BeanUtils.copyProperties(product, productDTO);
 
             // Lấy tồn kho từ productCode
             Long stock = getStockByProductCode(product.getProductCode());

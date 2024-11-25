@@ -17,6 +17,7 @@ import java.util.List;
 
 import com.cnpm.entity.ProductFeedback;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 @AllArgsConstructor
@@ -36,8 +37,10 @@ public class ProductDTO {
     @NotEmpty(message="The brand is required")
     private String brand;
     @NotNull(message = "The manufacture date is required")
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDate manufactureDate;
     @NotNull(message = "The expiration date is required")
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDate expirationDate;
     @NotEmpty(message="The ingredient is required")
     private String ingredient;

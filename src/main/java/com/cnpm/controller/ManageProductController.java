@@ -67,10 +67,6 @@ public class ManageProductController {
 			return "employee/createProduct";
 		}
 
-		
-
-		
-
 		for (long i = 0; i < productdto.getStock(); i++) {
 			
 			// save image file

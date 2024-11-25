@@ -29,7 +29,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 			        GROUP BY productCode
 			    )
 			""", nativeQuery = true, countQuery = "SELECT COUNT(*) FROM (SELECT DISTINCT productCode FROM Product) tmp")
-	Page<Product> findDistinctProduct(Pageable pageable);
+	Page<Product> findDistinctProduct(Pageable pageable);//
 
 	@Query(value = """
 			    SELECT *
@@ -45,7 +45,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 			    SELECT COUNT(*)
 			    FROM (SELECT DISTINCT productCode FROM Product WHERE category = :category) AS tmp
 			""")
-	Page<Product> findDistinctProductsByProductCodeAndCategory(@Param("category") String category, Pageable pageable);
+	Page<Product> findDistinctProductsByProductCodeAndCategory(@Param("category") String category, Pageable pageable);//
 
 	Long countByCategory(String category);
 
@@ -74,5 +74,15 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     	    WHERE p.productCode = :productCode
     	""", nativeQuery = true)
     List<Product> findProductsByProductCode(@Param("productCode") String productCode);
-
+    
+    @Query(value = """
+    	    SELECT p.*
+    	    FROM Product p
+    	    WHERE p.productId IN (
+    	        SELECT MIN(productId)
+    	        FROM Product
+    	        GROUP BY productCode
+    	    )
+    	""", nativeQuery = true)
+    List<Product> findDistinctProductsByProductCode();
 }

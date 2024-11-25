@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
@@ -36,7 +38,9 @@ public class Product implements Serializable {
     private String description;
     @Column(columnDefinition = "nvarchar(max)")
     private String brand;
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDate manufactureDate;
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDate expirationDate;
     @Column(columnDefinition = "nvarchar(max)")
     private String ingredient;

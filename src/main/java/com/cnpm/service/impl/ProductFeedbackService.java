@@ -39,12 +39,6 @@ public class ProductFeedbackService implements IProductFeedbackService {
     }
 
 	@Override
-	public Optional<Product> findByProductCode(String productCode) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
-	}
-
-	@Override
 	public List<ProductFeedback> findAllByCustomerIdAndProduct_ProductId(long customerId, long productId) {
 		return feedbackrepo.findAllByCustomerIdAndProduct_ProductId(customerId, productId);
 	}
