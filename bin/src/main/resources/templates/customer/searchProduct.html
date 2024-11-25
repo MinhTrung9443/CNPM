@@ -476,14 +476,16 @@ h3 {
 			<div class="product-container">
 				<!-- Hiển thị sản phẩm -->
 				<div class="product-card" th:each="product : ${products}">
-					<img th:src="@{${product.image}}" alt="Product Image" />
+					<img th:if="${product.image.substring(0,4) != 'http'}" th:src="@{'/assets/img/product/' + ${product.image}}" alt="Product Image" />
+					<img th:if="${product.image.substring(0,4) == 'http'}" th:src="${product.image}" alt="Product Image" />
 					<div class="overlay">
 						<button>
-							<a
-								th:href="@{/product/{productId}(productId=${product.productId})}"
-								class="btn">Xem chi tiết</a>
+							<a th:href="@{/product/{productId}(productId=${product.productId})}" class="btn">Xem chi tiết</a>
 						</button>
-						<button th:text="'Thêm vào giỏ'"></button>
+						<button>
+							<a
+								th:href="@{'/add-to-cart?productId=' + ${product.productId}}" class="btn">Thêm vào giỏ hàng</a>
+						</button>
 					</div>
 					<div class="product-info">
 						<h3 th:text="${product.productName}"></h3>

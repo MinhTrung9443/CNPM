@@ -183,4 +183,9 @@ public class ProductService implements IProductService{
     {
     	return productRepository.findProductsByProductCode(productCode);
     }
+    
+    public List<Product> findProductsByCategory(String category) {
+        return productRepository.findDistinctProductsByCategory(category);
+    }
+
 }

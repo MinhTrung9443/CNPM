@@ -2,15 +2,26 @@
 <html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"><!-- Icon fontanwesome -->
-  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"><!-- Reset css & grid sytem -->
-  <link rel="stylesheet" href="/assets/css/library.css">
-  <link href="/assets/owlCarousel/assets/owl.carousel.min.css" rel="stylesheet"><!-- Layout -->
-  <link rel="stylesheet" href="/assets/css/common.css"><!-- index -->
-  <link href="/assets/css/home.css" rel="stylesheet">
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script><!-- Owl caroucel Js-->
-  <script src="/assets/owlCarousel/owl.carousel.min.js"></script>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link
+	href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"
+	rel="stylesheet">
+<!-- Icon fontanwesome -->
+<link rel="stylesheet"
+	href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+	integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+	crossorigin="anonymous">
+<!-- Reset css & grid sytem -->
+<link rel="stylesheet" href="/assets/css/library.css">
+<link href="/assets/owlCarousel/assets/owl.carousel.min.css"
+	rel="stylesheet">
+<!-- Layout -->
+<link rel="stylesheet" href="/assets/css/common.css">
+<!-- index -->
+<link href="/assets/css/home.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Owl caroucel Js-->
+<script src="/assets/owlCarousel/owl.carousel.min.js"></script>
 </head>
 <body>
 	<header th:fragment="header">
@@ -42,11 +53,10 @@
 							href="/signup" class="header__account-register">Đăng Kí</a>
 					</div>
 					<div class="header__account" th:if="${session.user != null}">
-						<a href="/customer/profile" class="header__account-login">Tài khoản
-							cá nhân</a>
-							<li class="header__nav-item">
-								<a href="/signout" class="header__nav-link">Đăng xuất</a>
-							</li>
+						<a href="/customer/profile" class="header__account-login">Tài
+							khoản cá nhân</a>
+						<li class="header__nav-item"><a href="/signout"
+							class="header__nav-link">Đăng xuất</a></li>
 
 					</div>
 					<!-- Cart -->
@@ -90,26 +100,30 @@
 						class="header__nav-link">Sản Phẩm</a>
 						<div class="sub-nav-wrap">
 							<ul class="sub-nav">
-								<li class="sub-nav__item"><a href="" class="sub-nav__link">Wellness</a></li>
-								<li class="sub-nav__item"><a href="" class="sub-nav__link">Body</a></li>
-								<li class="sub-nav__item"><a href="" class="sub-nav__link">Make
+								<li class="sub-nav__item"><a
+									href="/products?category=Wellness" class="sub-nav__link">Wellness</a></li>
+								<li class="sub-nav__item"><a href="/products?category=Body"
+									class="sub-nav__link">Body</a></li>
+								<li class="sub-nav__item"><a
+									href="/products?category=Make up" class="sub-nav__link">Make
 										up</a></li>
-								<li class="sub-nav__item"><a href="" class="sub-nav__link">Hair</a></li>
-								<li class="sub-nav__item"><a href="" class="sub-nav__link">Skin</a></li>
+								<li class="sub-nav__item"><a href="/products?category=Hair"
+									class="sub-nav__link">Hair</a></li>
+								<li class="sub-nav__item"><a href="/products?category=Skin"
+									class="sub-nav__link">Skin</a></li>
 							</ul>
 						</div></li>
+
 
 					<li class="header__nav-item"><a href="news.html"
 						class="header__nav-link">Tin Tức</a></li>
 					<li class="header__nav-item"><a href="contact.html"
 						class="header__nav-link">Liên Hệ</a></li>
-						<li class="header__nav-item">
-							<a th:href="@{/chat/{username}(username=${session.username})}" class="header__nav-link">
-								<!-- Sử dụng icon bong bóng chat -->
-								<i class="fa-solid fa-comment"></i> Chat với nhân viên
-							</a>
-	
-						</li>
+					<li class="header__nav-item"><a
+						th:href="@{/chat/{username}(username=${session.username})}"
+						class="header__nav-link"> <!-- Sử dụng icon bong bóng chat -->
+							<i class="fa-solid fa-comment"></i> Chat với nhân viên
+					</a></li>
 				</ul>
 			</div>
 		</div>

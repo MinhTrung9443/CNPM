@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cnpm.entity.Product;
 import com.cnpm.service.impl.ProductService;
@@ -31,4 +32,25 @@ public class HomeController {
         model.addAttribute("products", allProducts);
         return "Employee/index";
     }
+    
+    @GetMapping("/products")
+    public String showProductsByCategory(
+        @RequestParam(value = "category", required = false) String category,
+        Model model) {
+        
+        List<Product> products;
+
+        if (category != null && !category.isEmpty()) {
+            // Lấy danh sách sản phẩm theo thể loại
+            products = productService.findProductsByCategory(category);
+        } else {
+            // Lấy danh sách tất cả sản phẩm
+            products = productService.findAllDistinctProduct();
+        }
+        
+        model.addAttribute("products", products);
+        model.addAttribute("selectedCategory", category);
+        return "customer/index";
+    }
+
 }

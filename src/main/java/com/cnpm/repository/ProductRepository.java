@@ -94,4 +94,17 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Optional<Product> findFirstByProductCode(String productCode);
     Optional<Product> findFirstByProductCodeAndIsUsedFalse(String productCode);
+
+    @Query(value = """
+    	    SELECT *
+    	    FROM Product p
+    	    WHERE p.productId IN (
+    	        SELECT MIN(productId)
+    	        FROM Product
+    	        WHERE category = :category AND isUsed = 0
+    	        GROUP BY productCode
+    	    )
+    	""", nativeQuery = true)
+    	List<Product> findDistinctProductsByCategory(@Param("category") String category);
+
 }
