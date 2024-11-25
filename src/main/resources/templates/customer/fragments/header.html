@@ -44,6 +44,9 @@
 					<div class="header__account" th:if="${session.user != null}">
 						<a href="customer/profile" class="header__account-login">Tài khoản
 							cá nhân</a>
+							<li class="header__nav-item">
+								<a href="signout" class="header__nav-link">Đăng xuất</a>
+							</li>
 
 					</div>
 					<!-- Cart -->
@@ -100,6 +103,13 @@
 						class="header__nav-link">Tin Tức</a></li>
 					<li class="header__nav-item"><a href="contact.html"
 						class="header__nav-link">Liên Hệ</a></li>
+						<li class="header__nav-item">
+							<a th:href="@{chat/{username}(username=${session.username})}" class="header__nav-link">
+								<!-- Sử dụng icon bong bóng chat -->
+								<i class="fa-solid fa-comment"></i> Chat với nhân viên
+							</a>
+	
+						</li>
 				</ul>
 			</div>
 		</div>

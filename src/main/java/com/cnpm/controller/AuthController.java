@@ -50,7 +50,7 @@ public class AuthController {
 	String signup(Model model, HttpSession session) {
 		session = request.getSession(false);
 		String url = checkSignIn(session);
-		if (url != "")
+		if (url.isEmpty())
 		{
 			return url;
 		}
@@ -59,44 +59,42 @@ public class AuthController {
 		return "user/signup";
 	}
 
-	@GetMapping("/signin")
-	String signin(Model model, HttpSession session) {
-		session = request.getSession(false);
-		String url = checkSignIn(session);
-		if (url != "")
-		{
-			return url;
-		}
-		return "user/signin";
-	}
+    @GetMapping("/signin")
+    public String signin(Model model, HttpSession session) {
+        String url = checkSignIn(session);
+        if (!url.isEmpty()) {
+            return url;
+        }
+        return "user/signin";
+    }
 
-	@GetMapping("/forgotpass")
-	public String forgotPass() {
-		return "user/forgotPass";
-	}
+    @GetMapping("/forgotpass")
+    public String forgotPass() {
+        return "user/forgotPass";
+    }
 
-	@GetMapping("/signout")
-	public String signout(Model model, HttpSession session) {
-		session.invalidate();
-		return "customer/index";
-	}
+    @GetMapping("/signout")
+    public String signout(Model model, HttpSession session) {
+        session.invalidate();
+        return "customer/index";
+    }
 
-	@PostMapping("/signup")
-	public ModelAndView SignUp(ModelMap model, HttpSession session, @Valid @ModelAttribute Customer customer,
-			@Valid @ModelAttribute Account account, @RequestParam String confirmPassword, BindingResult result) {
-		if (result.hasErrors()) {
-			model.addAttribute("customer", customer);
-			return new ModelAndView("/signup", model);
-		}
+    @PostMapping("/signup")
+    public ModelAndView SignUp(ModelMap model, HttpSession session, @Valid @ModelAttribute Customer customer,
+            @Valid @ModelAttribute Account account, @RequestParam String confirmPassword, BindingResult result) {
+        if (result.hasErrors()) {
+            model.addAttribute("customer", customer);
+            return new ModelAndView("user/signup", model);
+        }
 
-		boolean check = false;
+        boolean check = false;
 
 		
 
-		if (userService.findByEmail(customer.getEmail()) != null) {
-			model.addAttribute("emailExit", "Email đã tồn tại");
-			check = true;
-		}
+        if (userService.findByEmail(customer.getEmail()) != null) {
+            model.addAttribute("emailExit", "Email đã tồn tại");
+            check = true;
+        }
 
 		if (userService.findByPhone(customer.getPhone()) != null) {
 			model.addAttribute("phoneExit", "Số điện thoại đã tồn tại");
@@ -130,14 +128,13 @@ public class AuthController {
 		role.setRoleId((long) 3);
 		role.setRoleName("customer");
 
-		BeanUtils.copyProperties(customer, cus);
-		BeanUtils.copyProperties(account, acc);
+        BeanUtils.copyProperties(customer, cus);
+        BeanUtils.copyProperties(account, acc);
 
 		acc.setRole(role);
 		acc.setUser(cus);
 		cus.setAccount(acc);
 
-		System.out.println(acc.toString() + " " + cus.toString());
 
 		userService.save(cus);
 		Customer newCustomer = (Customer) userService.findByEmail(cus.getEmail());
@@ -145,60 +142,65 @@ public class AuthController {
 		return new ModelAndView("customer/index", model);
 	}
 
-	@PostMapping("/signin")
-	public ModelAndView signin(ModelMap model, HttpSession session, @RequestParam String username,
-			@RequestParam String password) {
+    @PostMapping("/signin")
+    public ModelAndView signin(ModelMap model, HttpSession session, @RequestParam String username,
+            @RequestParam String password) {
+        Account account = userService.findByUsernameAndPassword(username, password);
+        if (account == null) {
+            model.addAttribute("Err", "Tên đăng nhập hoặc mật khẩu không đúng");
+            return new ModelAndView("user/signin", model);
+        }
 
-		Account account = userService.findByUsernameAndPassword(username, password);
-		if (account == null) {
-			model.addAttribute("Err", "Ten dang nhap hoac mat khau khong dung");
-			return new ModelAndView("user/signin", model);
-		}
-		long roleid = account.getRole().getRoleId();
-		if (roleid == 3) {
-			Customer customer = (Customer) account.getUser();
-			session.setAttribute("user", customer);
-			return new ModelAndView("customer/index", model);
-		} else if (roleid == 2) {
-			Employee employee = (Employee) account.getUser();
-			session.setAttribute("user", employee);
-			return new ModelAndView("employee/index", model);
-		} else {
-			ShopOwner owner = (ShopOwner) account.getUser();
-			session.setAttribute("user", owner);
-			return new ModelAndView("owner/index", model);
-		}
-	}
+        int roleid = account.getRole().getRoleId().intValue();
+        if (roleid == 3 && account.getUser() instanceof Customer) {
+            Customer customer = (Customer) account.getUser();
+            session.setAttribute("user", customer);
+            session.setAttribute("username", username); // Set username in session
+            return new ModelAndView("customer/index", model);
+        } else if (roleid == 2 && account.getUser() instanceof Employee) {
+            Employee employee = (Employee) account.getUser();
+            session.setAttribute("user", employee);
+            session.setAttribute("username", username); // Set username in session
+            return new ModelAndView("employee/index", model);
+        } else if (roleid == 1 && account.getUser() instanceof ShopOwner) {
+            ShopOwner owner = (ShopOwner) account.getUser();
+            session.setAttribute("user", owner);
+            session.setAttribute("username", username); // Set username in session
+            return new ModelAndView("owner/index", model);
+        } else {
+            model.addAttribute("Err", "Invalid user role or user type.");
+            return new ModelAndView("user/signin", model);
+        }
+    }
 
-	@PostMapping("/forgotpass")
-	public ModelAndView forgotpass(ModelMap model, HttpSession session, @RequestParam String email) {
-		try {
-			User user = userService.findByEmail(email);
-			if (user != null) {
-				StringBuilder randomNumber = new StringBuilder();
 
-				for (int i = 0; i < 5; i++) {
-					randomNumber.append(ThreadLocalRandom.current().nextInt(10));
-				}
-				String OTP = randomNumber.toString();
-				String content = "Mã OTP: " + OTP
-						+ "\n Lưu ý: Mã OTP tồn tại trong 10p. Quá 10p Mời thực hiện lại quy trình đổi mật khẩu!!!!";
-				MailDto mail = new MailDto();
-				mail.setEmail(user.getEmail());
-				mail.setDescription(content);
-				mail.setName("OTP");
-				mailservice.sendEmail(mail);
-				session.setAttribute("userSetpass", user);
-				session.setAttribute("OTP", OTP);
-				session.setMaxInactiveInterval(10 * 60);
-				return new ModelAndView("user/AuthOTP", model);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return new ModelAndView("customer/index", model);
-
-	}
+    @PostMapping("/forgotpass")
+    public ModelAndView forgotpass(ModelMap model, HttpSession session, @RequestParam String email) {
+        try {
+            User user = userService.findByEmail(email);
+            if (user != null) {
+                StringBuilder randomNumber = new StringBuilder();
+                for (int i = 0; i < 5; i++) {
+                    randomNumber.append(ThreadLocalRandom.current().nextInt(10));
+                }
+                String OTP = randomNumber.toString();
+                String content = "Mã OTP: " + OTP
+                        + "\n Lưu ý: Mã OTP tồn tại trong 10p. Quá 10p Mời thực hiện lại quy trình đổi mật khẩu!!!!";
+                MailDto mail = new MailDto();
+                mail.setEmail(user.getEmail());
+                mail.setDescription(content);
+                mail.setName("OTP");
+                mailservice.sendEmail(mail);
+                session.setAttribute("userSetpass", user);
+                session.setAttribute("OTP", OTP);
+                session.setMaxInactiveInterval(10 * 60);
+                return new ModelAndView("user/AuthOTP", model);
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // TODO: handle exception
+        }
+        return new ModelAndView("customer/index", model);
+    }
 
 	@PostMapping("/resetpassword")
 	public ModelAndView resetPassword(ModelMap model, HttpSession session, @RequestParam String otp,
