@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.cnpm.dto.ProductDTO;
+import com.cnpm.dto.ProductResponse;
 import com.cnpm.entity.Product;
 import com.cnpm.entity.ProductFeedback;
 import com.cnpm.service.impl.ProductFeedbackService;
@@ -27,10 +28,11 @@ public class ProductDetailController {
     @GetMapping("/{productId}")
     public String viewProductDetail(@PathVariable("productId") Long productId, Model model) {
         // Lấy thông tin sản phẩm dạng DTO
-        ProductDTO productDTO = productService.getProductDTOById(productId);
-
+    	ProductResponse productDTO = productService.getProductDTOById(productId);
+    	
         if (productDTO != null) {
             // Lấy danh sách feedback dựa trên productCode
+        	System.out.println(productDTO.toString());
             List<ProductFeedback> productFeedbacks = productFeedbackService.getFeedbacksByProductCode(productDTO.getProductCode());
             productDTO.setProductFeedbacks(productFeedbacks);
 

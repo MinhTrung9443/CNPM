@@ -223,8 +223,12 @@ hr {
 
 		<div class="product-detail">
 			<!-- Hình ảnh sản phẩm -->
-			<div class="image">
-				<img th:src="@{${product.image}}" alt="Product Image" />
+			<div class="image" th:if="${product.image.substring(0,4) != 'http'}">
+				<img th:src="@{'/assets/img/product/' + ${product.image}}" alt="Product Image">
+			</div>
+			
+			<div class="image" th:if="${product.image.substring(0,4) == 'http'}">
+				<img th:src="${product.image}" alt="Product Image">
 			</div>
 
 			<!-- Thông tin sản phẩm -->

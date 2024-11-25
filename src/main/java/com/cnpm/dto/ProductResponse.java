@@ -5,6 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
+
+import com.cnpm.entity.ProductFeedback;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,4 +29,5 @@ public class ProductResponse {
     private String image;
     private int isUsed;
     private Long stock;
+    private List<ProductFeedback> productFeedbacks; 
 }

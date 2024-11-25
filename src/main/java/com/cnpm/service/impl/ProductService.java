@@ -76,7 +76,7 @@ public class ProductService implements IProductService{
 
 
     
-    public ProductDTO getProductDTOById(Long productId) {
+    public ProductResponse getProductDTOById(Long productId) {
         // Lấy thông tin sản phẩm từ bảng Product
         Optional<Product> optionalProduct = productRepository.findById(productId);
 
@@ -84,7 +84,7 @@ public class ProductService implements IProductService{
             Product product = optionalProduct.get();
 
             // Tạo đối tượng ProductDTO
-            ProductDTO productDTO = new ProductDTO();
+            ProductResponse productDTO = new ProductResponse();
 //            productDTO.setProductCode(product.getProductCode());
 //            productDTO.setProductName(product.getProductName());
 //            productDTO.setCategory(product.getCategory());
