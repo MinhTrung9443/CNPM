@@ -476,7 +476,7 @@ h3 {
 			<div class="product-container">
 				<!-- Hiển thị sản phẩm -->
 				<div class="product-card" th:each="product : ${products}">
-					<img th:src="@{${product.image}}" alt="Product Image" />
+					<img th:src="@{'/assets/img/product/' + ${product.image}}" alt="Product Image" />
 					<div class="overlay">
 						<button>
 							<a

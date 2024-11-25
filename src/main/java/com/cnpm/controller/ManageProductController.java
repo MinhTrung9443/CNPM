@@ -53,14 +53,14 @@ public class ManageProductController {
 	}
 
 	@PostMapping({ "/create" })
-	public String createProduct(@Valid @ModelAttribute ProductDTO productdto, BindingResult result, Model model) {
+	public String createProduct(@Valid @ModelAttribute("productdto") ProductDTO productdto, BindingResult result, Model model) {
 
 		if (productdto.getImage().isEmpty()) {
 			result.addError(new FieldError("productdto", "image", "The image is required"));
 		}
 
 		if (result.hasErrors()) {
-			model.addAttribute("productdto", productdto);
+			//model.addAttribute("productdto", productdto);
 			System.out.println("ProductDTO initialized: " + productdto); // Debug
 			System.out.println("BindingResult Errors: " + result.getAllErrors()); // debug
 
@@ -128,11 +128,10 @@ public class ManageProductController {
 			productdto.setExpirationDate(product.getExpirationDate());
 			productdto.setIngredient(product.getIngredient());
 			productdto.setHow_to_use(product.getHow_to_use());
-			productdto.setVolume(product.getHow_to_use());
+			productdto.setVolume(product.getVolume());
 			productdto.setOrigin(product.getOrigin());
 			model.addAttribute("productdto", productdto);
-			System.out.println("Exception: " + product.getManufactureDate());
-
+			System.out.println("ID: " + product.getProductId());
 		} catch (Exception ex) {
 			System.out.println("Exception: " + ex.getMessage());
 			return "redirect:/employee/products";
@@ -142,13 +141,15 @@ public class ManageProductController {
 	}
 
 	@PostMapping("/edit")
-	public String updateProduct(Model model, @RequestParam long id, @Valid @ModelAttribute ProductDTO productdto,
+	public String updateProduct(Model model, @RequestParam long id, @Valid @ModelAttribute("productdto") ProductDTO productdto,
 			BindingResult result) {
 		try {
 			Product product1 = productServ.findById(id).get();
 			String productCode = product1.getProductCode();
 			List<Product> productsFiltered = productServ.findAllProductsByProductCode(productCode);
 			if (result.hasErrors()) {
+				System.out.println("ProductDTO initialized: " + productdto); // Debug
+				System.out.println("BindingResult Errors: " + result.getAllErrors()); // debug
 				return "employee/editProduct";
 			}
 			

@@ -1,9 +1,5 @@
 package com.cnpm.dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -37,10 +33,10 @@ public class ProductDTO {
     @NotEmpty(message="The brand is required")
     private String brand;
     @NotNull(message = "The manufacture date is required")
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate manufactureDate;
     @NotNull(message = "The expiration date is required")
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate expirationDate;
     @NotEmpty(message="The ingredient is required")
     private String ingredient;

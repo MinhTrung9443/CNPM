@@ -82,8 +82,7 @@
 					<label class="col-sm-4 col-form-label">Manufacture Date</label>
 					<div class="col-sm-8">
 						<input class="form-control" type="date" th:field="*{manufactureDate}">
-						<p th:if="${#fields.hasErrors('manufactureDate')}" th:errorclass="text-danger"
-						th:errors="*{manufactureDate}"></p>
+						  <p th:if="${#fields.hasErrors('manufactureDate')}" th:errors="*{manufactureDate}"></p>
 					</div>
 				</div>
 				
@@ -91,8 +90,8 @@
 					<label class="col-sm-4 col-form-label">Expiration Date</label>
 					<div class="col-sm-8">
 						<input class="form-control" type="date" th:field="*{expirationDate}">
-						<p th:if="${#fields.hasErrors('expirationDate')}" th:errorclass="text-danger"
-						th:errors="*{expirationDate}"></p>
+						<p th:if="${#fields.hasErrors('expirationDate')}" th:errors="*{expirationDate}"></p>
+						
 					</div>
 				</div>
 				
@@ -161,8 +160,6 @@
 					<label class="col-sm-4 col-form-label">Image</label>
 					<div class="col-sm-8">
 						<input class="form-control" type="file" th:field="*{image}">
-						<p th:if="${#fields.hasErrors('image')}" th:errorclass="text-danger"
-						th:errors="*{image}"></p>
 					</div>
 				</div>
 				
