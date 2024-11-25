@@ -12,7 +12,11 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -96,6 +100,8 @@ public class ProductService implements IProductService{
 //            productDTO.setImage(product.getImage());
             
             BeanUtils.copyProperties(product, productDTO);
+            
+            
 
             // Lấy tồn kho từ productCode
             Long stock = getStockByProductCode(product.getProductCode());

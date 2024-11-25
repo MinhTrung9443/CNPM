@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Đặt lại mật khẩu</title>
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+	rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link
+	href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"
+	rel="stylesheet">
+<!-- Icon fontanwesome -->
+<link rel="stylesheet"
+	href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+	integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+	crossorigin="anonymous">
+<!-- Reset css & grid sytem -->
+<link rel="stylesheet" href="/assets/css/library.css">
+<link href="/assets/owlCarousel/assets/owl.carousel.min.css"
+	rel="stylesheet">
+<!-- Layout -->
+<link rel="stylesheet" href="/assets/css/common.css">
+<!-- index -->
+<link href="/assets/css/home.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Owl caroucel Js-->
+<script src="/assets/owlCarousel/owl.carousel.min.js"></script>
+<style>
+.auth {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+	background-color: #f8f9fa;
+}
+
+.otp-password-form {
+	width: 100%;
+	max-width: 400px;
+	padding: 20px;
+	background-color: #fff;
+	border-radius: 8px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	text-align: center;
+	margin: 0 auto; /* Loại bỏ khoảng cách mặc định của trình duyệt */
+}
+
+.otp-password-form h2 {
+	font-size: 24px;
+	color: #333;
+	margin-bottom: 20px;
+}
+
+.otp-password-form label {
+	display: block;
+	font-weight: bold;
+	color: #555;
+	margin-bottom: 5px;
+	text-align: left;
+}
+
+.otp-password-form input[type="text"], .otp-password-form input[type="password"]
+	{
+	width: 100%;
+	padding: 10px;
+	margin-bottom: 15px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	box-sizing: border-box;
+	font-size: 16px;
+}
+
+.otp-password-form button {
+	width: 100%;
+	padding: 12px;
+	background-color: #28a745;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 18px;
+	font-weight: bold;
+	transition: background-color 0.3s ease;
+}
+
+.otp-password-form button:hover {
+	background-color: #218838;
+}
+</style>
+</head>
+<body>
+	<header th:replace="~{customer/fragments/header::header}"></header>
+	<div class="main__slice">
+		<div class="slider">
+			<div class="slide active"
+				style="background-image: url(/assets/img/slider/slide-6.jpg)">
+				<div class="container">
+					<div class="caption">
+						<h1>Giảm giá 30%</h1>
+						<p>Giảm giá cực sốc trong tháng 6!</p>
+						<a href="listProduct.html" class="btn btn--default">Xem ngay</a>
+					</div>
+				</div>
+			</div>
+			<div class="slide active"
+				style="background-image: url(/assets/img/slider/slide-4.jpg)">
+				<div class="container">
+					<div class="caption">
+						<h1>Giảm giá 30%</h1>
+						<p>Giảm giá cực sốc trong tháng 6!</p>
+						<a href="listProduct.html" class="btn btn--default">Xem ngay</a>
+					</div>
+				</div>
+			</div>
+			<div class="slide active"
+				style="background-image: url(/assets/img/slider/slide-5.jpg)">
+				<div class="container">
+					<div class="caption">
+						<h1>Giảm giá 30%</h1>
+						<p>Giảm giá cực sốc trong tháng 6!</p>
+						<a href="listProduct.html" class="btn btn--default">Xem ngay</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- controls  -->
+		<div class="controls">
+			<div class="prev">
+				<i class="fas fa-chevron-left"></i>
+			</div>
+			<div class="next">
+				<i class="fas fa-chevron-right"></i>
+			</div>
+		</div>
+		<!-- indicators -->
+		<div class="indicator"></div>
+	</div>
+	<div class="auth">
+		<div class="otp-password-form" layout:fragment="app-content">
+			<h2>Đặt lại mật khẩu</h2>
+			<form action="/resetpassword" method="post">
+				<label for="otp">Nhập mã OTP:</label> <input type="text" id="otp"
+					name="otp" placeholder="Mã OTP" required /> <label
+					for="newPassword">Mật khẩu mới:</label> <input type="password"
+					id="newPassword" name="newPassword" placeholder="Mật khẩu mới"
+					required />
+				<button type="submit">Đặt lại mật khẩu</button>
+			</form>
+		</div>
+	</div>
+	<footer th:replace="~{customer/fragments/footer::footer}"></footer>
+</body>
+</html>

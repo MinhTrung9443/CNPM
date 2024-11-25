@@ -1,0 +1,3 @@
+[submodule "comesticdata"]
+	path = comesticdata
+	url = https://github.com/tuoitho/comesticdata.git

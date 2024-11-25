@@ -224,7 +224,7 @@ hr {
 		<div class="product-detail">
 			<!-- Hình ảnh sản phẩm -->
 			<div class="image">
-				<img th:src="@{${product.image}}" alt="Product Image">
+				<img th:src="@{${product.image}}" alt="Product Image" />
 			</div>
 
 			<!-- Thông tin sản phẩm -->
@@ -241,7 +241,7 @@ hr {
 				</p>
 				<p>
 					Mô tả: <span id="short-description"
-						th:text="${product.description.substring(0, 100)} + '...'"></span>
+						th:text="${product.description.substring(0, 10)} + '...'"></span>
 					<span id="full-description" style="display: none;"
 						th:text="${product.description}"></span>
 					<button id="toggle-description">Xem thêm</button>
@@ -255,7 +255,7 @@ hr {
 				</p>
 				<p>
 					Thành phần: <span id="short-ingredient"
-						th:text="${product.ingredient.substring(0, 40)} + '...'"></span> <span
+						th:text="${product.ingredient.substring(0, 3)} + '...'"></span> <span
 						id="full-ingredient" th:text="${product.ingredient}"
 						style="display: none;"></span>
 					<button id="toggle-ingredient">Xem thêm</button>
@@ -263,7 +263,7 @@ hr {
 
 				<p>
 					Cách sử dụng: <span id="short-how-to-use"
-						th:text="${product.how_to_use.substring(0, 50)} + '...'"></span> <span
+						th:text="${product.how_to_use.substring(0, 3)} + '...'"></span> <span
 						id="full-how-to-use" th:text="${product.how_to_use}"
 						style="display: none;"></span>
 					<button id="toggle-how-to-use">Xem thêm</button>

@@ -187,7 +187,7 @@ public class ManageProductController {
 				product.setHow_to_use(productdto.getHow_to_use());
 				product.setVolume(productdto.getVolume());
 				product.setOrigin(productdto.getOrigin());
-				
+				System.out.println(product.toString());
 				productServ.save(product);
 			}
 			
