@@ -13,6 +13,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
+
+import com.cnpm.entity.ProductFeedback;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -48,4 +51,5 @@ public class ProductDTO {
     private MultipartFile image;
     @Min(1)
     private Long stock;
+    private List<ProductFeedback> productFeedbacks; 
 }

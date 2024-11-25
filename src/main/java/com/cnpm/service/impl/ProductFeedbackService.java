@@ -33,7 +33,16 @@ public class ProductFeedbackService implements IProductFeedbackService {
 		return feedbackrepo.save(entity);
 	}
 
+	// Lấy danh sách feedback dựa trên productCode
+    public List<ProductFeedback> getFeedbacksByProductCode(String productCode) {
+        return feedbackrepo.findAllByProduct_productCode(productCode);
+    }
 
+	@Override
+	public Optional<Product> findByProductCode(String productCode) {
+		// TODO Auto-generated method stub
+		return Optional.empty();
+	}
 
 	@Override
 	public List<ProductFeedback> findAllByCustomerIdAndProduct_ProductId(long customerId, long productId) {

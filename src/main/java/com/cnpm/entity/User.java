@@ -35,5 +35,4 @@ public abstract class User implements Serializable {
     @JoinColumn(name = "accountId")
     @JsonManagedReference
     protected Account account;
-
 }
