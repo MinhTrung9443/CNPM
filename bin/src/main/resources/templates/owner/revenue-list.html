@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Danh Sách Doanh Thu</title>
+  <link rel="stylesheet" href="/owner/header.css">
+  <link rel="stylesheet" href="/owner/footer.css">
 <style>
 body {
 	font-family: Arial, sans-serif;
@@ -90,6 +92,8 @@ table tbody tr:hover {
 </style>
 </head>
 <body>
+
+<header th:replace="~{owner/fragments/header::header}"></header>
 	<h1>Doanh Thu</h1>
 
     <!-- Form lọc theo tháng và danh mục -->
@@ -148,4 +152,5 @@ table tbody tr:hover {
             </tr>
         </tbody>
     </table>
+    <footer th:replace="~{owner/fragments/footer::footer}"></footer>
 </body>

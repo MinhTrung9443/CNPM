@@ -405,7 +405,6 @@ h3 {
 .overlay button:hover {
 	background-color: #ff4a00;
 }
-
 </style>
 </head>
 <body>
@@ -413,51 +412,78 @@ h3 {
 
 	<div class="main-container">
 		<div class="container">
-			<br><br><br><br><br><br><br><br><br><br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
 			<div class="sidebar">
 				<h3>Bộ Lọc Tìm Kiếm</h3>
 				<form action="/search" method="get">
 					<input name="keyword" th:value="${keyword}" hidden="hidden">
 					<!-- Bộ lọc giá -->
 					<label for="minPrice">Giá tối thiểu:</label> <input type="number"
-						id="minPrice" name="minPrice" value="{{ minPrice }}"><br><br> <label
-						for="maxPrice">Giá tối đa:</label> <input type="number"
-						id="maxPrice" name="maxPrice" value="{{ maxPrice }}"><br><br>
+						id="minPrice" name="minPrice" value="{{ minPrice }}" min="0"><br>
+					<br> <label for="maxPrice">Giá tối đa:</label> <input
+						type="number" id="maxPrice" name="maxPrice" value="{{ maxPrice }}"
+						min="0"> <br>
+					<br>
 
 					<!-- Bộ lọc thương hiệu -->
-					<label for="brand">Thương hiệu:</label> <select name="brand" id="brand">
+					<label for="brand">Thương hiệu:</label> <select name="brand"
+						id="brand">
 						<option value="">All</option>
-						<option value="ESPA" {{ brand=='ESPA' ? 'selected' : '' }}>ESPA</option>
-						<option value="OSKIA" {{ brand=='OSKIA' ? 'selected' : '' }}>OSKIA</option>
-						<option value="Ultra Violette" {{ brand=='UltraViolette' ? 'selected' : '' }}>Ultra Violette</option>
-						<option value="La Roche-Posay" {{ brand=='LaRochePosay' ? 'selected' : '' }}>La Roche-Posay</option>
-						<option value="Hello Sunday" {{ brand=='HelloSunday' ? 'selected' : '' }}>Hello Sunday</option>
-						<option value="Mario Badescu" {{ brand=='MarioBadescu' ? 'selected' : '' }}>Mario Badescu</option>
-					
-					
-					</select>
-<br><br>
+						<option value="The Ordinary" {{ brand=='TheOrdinary' ? 'selected' : '' }}>The
+							Ordinary</option>
+						<option value="Ultra Violette" {{ brand=='OSKIA' ? 'selected' : '' }}>Ultra
+							Violette</option>
+						<option value="Sweed" {{ brand=='Sweed' ? 'selected' : '' }}>Sweed</option>
+						<option value="La Roche-Posay" {{ brand=='LaRochePosay' ? 'selected' : '' }}>La
+							Roche-Posay</option>
+						<option value="Hello Sunday" {{ brand=='HelloSunday' ? 'selected' : '' }}>Hello
+							Sunday</option>
+						<option value="Saie" {{ brand=='Saie' ? 'selected' : '' }}>Saie</option>
+						<option value="Paula's Choice" {{ brand=='Paula'sChoice' ? 'selected' : '' }}>Paula's
+							Choice</option>
+						<option value="CeraVe" {{ brand=='CeraVe' ? 'selected' : '' }}>CeraVe</option>
+						<option value="Biossance" {{ brand=='Biossance' ? 'selected' : '' }}>Biossance</option>
+
+
+					</select> <br>
+					<br>
 					<!-- Bộ lọc xuất xứ -->
-					<label for="origin">Nguồn gốc:</label> <select name="origin" id="origin">
+					<label for="origin">Nguồn gốc:</label> <select name="origin"
+						id="origin">
 						<option value="">All</option>
 						<option value="my" {{ origin=='my' ? 'selected' : '' }}>Mỹ</option>
-						<option value="nhatban" {{ origin=='nhatban' ? 'selected' : '' }}>Nhật Bản</option>
+						<option value="nhatban" {{ origin=='nhatban' ? 'selected' : '' }}>Nhật
+							Bản</option>
 						<option value="anh" {{ origin=='anh' ? 'selected' : '' }}>Anh</option>
-						<option value="hanquoc" {{ origin=='hanquoc' ? 'selected' : '' }}>Hàn Quốc</option>
+						<option value="hanquoc" {{ origin=='hanquoc' ? 'selected' : '' }}>Hàn
+							Quốc</option>
 						<option value="phap" {{ origin=='phap' ? 'selected' : '' }}>Pháp</option>
-						<option value="vietnam" {{ origin=='vietnam' ? 'selected' : '' }}>Việt Nam</option>
-					</select>
-					<br><br>
+						<option value="vietnam" {{ origin=='vietnam' ? 'selected' : '' }}>Việt
+							Nam</option>
+					</select> <br>
+					<br>
 					<!-- Bộ lọc thể loại -->
-					<label for="category">Thể loại:</label> <select name="category" id="category">
+					<label for="category">Thể loại:</label> <select name="category"
+						id="category">
 						<option value="">All</option>
 						<option value="Skin" {{ category=='Skin' ? 'selected' : '' }}>Skin</option>
 						<option value="Body" {{ category=='Body' ? 'selected' : '' }}>Body</option>
 						<option value="MakeUp" {{ category=='MakeUp' ? 'selected' : '' }}>MakeUp</option>
 						<option value="Wellness" {{ category=='Wellness' ? 'selected' : '' }}>Wellness</option>
 						<option value="Hair" {{ category=='Hair' ? 'selected' : '' }}>Hair</option>
-					</select>
-<br><br><br><br>
+					</select> <br>
+					<br>
+					<br>
+					<br>
 					<!-- Nút tìm kiếm -->
 					<button type="submit">Áp dụng bộ lọc</button>
 				</form>
@@ -476,15 +502,20 @@ h3 {
 			<div class="product-container">
 				<!-- Hiển thị sản phẩm -->
 				<div class="product-card" th:each="product : ${products}">
-					<img th:if="${product.image.substring(0,4) != 'http'}" th:src="@{'/assets/img/product/' + ${product.image}}" alt="Product Image" />
-					<img th:if="${product.image.substring(0,4) == 'http'}" th:src="${product.image}" alt="Product Image" />
+					<img th:if="${product.image.substring(0,4) != 'http'}"
+						th:src="@{'/assets/img/product/' + ${product.image}}"
+						alt="Product Image" /> <img
+						th:if="${product.image.substring(0,4) == 'http'}"
+						th:src="${product.image}" alt="Product Image" />
 					<div class="overlay">
 						<button>
-							<a th:href="@{/product/{productId}(productId=${product.productId})}" class="btn">Xem chi tiết</a>
+							<a
+								th:href="@{/product/{productId}(productId=${product.productId})}"
+								class="btn">Xem chi tiết</a>
 						</button>
 						<button>
-							<a
-								th:href="@{'/add-to-cart?productId=' + ${product.productId}}" class="btn">Thêm vào giỏ hàng</a>
+							<a th:href="@{'/add-to-cart?productId=' + ${product.productId}}"
+								class="btn">Thêm vào giỏ hàng</a>
 						</button>
 					</div>
 					<div class="product-info">
