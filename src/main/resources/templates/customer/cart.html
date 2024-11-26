@@ -200,7 +200,9 @@
             <div class="total-money" th:text="'Tổng cộng: ' + ${total} + ' ₫'">Tổng cộng: 45,000 ₫</div>
 
             <!-- Payment button -->
-            <a href="checkout" class="btn btn--default">Thanh toán</a>
+<!--            <a href="checkout" class="btn btn&#45;&#45;default">Thanh toán</a>-->
+            <a th:href="@{/order/preview-checkout}" class="btn btn--default">Thanh toán</a>
+
         </div>
     </div>
 </div>
