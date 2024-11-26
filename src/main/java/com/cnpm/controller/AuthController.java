@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Pattern;
 
+import com.cnpm.service.capcha.CaptchaService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -50,7 +51,8 @@ public class AuthController {
 	private HttpServletRequest request;
 	@Autowired
 	private IProductService productService;
-	
+    @Autowired
+    private CaptchaService captchaService;
 	@GetMapping("/signup")
 	String signup(Model model, HttpSession session) {
 
@@ -152,7 +154,7 @@ public class AuthController {
 	}
 
     @PostMapping("/signin")
-    public ModelAndView signin(ModelMap model, HttpSession session, @RequestParam String username,
+    public ModelAndView signin(@RequestParam("g-recaptcha-response") String response, ModelMap model, HttpSession session, @RequestParam String username,
             @RequestParam String password) {
         Account account = userService.findByUsernameAndPassword(username, password);
         if (account == null) {

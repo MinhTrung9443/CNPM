@@ -1,4 +1,4 @@
-package com.cnpm.service.capcha;
+package com.cnpm.dto.google;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;

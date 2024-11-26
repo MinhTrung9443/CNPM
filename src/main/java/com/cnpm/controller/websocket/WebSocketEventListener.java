@@ -1,4 +1,4 @@
-package com.cnpm.controller;
+package com.cnpm.controller.websocket;
 
 import com.cnpm.model.ChatMessage;
 import org.slf4j.Logger;
