@@ -3,9 +3,13 @@ package com.cnpm.controller.customer;
 import com.cnpm.dto.CartItemDTO;
 import com.cnpm.dto.CreateOrderRequest;
 import com.cnpm.dto.OrderResponse;
+import com.cnpm.entity.Cart;
+import com.cnpm.entity.CartItem;
+import com.cnpm.entity.Customer;
 import com.cnpm.entity.Voucher;
 import com.cnpm.enums.PaymentMethod;
 import com.cnpm.service.IVoucherService;
+import com.cnpm.service.impl.CartService;
 import com.cnpm.service.impl.OrderService;
 import com.cnpm.service.impl.PaymentService;
 import com.cnpm.service.impl.VoucherService;
@@ -37,21 +41,41 @@ public class OrderController {
     PaymentService paymentService;
     @Autowired
     IVoucherService voucherService;
+    @Autowired
+    CartService cartService;
+
+//    @GetMapping("/preview-checkout2")
+//    @ResponseBody
+//    public String checkout2(HttpSession session, ModelMap model, String voucherCode) {
+//        Logger.log("user:" + session.getAttribute("user"));
+//        Logger.log("username:" + session.getAttribute("username"));
+//        return "Hello";
+//    }
+
 
     @GetMapping("/preview-checkout")
     public ModelAndView checkout(HttpSession session, ModelMap model, String voucherCode) {
-        // Retrieve cart items and their quantities from the Model
-        // lấy từ b khác
-//        List<CartItemDTO> cartItems = (List<CartItemDTO>) model.getAttribute("cartItems");
+//        Logger.log("" +session.getAttribute("user"));
+//        Logger.log("" +session.getAttribute("username"));
 
         //    example data
-        List<CartItemDTO> cartItems = List.of(
-                new CartItemDTO("Body_16", "Dầu gội thông ninh", 100000, 1, "https://static.thcdn.com/images/large/origen//productimg/1600/1600/10364465-1064965873801360.jpg"),
-                new CartItemDTO("Body_41", "Body 02", 20000, 1, "https://static.thcdn.com/images/large/origen//productimg/1600/1600/10364465-1064965873801360.jpg"),
-                new CartItemDTO("Body_63", "Dầu gội thông ninh2", 300000, 1, "https://via.placeholder.com/150")
-        );
-        // Process cart items (e.g., calculate total price, etc.)
-
+//        List<CartItemDTO> cartItems = List.of(
+//                new CartItemDTO("Body_16", "Dầu gội thông ninh", 100000, 1, "https://static.thcdn.com/images/large/origen//productimg/1600/1600/10364465-1064965873801360.jpg"),
+//                new CartItemDTO("Body_41", "Body 02", 20000, 1, "https://static.thcdn.com/images/large/origen//productimg/1600/1600/10364465-1064965873801360.jpg"),
+//                new CartItemDTO("Body_63", "Dầu gội thông ninh2", 300000, 1, "https://via.placeholder.com/150")
+//        );
+        Long userId= ((Customer) session.getAttribute("user")).getUserId();
+        Cart cart = cartService.getCartByUserId(userId);
+        //anh xa thanh cartItemDTO
+        List<CartItemDTO> cartItems = cart.getCartItems().stream().map(cartItem -> {
+            CartItemDTO cartItemDTO = new CartItemDTO();
+            cartItemDTO.setProductCode(cartItem.getProduct().getProductCode());
+            cartItemDTO.setProductName(cartItem.getProduct().getProductName());
+            cartItemDTO.setCost(cartItem.getProduct().getCost());
+            cartItemDTO.setQuantity(cartItem.getQuantity());
+            cartItemDTO.setImage(cartItem.getProduct().getImage());
+            return cartItemDTO;
+        }).toList();
         double subtotal = cartItems.stream().mapToDouble(item -> item.getQuantity() * item.getCost()) // Replace 100 with the actual price of the product
                 .sum();
         double total = subtotal; // You can include discount logic here if needed
@@ -71,9 +95,6 @@ public class OrderController {
         model.addAttribute("subtotal", subtotal);
         model.addAttribute("total", total);
         model.addAttribute("voucherCode", voucherCode);
-        Long userId = (Long) session.getAttribute("userId");
-        userId = userId == null ? 1 : userId;
-//        TODO: Add user id to the model, above is just fake data
         model.addAttribute("userId", userId);
 //        return "customer/checkout";
         return new ModelAndView("customer/checkout", model);

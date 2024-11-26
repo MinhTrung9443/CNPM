@@ -49,6 +49,8 @@ public class OrderService implements IOrderService {
     @Autowired
     private ProductService productService;
     @Autowired
+    CartService cartService;
+    @Autowired
     VNPAYService vnPayService;
 
     @Transactional
@@ -120,6 +122,8 @@ public class OrderService implements IOrderService {
         // Lưu đơn hàng và tạo phản hồi
         Order savedOrder = orderRepository.save(order);
 
+        //xoá cartitem
+        cartService.clearCustomerCart(createOrderRequest.getUserId());
 
 
         // Lưu Payment và thiết lập phương thức thanh toán cho phản hồi
