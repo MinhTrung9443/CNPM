@@ -9,10 +9,7 @@ import com.cnpm.entity.Customer;
 import com.cnpm.entity.Voucher;
 import com.cnpm.enums.PaymentMethod;
 import com.cnpm.service.IVoucherService;
-import com.cnpm.service.impl.CartService;
-import com.cnpm.service.impl.OrderService;
-import com.cnpm.service.impl.PaymentService;
-import com.cnpm.service.impl.VoucherService;
+import com.cnpm.service.impl.*;
 import com.cnpm.service.vnpay.VNPAYService;
 import com.cnpm.util.Logger;
 import jakarta.servlet.http.HttpServletRequest;
@@ -43,6 +40,8 @@ public class OrderController {
     IVoucherService voucherService;
     @Autowired
     CartService cartService;
+    @Autowired
+    CartItemService cartItemService;
 
 //    @GetMapping("/preview-checkout2")
 //    @ResponseBody
@@ -53,8 +52,8 @@ public class OrderController {
 //    }
 
 
-    @GetMapping("/preview-checkout")
-    public ModelAndView checkout(HttpSession session, ModelMap model, String voucherCode) {
+    @PostMapping("/preview-checkout")
+    public ModelAndView checkout(@RequestParam("cartItemIds") List<Long> cartItemIds, HttpSession session, ModelMap model, String voucherCode) {
 //        Logger.log("" +session.getAttribute("user"));
 //        Logger.log("" +session.getAttribute("username"));
 
@@ -64,10 +63,22 @@ public class OrderController {
 //                new CartItemDTO("Body_41", "Body 02", 20000, 1, "https://static.thcdn.com/images/large/origen//productimg/1600/1600/10364465-1064965873801360.jpg"),
 //                new CartItemDTO("Body_63", "Dầu gội thông ninh2", 300000, 1, "https://via.placeholder.com/150")
 //        );
+//        Logger.log("cartItemIds: " + cartItemIds);
         Long userId= ((Customer) session.getAttribute("user")).getUserId();
         Cart cart = cartService.getCartByUserId(userId);
-        //anh xa thanh cartItemDTO
-        List<CartItemDTO> cartItems = cart.getCartItems().stream().map(cartItem -> {
+        //anh xa toan bo cart thanh cartItemDTO
+//        List<CartItemDTO> cartItems = cart.getCartItems().stream().map(cartItem -> {
+//            CartItemDTO cartItemDTO = new CartItemDTO();
+//            cartItemDTO.setProductCode(cartItem.getProduct().getProductCode());
+//            cartItemDTO.setProductName(cartItem.getProduct().getProductName());
+//            cartItemDTO.setCost(cartItem.getProduct().getCost());
+//            cartItemDTO.setQuantity(cartItem.getQuantity());
+//            cartItemDTO.setImage(cartItem.getProduct().getImage());
+//            return cartItemDTO;
+//        }).toList();
+        //anh xa tung cartiemid thanh cartItemDTO
+        List<CartItemDTO> cartItems = cartItemIds.stream().map(cartItemId -> {
+            CartItem cartItem = cartItemService.getCartItemById(cartItemId);
             CartItemDTO cartItemDTO = new CartItemDTO();
             cartItemDTO.setProductCode(cartItem.getProduct().getProductCode());
             cartItemDTO.setProductName(cartItem.getProduct().getProductName());
@@ -76,6 +87,7 @@ public class OrderController {
             cartItemDTO.setImage(cartItem.getProduct().getImage());
             return cartItemDTO;
         }).toList();
+
         double subtotal = cartItems.stream().mapToDouble(item -> item.getQuantity() * item.getCost()) // Replace 100 with the actual price of the product
                 .sum();
         double total = subtotal; // You can include discount logic here if needed

@@ -143,13 +143,42 @@
             <div class="total-money" th:text="'Tổng cộng: ' + ${total} + ' ₫'">Tổng cộng: 45,000 ₫</div>
 
             <!-- Payment button -->
-            <a th:href="@{/order/preview-checkout}" class="btn btn--default">Thanh toán</a>
+<!--            <a th:href="@{/order/preview-checkout}" class="btn btn&#45;&#45;default">Thanh toán</a>-->
+            <button type="button" class="btn btn--default" onclick="prepareCheckout()">Thanh toán</button>
+
         </div>
 
     </div>
 </div>
 <script src="/assets/js/cart.js"></script>
 <script>
+    function prepareCheckout() {
+        // Lấy tất cả các checkbox được chọn
+        const selectedItems = Array.from(document.querySelectorAll('.item-checkbox:checked'))
+            .map(checkbox => checkbox.getAttribute('data-cart-item-id')); // Lấy giá trị cartItemId
+
+        if (selectedItems.length === 0) {
+            alert("Vui lòng chọn ít nhất một sản phẩm để thanh toán.");
+            return;
+        }
+        // console.log(selectedItems);
+
+        // Gửi dữ liệu đến controller bằng form ẩn hoặc AJAX
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/order/preview-checkout';
+
+        selectedItems.forEach(id => {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'cartItemIds';
+            input.value = id;
+            form.appendChild(input);
+        });
+
+        document.body.appendChild(form);
+        form.submit();
+    }
     // Function to handle the removal of cart items
     function removeItem(cartItemId) {
         $.ajax({

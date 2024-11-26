@@ -52,6 +52,8 @@ public class OrderService implements IOrderService {
     CartService cartService;
     @Autowired
     VNPAYService vnPayService;
+    @Autowired
+    private CartRepository cartRepository;
 
     @Transactional
     public OrderResponse createOrder(@Valid CreateOrderRequest createOrderRequest) {
@@ -123,8 +125,17 @@ public class OrderService implements IOrderService {
         Order savedOrder = orderRepository.save(order);
 
         //xoá cartitem
-        cartService.clearCustomerCart(createOrderRequest.getUserId());
+//        cartService.clearCustomerCart(createOrderRequest.getUserId());
+        //xoa cartitem
+        Cart cart = cartService.getCartByUserId(createOrderRequest.getUserId());
+        Set<CartItem> cartItems = cartService.getCartByUserId(createOrderRequest.getUserId()).getCartItems();
 
+        for (CartItemForOrderDTO cartItemForOrderDTO : cartItemForOrderDTOS) {
+//            cartService.removeItemFromCart(cart.getCartItems().stream().filter(cartItem1 -> cartItem1.getProduct().getProductCode().equals(cartItem.getProductCode())).findFirst().get());
+            cartItems.removeIf(cartItem1 -> cartItem1.getProduct().getProductCode().equals(cartItemForOrderDTO.getProductCode()));
+        }
+        cart.setCartItems(cartItems);
+        cartRepository.save(cart);
 
         // Lưu Payment và thiết lập phương thức thanh toán cho phản hồi
         Payment payment = new Payment();
