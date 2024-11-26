@@ -1,0 +1,44 @@
+<html>
+<head>
+    <title>reCAPTCHA demo: Simple page</title>
+<!--    <script src="https://www.google.com/recaptcha/enterprise.js" async defer></script>-->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.jade.min.css" />
+
+</head>
+<body>
+<form method="POST" action="/user/registration" onsubmit="return registerFormCheck()">
+    <div class="g-recaptcha" data-sitekey="6LfhgooqAAAAACfj2CyCG45KmQmX7zXUI9cDMXmg" data-callback="enableBtn"></div>
+    <span id="captchaError" class="alert alert-danger" style="display: none;">Please complete the CAPTCHA</span>
+    <button type="submit" id="registerBtn" disabled="disabled">Register</button>
+    <input type="button" value="Submit" id="button1" disabled="disabled">
+
+</form>
+
+<script>
+    function enableBtn(){
+        document.getElementById("button1").disabled = false;
+        document.getElementById("registerBtn").disabled = false;
+
+    }
+    function registerFormCheck() {
+        // Kiểm tra reCAPTCHA
+        const captchaResponse = grecaptcha.getResponse();
+        if (!captchaResponse) {
+            document.getElementById("captchaError").style.display = "block";
+            document.getElementById("captchaError").innerText = "Please complete the CAPTCHA.";
+            return false; // Ngăn form gửi đi nếu reCAPTCHA chưa hoàn thành
+        }
+
+        // Ẩn thông báo lỗi CAPTCHA nếu đã hoàn thành
+        document.getElementById("captchaError").style.display = "none";
+
+        // Tất cả kiểm tra đều thành công, cho phép form gửi đi
+        return true;
+    }
+</script>
+
+<script src="https://www.google.com/recaptcha/api.js?onload=enableRegisterButton&render=explicit" async defer></script>
+</body>
+</html>
