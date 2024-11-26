@@ -84,7 +84,7 @@ public class AuthController {
         session.invalidate();
         List<Product> allProducts = productService.findAllDistinctProduct();
         model.addAttribute("products", allProducts);
-        return "customer/index";
+        return "redirect:/index";
     }
 
     @PostMapping("/signup")

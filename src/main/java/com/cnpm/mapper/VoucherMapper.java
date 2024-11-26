@@ -1,8 +1,11 @@
 package com.cnpm.mapper;
 
+
+
+import org.mapstruct.Mapper;
+
 import com.cnpm.dto.VoucherDTO;
 import com.cnpm.entity.Voucher;
-import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface VoucherMapper {

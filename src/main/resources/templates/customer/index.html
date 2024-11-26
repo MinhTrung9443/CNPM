@@ -149,6 +149,59 @@
     font-weight: bold;
     color: #e63946;
 }
+/* Phong cách cho phần phân trang */
+.custom-pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.custom-pagination .pagination {
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.custom-pagination .page-item {
+    margin: 0 5px;
+}
+
+.custom-pagination .page-item.disabled .page-link {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.custom-pagination .page-item.active .page-link {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.custom-pagination .page-link {
+    display: block;
+    padding: 8px 12px;
+    text-decoration: none;
+    color: #007bff;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.custom-pagination .page-link:hover {
+    background-color: #e9ecef;
+    text-decoration: none;
+}
+
+.custom-pagination .page-item.disabled .page-link:hover {
+    background-color: #ffffff;
+}
+
+.custom-pagination .page-item.active .page-link:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
 
 </style>
 </head>
@@ -213,49 +266,45 @@
 					nào.</p>
 			</div>
 		</section>
-		<nav aria-label="Page navigation example" style="display: flex; justify-content: center;" th:if="${currentPage}">
-			<ul class="pagination">
-				<!-- Nút "Previous" -->
-				<li class="page-item"
-					th:classappend="${currentPage == 1} ? 'disabled'"><a
-					class="page-link"
-					th:href="${currentPage > 1} ? @{'/page?pageNo=' + ${currentPage-1}} : '#'"
-					aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-				</a></li>
+		<nav class="custom-pagination" aria-label="Page navigation example" style="display: flex; justify-content: center; margin-top: 20px;" th:if="${currentPage}">
+    <ul class="pagination">
+        <!-- Nút "Previous" -->
+        <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
+            <a class="page-link" th:href="${currentPage > 1} ? @{'/page?pageNo=' + ${currentPage-1}} : '#'" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
 
-				<!-- Hiển thị các số trang -->
-				<li class="page-item" th:if="${currentPage > 3}"><a
-					class="page-link" th:href="@{'/page?pageNo=' + 1}">1</a>
-				</li>
-				<li class="page-item disabled" th:if="${currentPage > 4}"><a
-					class="page-link">...</a></li>
+        <!-- Hiển thị các số trang -->
+        <li class="page-item" th:if="${currentPage > 3}">
+            <a class="page-link" th:href="@{'/page?pageNo=' + 1}">1</a>
+        </li>
+        <li class="page-item disabled" th:if="${currentPage > 4}">
+            <a class="page-link">...</a>
+        </li>
 
-				<!-- Hiển thị trang trước, trang hiện tại và trang tiếp theo -->
-				<li class="page-item"
-					th:each="i : ${#numbers.sequence(currentPage - 1, currentPage + 1)}"
-					th:if="${i >= 1 and i <= totalPages}"
-					th:classappend="${i == currentPage} ? 'active'"><a
-					class="page-link" th:href="@{'/page?pageNo=' + ${i}}"
-					th:text="${i}"></a></li>
+        <!-- Hiển thị trang trước, trang hiện tại và trang tiếp theo -->
+        <li class="page-item" th:each="i : ${#numbers.sequence(currentPage - 1, currentPage + 1)}" th:if="${i >= 1 and i <= totalPages}" th:classappend="${i == currentPage} ? 'active'">
+            <a class="page-link" th:href="@{'/page?pageNo=' + ${i}}" th:text="${i}"></a>
+        </li>
 
-				<li class="page-item disabled"
-					th:if="${currentPage < totalPages - 3}"><a class="page-link">...</a>
-				</li>
-				<li class="page-item" th:if="${currentPage < totalPages - 2}">
-					<a class="page-link"
-					th:href="@{'/page?pageNo=' + ${totalPages}}"
-					th:text="${totalPages}"></a>
-				</li>
+        <li class="page-item disabled" th:if="${currentPage < totalPages - 3}">
+            <a class="page-link">...</a>
+        </li>
+        <li class="page-item" th:if="${currentPage < totalPages - 2}">
+            <a class="page-link" th:href="@{'/page?pageNo=' + ${totalPages}}" th:text="${totalPages}"></a>
+        </li>
 
-				<!-- Nút "Next" -->
-				<li class="page-item"
-					th:classappend="${currentPage == totalPages} ? 'disabled'"><a
-					class="page-link"
-					th:href="${currentPage < totalPages} ? @{'/page?pageNo=' + ${currentPage+1}} : '#'"
-					aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-				</a></li>
-			</ul>
-		</nav>
+        <!-- Nút "Next" -->
+        <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
+            <a class="page-link" th:href="${currentPage < totalPages} ? @{'/page?pageNo=' + ${currentPage+1}} : '#'" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+		
+
 		<footer th:replace="customer/fragments/footer :: footer"></footer>
 		<div class="ModalForm">
 			<div class="modal" id="my-Register" style="display: none;">
