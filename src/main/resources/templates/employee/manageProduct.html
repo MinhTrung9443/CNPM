@@ -72,9 +72,7 @@
 					<td th:text="${product.volume}"></td>
 					<td th:text="${product.origin}"></td>
 
-					<td th:if="${product.image.substring(0,4) != 'http'}"><img
-						th:src="@{'/assets/img/product/' + ${product.image}}" alt="..."
-						width="100"></td>
+					<td th:if="${product.image.substring(0,4) != 'http'}"><img th:src="@{'/assets/img/product/' + ${product.image}}" alt="Product Image" width="100" onerror="this.onerror=null;this.src='/assets/img/product/loading.gif';"></td>
 					<td th:if="${product.image.substring(0,4) == 'http'}"><img
 						th:src="${product.image}" alt="..."
 						width="100"></td>

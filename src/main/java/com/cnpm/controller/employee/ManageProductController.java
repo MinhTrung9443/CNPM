@@ -53,43 +53,43 @@ public class ManageProductController {
 	}
 
 	@PostMapping({ "/create" })
-	public String createProduct(@Valid @ModelAttribute("productdto") ProductDTO productdto, BindingResult result, Model model) {
+	public String createProduct(@Valid @ModelAttribute("productdto") ProductDTO productdto, BindingResult result,
+			Model model) {
 
 		if (productdto.getImage().isEmpty()) {
 			result.addError(new FieldError("productdto", "image", "The image is required"));
 		}
 
 		if (result.hasErrors()) {
-			//model.addAttribute("productdto", productdto);
+			// model.addAttribute("productdto", productdto);
 			System.out.println("ProductDTO initialized: " + productdto); // Debug
 			System.out.println("BindingResult Errors: " + result.getAllErrors()); // debug
 
 			return "employee/createProduct";
 		}
 
-		for (long i = 0; i < productdto.getStock(); i++) {
-			
-			// save image file
-			MultipartFile image = productdto.getImage();
-			String randString = RandomStringUtils.randomAlphanumeric(10);
-			String storageFileName = randString+ "_" + image.getOriginalFilename();
+		// save image file
+		MultipartFile image = productdto.getImage();
+		String randString = RandomStringUtils.randomAlphanumeric(10);
+		String storageFileName = randString + "_" + image.getOriginalFilename();
 
-			try {
-				String uploadDir = "src/main/resources/static/assets/img/product/";
-				Path uploadPath = Paths.get(uploadDir);
+		try {
+			String uploadDir = "src/main/resources/static/assets/img/product/";
+			Path uploadPath = Paths.get(uploadDir);
 
-				if (!Files.exists(uploadPath)) {
-					Files.createDirectories(uploadPath);
-				}
-
-				try (InputStream inputStream = image.getInputStream()) {
-					Files.copy(inputStream, Paths.get(uploadDir + storageFileName), StandardCopyOption.REPLACE_EXISTING);
-				}
-			} catch (Exception ex) {
-				System.out.println("Exception: " + ex.getMessage());
+			if (!Files.exists(uploadPath)) {
+				Files.createDirectories(uploadPath);
 			}
-			
-			
+
+			try (InputStream inputStream = image.getInputStream()) {
+				Files.copy(inputStream, Paths.get(uploadDir + storageFileName), StandardCopyOption.REPLACE_EXISTING);
+			}
+		} catch (Exception ex) {
+			System.out.println("Exception: " + ex.getMessage());
+		}
+
+		for (long i = 0; i < productdto.getStock(); i++) {
+
 			Product product = new Product();
 			product.setProductCode(productdto.getProductCode());
 			product.setProductName(productdto.getProductName());
@@ -104,7 +104,7 @@ public class ManageProductController {
 			product.setVolume(productdto.getVolume());
 			product.setOrigin(productdto.getOrigin());
 			product.setImage(storageFileName);
-			
+
 			productServ.save(product);
 		}
 
@@ -141,8 +141,8 @@ public class ManageProductController {
 	}
 
 	@PostMapping("/edit")
-	public String updateProduct(Model model, @RequestParam long id, @Valid @ModelAttribute("productdto") ProductDTO productdto,
-			BindingResult result) {
+	public String updateProduct(Model model, @RequestParam long id,
+			@Valid @ModelAttribute("productdto") ProductDTO productdto, BindingResult result) {
 		try {
 			Product product1 = productServ.findById(id).get();
 			String productCode = product1.getProductCode();
@@ -153,29 +153,34 @@ public class ManageProductController {
 				return "employee/editProduct";
 			}
 			
-			for (Product product : productsFiltered) {
-				if (!productdto.getImage().isEmpty()) {
-					// delete old image
-					String uploadDir = "src/main/resources/static/assets/img/product/";
-					Path oldImagePath = Paths.get(uploadDir + product.getImage());
+			if (!productdto.getImage().isEmpty()) {
+				// delete old image
+				String uploadDir = "src/main/resources/static/assets/img/product/";
+				Path oldImagePath = Paths.get(uploadDir + product1.getImage());
 
-					try {
-						Files.delete(oldImagePath);
-					} catch (Exception ex) {
-						System.out.println("Exception: " + ex.getMessage());
-					}
-					// save new image
-					MultipartFile image = productdto.getImage();
-					String randString = RandomStringUtils.randomAlphanumeric(10);
-					String storageFileName = randString+ "_" + image.getOriginalFilename();
+				try {
+					Files.delete(oldImagePath);
+				} catch (Exception ex) {
+					System.out.println("Exception: " + ex.getMessage());
+				}
+				// save new image
+				MultipartFile image = productdto.getImage();
+				String randString = RandomStringUtils.randomAlphanumeric(10);
+				String storageFileName = randString + "_" + image.getOriginalFilename();
 
-					try (InputStream inputStream = image.getInputStream()) {
-						Files.copy(inputStream, Paths.get(uploadDir + storageFileName),
-								StandardCopyOption.REPLACE_EXISTING);
-					}
+				try (InputStream inputStream = image.getInputStream()) {
+					Files.copy(inputStream, Paths.get(uploadDir + storageFileName),
+							StandardCopyOption.REPLACE_EXISTING);
+				}
+				for (Product product : productsFiltered) {
 					product.setImage(storageFileName);
 				}
-				//insert vao model
+				
+			}
+
+			for (Product product : productsFiltered) {
+				
+				// insert vao model
 				product.setProductCode(productdto.getProductCode());
 				product.setProductName(productdto.getProductName());
 				product.setCategory(productdto.getCategory());
@@ -188,47 +193,50 @@ public class ManageProductController {
 				product.setHow_to_use(productdto.getHow_to_use());
 				product.setVolume(productdto.getVolume());
 				product.setOrigin(productdto.getOrigin());
-				System.out.println(product.toString());
+
 				productServ.save(product);
 			}
-			
-			
+
 		} catch (Exception ex) {
 			System.out.println("Exception: " + ex.getMessage());
 		}
 		return "redirect:/employee/products";
 	}
-	
-	
+
 	@GetMapping("/delete")
-	public String deleteProduct(@RequestParam long id)
-	{
+	public String deleteProduct(@RequestParam long id) {
 		try {
 			Product product1 = productServ.findById(id).get();
 			String productCode = product1.getProductCode();
 			List<Product> productsFiltered = productServ.findAllProductsByProductCode(productCode);
-			
+			int flag = 0;
 			for (Product product : productsFiltered) {
-				
-				if(product.getIsUsed()==0)
-				{
-					//delete product image
-					Path imagePath = Paths.get("src/main/resources/static/assets/img/product/" + product.getImage());
-					try {
-						Files.delete(imagePath);
-					}catch(Exception ex)
+				if(product.getIsUsed()==1)
+					flag=flag+1;
+			}
+
+			for (Product product : productsFiltered) {
+
+				if (product.getIsUsed() == 0) {
+					if(flag==0)
 					{
-						System.out.println("Exception: "+ex.getMessage());
+						// delete product image
+						Path imagePath = Paths.get("src/main/resources/static/assets/img/product/" + product.getImage());
+						try {
+							Files.delete(imagePath);
+						} catch (Exception ex) {
+							System.out.println("Exception: " + ex.getMessage());
+						}
 					}
+					
 					productServ.delete(product);
 					
 				}
-				
+
 			}
-			
-		}catch(Exception ex)
-		{
-			System.out.println("Exception: "+ex.getMessage());
+
+		} catch (Exception ex) {
+			System.out.println("Exception: " + ex.getMessage());
 		}
 		return "redirect:/employee/products";
 	}
