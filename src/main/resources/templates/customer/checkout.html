@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout Page</title>
-<!--    <link rel="preconnect" href="https://fonts.gstatic.com">-->
-<!--    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet">&lt;!&ndash; Icon fontanwesome &ndash;&gt;-->
-<!--    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous">&lt;!&ndash; Reset css & grid sytem &ndash;&gt;-->
-<!--    <link rel="stylesheet" href="/assets/css/library.css">-->
-<!--    <link href="/assets/owlCarousel/assets/owl.carousel.min.css" rel="stylesheet">&lt;!&ndash; Layout &ndash;&gt;-->
-<!--    <link rel="stylesheet" href="/assets/css/common.css">&lt;!&ndash; index &ndash;&gt;-->
+    <!--    <link rel="preconnect" href="https://fonts.gstatic.com">-->
+    <!--    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet">&lt;!&ndash; Icon fontanwesome &ndash;&gt;-->
+    <!--    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous">&lt;!&ndash; Reset css & grid sytem &ndash;&gt;-->
+    <!--    <link rel="stylesheet" href="/assets/css/library.css">-->
+    <!--    <link href="/assets/owlCarousel/assets/owl.carousel.min.css" rel="stylesheet">&lt;!&ndash; Layout &ndash;&gt;-->
+    <!--    <link rel="stylesheet" href="/assets/css/common.css">&lt;!&ndash; index &ndash;&gt;-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.jade.min.css" />
 
@@ -149,14 +149,14 @@
                         <img th:src="@{/api/images(imageName=${cartItem.image})}" class="img-fluid rounded-start" alt="Product Image">
                     </div>
                     <div class="col-md-8">
-<!--                        hidden productCode-->
+                        <!--                        hidden productCode-->
                         <input type="hidden" th:value="${cartItem.productCode}" name="productCode" id="productCode">
                         <div class="card-body">
                             <h5 class="card-title" th:text=" ${cartItem.productName}">Product Name</h5>
                             <p class="card-text" th:text=" ${cartItem.cost}">$19.99</p>
                         </div>
                     </div>
-<!--                    quantity-->
+                    <!--                    quantity-->
                     <div class="col-md-2">
                         <div class="card-body">
                             <input type="number" class="form-control" id="quantity" name="quantity" th:value="${cartItem.quantity}" disabled>
@@ -195,7 +195,7 @@
                 </div>
             </div>
         </div>
-    </div><!-- Shipping Address -->
+    </div>
     <div class="row mb-4">
         <div class="col-md-8">
             <h2 class="h4 mb-3">Shipping Address</h2>
@@ -247,9 +247,7 @@
 
             </form>
         </div>
-    </div><!-- Payment Method -->
-    <div class="row mb-4">
-        <div class="col-md-8">
+        <div class="col-md-4">
             <h2 class="h4 mb-3">Payment Method</h2>
             <div class="payment-methods">
                 <div class="form-check card mb-3">
@@ -287,6 +285,7 @@
             </div>
         </div>
     </div>
+
     <!-- Checkout Button -->
     <div class="row">
         <div class="col-md-8">
@@ -337,11 +336,11 @@
             .filter(value => value !== ""); // Chỉ giữ lại các giá trị không rỗng
 
         const address = document.getElementById("fullName").value
-        +'\n' + document.getElementById("phone").value
-        +'\n' + document.getElementById("address").value
-        +'\n' + document.getElementById("city").value
-        +'\n' + document.getElementById("district").value
-        +'\n' + document.getElementById("ward").value;
+            +'\n' + document.getElementById("phone").value
+            +'\n' + document.getElementById("address").value
+            +'\n' + document.getElementById("city").value
+            +'\n' + document.getElementById("district").value
+            +'\n' + document.getElementById("ward").value;
         // Tạo request object
         const createOrderRequest = {
             userId: userId,
@@ -351,7 +350,7 @@
             voucherCodes: voucherCodes
         };
         // console.log(createOrderRequest);
-    //     ajax
+        //     ajax
         $.ajax({
             url: "/order/create",
             type: "POST",
@@ -367,7 +366,7 @@
             }
         });
 
-    //
+        //
     });
 </script>
 <script>
