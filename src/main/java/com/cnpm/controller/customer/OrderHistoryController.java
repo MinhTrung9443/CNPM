@@ -30,14 +30,14 @@ public class OrderHistoryController {
             Model model, HttpSession session) {
 
         // Lấy thông tin người dùng từ session
-//        User user = (User) session.getAttribute("user");
-//        if (user == null) {
-//            return "redirect:user/signin"; // Nếu người dùng chưa đăng nhập, chuyển hướng đến trang đăng nhập
-//        }
-//
-//        Long customerId = user.getUserId();
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:user/signin"; // Nếu người dùng chưa đăng nhập, chuyển hướng đến trang đăng nhập
+        }
+
+        Long customerId = user.getUserId();
         Set<PurchaseHistoryDTO> orders;
-        Long customerId = 21L;
+
 
         // Ánh xạ trực tiếp từ "tab" sang trạng thái đơn hàng
         switch (tab) {

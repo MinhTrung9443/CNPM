@@ -250,10 +250,11 @@
 								th:href="@{/product/{productId}(productId=${product.productId})}"
 								class="btn-link">Xem chi tiết</a>
 						</button>
-						<button class="btn">
-							<a
-								th:href="@{'/add-to-cart?productId=' + ${product.productId}}" class="btn">Thêm vào giỏ hàng</a>
-						</button>
+						<form th:action="@{/add-to-cart}" method="post">
+							<input type="hidden" name="productId" th:value="${product.productId}" />
+							<input type="hidden" name="quantity" th:value="1" />
+							<button type="submit" class="btn">Thêm vào giỏ</button>
+						</form>
 					</div>
 					<div class="product-info">
 						<h3 th:text="${product.productName}"></h3>
