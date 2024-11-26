@@ -4,16 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout Page</title>
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"><!-- Icon fontanwesome -->
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"><!-- Reset css & grid sytem -->
-    <link rel="stylesheet" href="/assets/css/library.css">
-    <link href="/assets/owlCarousel/assets/owl.carousel.min.css" rel="stylesheet"><!-- Layout -->
-    <link rel="stylesheet" href="/assets/css/common.css"><!-- index -->
+<!--    <link rel="preconnect" href="https://fonts.gstatic.com">-->
+<!--    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet">&lt;!&ndash; Icon fontanwesome &ndash;&gt;-->
+<!--    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous">&lt;!&ndash; Reset css & grid sytem &ndash;&gt;-->
+<!--    <link rel="stylesheet" href="/assets/css/library.css">-->
+<!--    <link href="/assets/owlCarousel/assets/owl.carousel.min.css" rel="stylesheet">&lt;!&ndash; Layout &ndash;&gt;-->
+<!--    <link rel="stylesheet" href="/assets/css/common.css">&lt;!&ndash; index &ndash;&gt;-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.jade.min.css" />
 
     <style>
+        .payment-methods .form-check {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .payment-methods .form-check:hover {
+            border-color: #007bff;
+            background-color: #f8f9fa;
+        }
+
+        .payment-icon {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+            object-fit: contain;
+        }
+
+        .form-check-input {
+            margin-right: 15px;
+        }
+
+        .form-check-label {
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            font-weight: 500;
+            color: #333;
+        }
         .suggestions {
             position: absolute;
             background: #1a1d24;
@@ -107,7 +137,7 @@
     </style>
 </head>
 <body>
-<header th:replace="~{customer/fragments/header :: header}"></header>
+<!--<header th:replace="~{customer/fragments/header :: header}"></header>-->
 <div class="container mt-5">
     <h1 class="mb-4">Checkout</h1><!-- Cart Items -->
     <div class="row mb-4">
@@ -221,27 +251,50 @@
     <div class="row mb-4">
         <div class="col-md-8">
             <h2 class="h4 mb-3">Payment Method</h2>
-            <div class="form-check mb-2">
-                <input class="form-check-input" type="radio" name="paymentMethod" id="COD"> <label
-                    class="form-check-label" for="COD"> COD </label>
-            </div>
-            <div class="form-check mb-2">
-                <input class="form-check-input" type="radio" name="paymentMethod" id="VNPAY"> <label
-                    class="form-check-label" for="VNPAY"> VNPAY </label>
-            </div>
-            <div class="form-check mb-2">
-                <input class="form-check-input" type="radio" name="paymentMethod" id="PAYPAL"> <label
-                    class="form-check-label" for="PAYPAL"> Paypal </label>
+            <div class="payment-methods">
+                <div class="form-check card mb-3">
+                    <input class="form-check-input" type="radio" name="paymentMethod" id="COD">
+                    <label class="form-check-label d-flex align-items-center" for="COD">
+                        <img height="50px" src="https://cdn.iconscout.com/icon/free/png-256/free-cod-icon-download-in-svg-png-gif-file-formats--credit-debit-bank-payment-methods-vol-2-pack-business-icons-32290.png?f=webp&w=256"
+                             alt="COD" class="payment-icon ">
+                        <span>Cash on Delivery (COD)</span>
+                    </label>
+                </div>
+                <div class="form-check card mb-3">
+                    <input class="form-check-input" type="radio" name="paymentMethod" id="VNPAY">
+                    <label class="form-check-label d-flex align-items-center" for="VNPAY">
+                        <img src="https://cdn.haitrieu.com/wp-content/uploads/2022/10/Icon-VNPAY-QR.png" alt="VNPAY"
+                             class="payment-icon">
+                        <span>VNPAY</span>
+                    </label>
+                </div>
+                <div class="form-check card mb-3">
+                    <input class="form-check-input" type="radio" name="paymentMethod" id="PAYPAL">
+                    <label class="form-check-label d-flex align-items-center" for="PAYPAL">
+                        <img src="https://files.softicons.com/download/business-icons/payment-method-icons-by-design-bolts/ico/Paypal-Payment_Icon.ico"
+                             alt="Paypal" class="payment-icon">
+                        <span>Paypal</span>
+                    </label>
+                </div>
+                <div class="form-check card mb-3">
+                    <input class="form-check-input" type="radio" name="paymentMethod" id="MOMO">
+                    <label class="form-check-label d-flex align-items-center" for="MOMO">
+                        <img src="https://e-magazine.asiamedia.vn/wp-content/uploads/2021/07/MoMo-Logo.png" alt="Momo"
+                             class="payment-icon">
+                        <span>Momo</span>
+                    </label>
+                </div>
             </div>
         </div>
-    </div><!-- Checkout Button -->
+    </div>
+    <!-- Checkout Button -->
     <div class="row">
         <div class="col-md-8">
             <button class="btn btn-primary btn-lg w-100" type="submit">Place Order</button>
         </div>
     </div>
 </div>
-<footer th:replace="~{customer/fragments/footer :: footer}"></footer>
+<!--<footer th:replace="~{customer/fragments/footer :: footer}"></footer>-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <!--ajax-->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -265,7 +318,11 @@
     });
     document.querySelector("button[type='submit']").addEventListener("click", function (event) {
         event.preventDefault(); // Ngăn chặn reload trang
-
+        //neu là momo
+        if(document.querySelector("input[name='paymentMethod']:checked").id === "MOMO"){
+            alert("Chức năng thanh toán qua Momo đang bảo trì, vui lòng chọn cái khác");
+            return;
+        }
         // Thu thập dữ liệu từ form
         const paymentMethod = document.querySelector("input[name='paymentMethod']:checked").id;
         const cartItems = Array.from(document.querySelectorAll(".row.g-0")).map(row => {
