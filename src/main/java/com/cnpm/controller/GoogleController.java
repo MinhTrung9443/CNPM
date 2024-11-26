@@ -1,5 +1,7 @@
 package com.cnpm.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -11,10 +13,12 @@ import com.cnpm.dto.google.GooglePojo;
 import com.cnpm.entity.Account;
 import com.cnpm.entity.Customer;
 import com.cnpm.entity.Employee;
+import com.cnpm.entity.Product;
 import com.cnpm.entity.Role;
 import com.cnpm.entity.ShopOwner;
 import com.cnpm.entity.User;
 import com.cnpm.service.google.GoogleService;
+import com.cnpm.service.impl.ProductService;
 import com.cnpm.service.impl.UserService;
 
 import jakarta.servlet.http.HttpSession;
@@ -27,6 +31,8 @@ public class GoogleController {
 	private GoogleService googleUtils;
 	@Autowired
 	private UserService userservice;
+    @Autowired
+    private ProductService productService;
 
 	@RequestMapping("/loginGG")
 	public ModelAndView LoginWithGoogle(@RequestParam String code, HttpSession session, ModelMap model) {
@@ -63,7 +69,7 @@ public class GoogleController {
 				if (roleid == 3) {
 					Customer customer = (Customer) user;
 					session.setAttribute("user", customer);
-					return new ModelAndView("customer/index",model);
+					return new ModelAndView("redirect:/index", model);
 				}
 				else if (roleid == 2)
 				{

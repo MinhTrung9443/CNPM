@@ -53,9 +53,10 @@ public class AuthController {
 	
 	@GetMapping("/signup")
 	String signup(Model model, HttpSession session) {
+
 		session = request.getSession(false);
 		String url = checkSignIn(session);
-		if (url.isEmpty())
+		if (!url.isEmpty())
 		{
 			return url;
 		}
@@ -145,8 +146,9 @@ public class AuthController {
 
 		userService.save(cus);
 		Customer newCustomer = (Customer) userService.findByEmail(cus.getEmail());
+		
 		session.setAttribute("user", newCustomer);
-		return new ModelAndView("customer/index", model);
+		return new ModelAndView("redirect:/index", model);
 	}
 
     @PostMapping("/signin")
@@ -160,12 +162,10 @@ public class AuthController {
 
         int roleid = account.getRole().getRoleId().intValue();
         if (roleid == 3 && account.getUser() instanceof Customer) {
-        	List<Product> allProducts = productService.findAllDistinctProduct();
-            model.addAttribute("products", allProducts);
             Customer customer = (Customer) account.getUser();
             session.setAttribute("user", customer);
             session.setAttribute("username", username); // Set username in session
-            return new ModelAndView("customer/index", model);
+            return new ModelAndView("redirect:/index", model);
         } else if (roleid == 2 && account.getUser() instanceof Employee) {
             Employee employee = (Employee) account.getUser();
             session.setAttribute("user", employee);

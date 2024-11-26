@@ -1,6 +1,7 @@
 package com.cnpm.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.cnpm.entity.*;
 import com.cnpm.service.IUserService;
 import com.cnpm.service.facebook.FacebookService;
+import com.cnpm.service.impl.ProductService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -19,6 +21,9 @@ import jakarta.servlet.http.HttpSession;
 public class FacebookController {
 	@Autowired
 	IUserService userservice;
+    @Autowired
+    private ProductService productService;
+    
 	@GetMapping("/loginFB")
 	public ModelAndView loginFB(@RequestParam String code,HttpSession session,ModelMap model) throws IOException
 	{
@@ -46,7 +51,7 @@ public class FacebookController {
 				userservice.save(customer);
 				Customer newCustomer = (Customer) userservice.findByUsername(customer.getAccount().getUsername()).getUser();
 				session.setAttribute("user", newCustomer);
-				return new ModelAndView("customer/index",model);
+				return new ModelAndView("redirect:/index", model);
 			}
 			else 
 			{
