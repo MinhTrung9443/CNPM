@@ -1,20 +1,35 @@
 package com.cnpm.service.impl;
 
+import com.cnpm.dto.ProductHistoryDTO;
+import com.cnpm.dto.PurchaseHistoryDTO;
+import com.cnpm.entity.Order;
+import com.cnpm.entity.OrderLine;
+import com.cnpm.entity.Product;
+import com.cnpm.enums.OrderStatus;
+import com.cnpm.repository.OrderRepository;
 import com.cnpm.dto.CartItemForOrderDTO;
 import com.cnpm.dto.CreateOrderRequest;
+import com.cnpm.dto.OrderDetailEmployeeDTO;
+import com.cnpm.dto.OrderLineDTO;
 import com.cnpm.dto.OrderResponse;
 import com.cnpm.entity.*;
 import com.cnpm.enums.OrderStatus;
 import com.cnpm.enums.PaymentStatus;
 import com.cnpm.repository.*;
 import com.cnpm.service.IOrderService;
+import org.springframework.beans.factory.annotation.Autowired;
 import com.cnpm.service.vnpay.VNPAYService;
 import com.cnpm.util.Logger;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.persistence.EntityNotFoundException;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -33,6 +48,8 @@ public class OrderService implements IOrderService {
     private OrderRepository orderRepository;
     @Autowired
     private ProductService productService;
+    @Autowired
+    CartService cartService;
     @Autowired
     VNPAYService vnPayService;
 
@@ -71,7 +88,7 @@ public class OrderService implements IOrderService {
 //                tìm và đánh dấu sản phẩm đã được mua
                 Product product1 = productRepository.findFirstByProductCodeAndIsUsedFalse(product.getProductCode())
                         .orElseThrow(() -> new RuntimeException("Product not found"));
-                product1.setIsUsed(true);
+                product1.setIsUsed(1);
                 productRepository.save(product1);
             }
             OrderLine orderLine = new OrderLine();
@@ -105,6 +122,8 @@ public class OrderService implements IOrderService {
         // Lưu đơn hàng và tạo phản hồi
         Order savedOrder = orderRepository.save(order);
 
+        //xoá cartitem
+        cartService.clearCustomerCart(createOrderRequest.getUserId());
 
 
         // Lưu Payment và thiết lập phương thức thanh toán cho phản hồi
@@ -123,7 +142,7 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public void updateOrderStatus(Long orderId, String paymentTime) {
+    public void updateOrderStatusPaymentTime(Long orderId, String paymentTime) {
         Logger.log("updating order status");
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
@@ -156,5 +175,180 @@ public class OrderService implements IOrderService {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
         return order.getTotal();
+    }
+
+    public OrderDetailEmployeeDTO getOrderDetails(Long orderId) {
+		Order order = orderRepository.findById(orderId)
+				.orElseThrow(() -> new EntityNotFoundException("Order not found"));
+		System.out.println(order.toString());
+		// Chuyển đổi sang DTO để trả về thông tin chi tiết
+		return mapToOrderDetailDTO(order);
+	}
+
+	private OrderLineDTO mapOrderLineToDTO(OrderLine orderLine) {
+		return OrderLineDTO.builder().productId(orderLine.getProduct().getProductId())
+				.productName(orderLine.getProduct().getProductName()).quantity(orderLine.getQuantity())
+				.price(orderLine.getProduct().getCost())
+				.totalPrice(orderLine.getProduct().getCost() * orderLine.getQuantity()).build();
+	}
+
+	private OrderDetailEmployeeDTO mapToOrderDetailDTO(Order order) {
+		// Lấy thông tin khách hàng từ cơ sở dữ liệu (giả sử có một phương thức lấy
+		// thông tin khách hàng)
+		User customer = getUserById(order.getCustomerId());
+		System.out.println(customer);
+		// Lấy thông tin thanh toán
+		Payment payment = paymentRepository.findByOrder_OrderId(order.getOrderId());
+
+		return OrderDetailEmployeeDTO.builder().orderId(order.getOrderId()).orderDate(order.getOrderDate())
+				.shippingAddress(order.getShippingAddress()).orderStatus(order.getOrderStatus().toString())
+				.deliveryDate(order.getDeliveryDate()).customerId(order.getCustomerId()) // Gán ID khách hàng
+				.customerName(customer.getFullName()) // Gán tên khách hàng
+				.phone(String.valueOf(customer.getPhone()))
+				.orderLines(order.getOrderLines().stream().map(this::mapOrderLineToDTO) // Chuyển đổi từng OrderLine //
+																						// sang DTO
+						.collect(Collectors.toSet()))
+				// Thông tin thanh toán
+				.paymentMethod(payment != null ? payment.getPaymentMethod().name() : null)
+				.paymentStatus(payment != null ? payment.getPaymentStatus().toString() : null)
+				.paymentDate(payment != null ? payment.getPaymentDate().toString() : null)
+				.paymentTotal(payment != null ? payment.getTotal() : null).build();
+	}
+
+	private User getUserById(Long customerId) {
+		System.out.println(customerId);
+		return userRepository.findById(customerId).orElse(null);
+	}
+
+	@Override
+	public List<Order> getAllOrders() {
+		return orderRepository.findAll();
+	}
+
+	@Override
+	public Order getOrderById(Long id) {
+		return orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Order not found with id: " + id));
+	}
+
+	@Override
+	public void saveOrder(Order order) {
+		orderRepository.save(order);
+	}
+
+	// Cập nhật thông tin trạng thái đơn hàng
+	@Override
+	public void updateOrderStatus(Long orderId, String status) {
+		Order order = orderRepository.findById(orderId)
+				.orElseThrow(() -> new RuntimeException("Order not found with id: " + orderId));
+		order.setOrderStatus(OrderStatus.valueOf(status)); // Cập nhật trạng thái
+		orderRepository.save(order); // Lưu thay đổi
+	}
+
+	@Override
+	public boolean processRefund(Long orderId) {
+		// Lấy đơn hàng từ cơ sở dữ liệu
+		Order order = orderRepository.findById(orderId).orElse(null);
+
+		if (order.getOrderStatus() == OrderStatus.CANCELLED) {
+			// Cập nhật trạng thái đơn hàng thành 'REFUND'
+			order.setOrderStatus(OrderStatus.REFUNDED);
+			orderRepository.save(order);
+			return true;
+		}
+
+		return false; // Nếu không tìm thấy đơn hàng hoặc đơn hàng đã bị hủy
+	}
+
+	@Override
+	public List<Order> getOrdersByStatus(OrderStatus status) {
+		// Lấy danh sách đơn hàng theo trạng thái
+		return orderRepository.findByOrderStatus(status);
+	}
+
+	// Lấy đơn hàng theo ID
+	public Optional<Order> getOrderOptional(Long id) {
+		return orderRepository.findById(id);
+	}
+
+	// Xóa đơn hàng theo ID
+	public void deleteOrder(Long id) {
+		orderRepository.deleteById(id);
+	}
+
+
+	@Override
+	public Optional<Order> findById(Long id) {
+		return orderRepository.findById(id);
+	}
+
+	@Override
+	public <S extends Order> S save(S entity) {
+		return orderRepository.save(entity);
+	}
+
+
+    @Autowired
+    public OrderService(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
+    }
+
+    public PurchaseHistoryDTO mapperToPurchaseHistoryDTO(Order order) {
+        Set<ProductHistoryDTO> productHistoryDTOs = order.getOrderLines().stream()
+                .map(orderLine -> {
+                    Product product = orderLine.getProduct();
+                    if (product != null) {
+                        return new ProductHistoryDTO(
+                                product.getProductCode(),
+                                product.getProductName(),
+                                orderLine.getQuantity(),
+                                product.getImage(),
+                                product.getCost(),
+                                product.getCategory()
+                        );
+                    }
+                    return null;
+                })
+                .filter(productHistoryDTO -> productHistoryDTO != null)
+                .collect(Collectors.toSet());
+        // Tính tổng chi phí đơn hàng
+        double totalCost = productHistoryDTOs.stream()
+                .mapToDouble(product -> product.getCost() * product.getQuantity())
+                .sum();
+        return new PurchaseHistoryDTO(
+                order.getOrderId(),
+                order.getOrderDate(),
+                order.getShippingAddress(),
+                order.getOrderStatus(),
+                productHistoryDTOs,
+                totalCost
+        );
+    }
+
+
+    @Override
+    public Set<PurchaseHistoryDTO> getAllOrders(Long customerId) {
+        Set<PurchaseHistoryDTO> allOrdersDTOs = new HashSet<>();
+
+        Set<Order> orders = orderRepository.findByCustomerId(customerId);
+
+        for (Order order : orders) {
+            allOrdersDTOs.add(mapperToPurchaseHistoryDTO(order));
+        }
+
+        return allOrdersDTOs;
+    }
+
+    @Override
+    public Set<PurchaseHistoryDTO> getPurchaseHistory(Long customerId, OrderStatus status) {
+        Set<PurchaseHistoryDTO> historyDTOs = new HashSet<>();
+
+        // Lấy các đơn hàng từ DB dựa vào customerId và trạng thái
+        Set<Order> orders = orderRepository.findByCustomerIdAndOrderStatus(customerId, status);
+
+        for (Order order : orders) {
+            historyDTOs.add(mapperToPurchaseHistoryDTO(order));
+        }
+
+        return historyDTOs;
     }
 }

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Quản Lý Đơn Hàng</title>
+	    <!-- Our files -->
+    <link rel="stylesheet" href="/employee/header.css">
+    <link rel="stylesheet" href="/employee/footer.css">
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			margin: 20px;
+		}
+
+		.tab {
+			display: flex;
+			gap: 10px;
+			cursor: pointer;
+		}
+
+		.tab a {
+			padding: 10px;
+			background-color: #f1f1f1;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			text-decoration: none;
+		}
+
+		.tab a.active {
+			background-color: #007bff;
+			color: #fff;
+		}
+
+		.tab-content {
+			padding: 20px;
+			border-top: none;
+		}
+
+		.order-list {
+			width: 100%;
+			border-collapse: collapse;
+		}
+
+		.order-list th,
+		.order-list td {
+			padding: 10px;
+			border: 1px solid #ccc;
+			text-align: left;
+		}
+	</style>
+</head>
+
+<body>
+	<header th:replace="~{employee/fragments/header::header}"></header>
+	<h1>Quản Lý Đơn Hàng</h1>
+	<div class="tab">
+		<a href="?tab=tat-ca-don-hang" th:classappend="${tab == 'tat-ca-don-hang' ? ' active' : ''}">Tất Cả Đơn Hàng</a>
+		<a href="?tab=don-cho-xac-nhan" th:classappend="${tab == 'don-cho-xac-nhan' ? ' active' : ''}">Đơn Chờ Xác
+			Nhận</a>
+		<a href="?tab=don-da-xac-nhan" th:classappend="${tab == 'don-da-xac-nhan' ? ' active' : ''}">Đơn Đã Xác
+			Nhận</a>
+		<a href="?tab=don-dang-van-chuyen" th:classappend="${tab == 'don-dang-van-chuyen' ? ' active' : ''}">Đơn Đang
+			Vận Chuyển</a>
+		<a href="?tab=don-da-giao" th:classappend="${tab == 'don-da-giao' ? ' active' : ''}">Đơn Đã Giao</a>
+		<a href="?tab=don-huy" th:classappend="${tab == 'don-huy' ? ' active' : ''}">Đơn Hủy</a>
+	</div>
+
+	<div th:if="${tab == 'tat-ca-don-hang'}" class="tab-content">
+		<h2>Tất Cả Đơn Hàng</h2>
+		<table class="order-list">
+			<tr>
+				<th>Mã Đơn Hàng</th>
+				<th>Mã Khách Hàng</th>
+				<th>Ngày Vận Chuyển</th>
+				<th>Ngày Đặt Hàng</th>
+				<th>Trạng Thái Đơn Hàng</th>
+				<th>Địa Chỉ Vận Chuyển</th>
+				<th>Cập Nhật Trạng Thái Đơn Hàng</th>
+			</tr>
+			<tr th:each="Order : ${Orders}">
+				<td th:text="${Order.orderId}"></td>
+				<td th:text="${Order.customerId}"></td>
+				<td th:text="${Order.deliveryDate}"></td>
+				<td th:text="${Order.orderDate}"></td>
+				<td th:text="${Order.orderStatus}"></td>
+				<td th:text="${Order.shippingAddress}"></td>
+				<td>
+					<form th:action="@{/employee/order-management}" method="post">
+						<input type="hidden" name="orderId" th:value="${Order.orderId}" />
+						<select name="status" class="status-select">
+							<option value="PENDING" th:selected="${Order.orderStatus == 'PENDING'}">PENDING</option>
+							<option value="CONFIRMED" th:selected="${Order.orderStatus == 'CONFIRMED'}">CONFIRMED
+							</option>
+							<option value="SHIPPING" th:selected="${Order.orderStatus == 'SHIPPING'}">SHIPPING</option>
+							<option value="COMPLETED" th:selected="${Order.orderStatus == 'COMPLETED'}">COMPLETED
+							</option>
+
+						</select>
+						<button type="submit">Cập nhật</button>
+					</form>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div th:if="${tab == 'don-cho-xac-nhan'}" class="tab-content">
+		<h2>Đơn Chờ Xác Nhận</h2>
+		<table class="order-list">
+			<tr>
+				<th>Mã Đơn Hàng</th>
+				<th>Mã Khách Hàng</th>
+				<th>Ngày Vận Chuyển</th>
+				<th>Ngày Đặt Hàng</th>
+				<th>Trạng Thái Đơn Hàng</th>
+				<th>Địa Chỉ Vận Chuyển</th>
+			</tr>
+			<tr th:each="order : ${Orders}">
+				<td th:text="${order.orderId}"></td>
+				<td th:text="${order.customerId}"></td>
+				<td th:text="${order.deliveryDate}"></td>
+				<td th:text="${order.orderDate}"></td>
+				<td th:text="${order.orderStatus}"></td>
+				<td th:text="${order.shippingAddress}"></td>
+			</tr>
+
+		</table>
+	</div>
+	<div th:if="${tab == 'don-da-xac-nhan'}" class="tab-content">
+		<h2>Đơn Đã Xác Nhận</h2>
+		<table class="order-list">
+			<tr>
+				<th>Mã Đơn Hàng</th>
+				<th>Mã Khách Hàng</th>
+				<th>Ngày Vận Chuyển</th>
+				<th>Ngày Đặt Hàng</th>
+				<th>Trạng Thái Đơn Hàng</th>
+				<th>Địa Chỉ Vận Chuyển</th>
+			</tr>
+			<tr th:each="order : ${Orders}">
+				<td th:text="${order.orderId}"></td>
+				<td th:text="${order.customerId}"></td>
+				<td th:text="${order.deliveryDate}"></td>
+				<td th:text="${order.orderDate}"></td>
+				<td th:text="${order.orderStatus}"></td>
+				<td th:text="${order.shippingAddress}"></td>
+			</tr>
+
+		</table>
+	</div>
+	<div th:if="${tab == 'don-dang-van-chuyen'}" class="tab-content">
+		<h2>Đơn Đang Vận Chuyển</h2>
+		<table class="order-list">
+			<tr>
+				<th>Mã Đơn Hàng</th>
+				<th>Mã Khách Hàng</th>
+				<th>Ngày Vận Chuyển</th>
+				<th>Ngày Đặt Hàng</th>
+				<th>Trạng Thái Đơn Hàng</th>
+				<th>Địa Chỉ Vận Chuyển</th>
+			</tr>
+			<tr th:each="order : ${Orders}">
+				<td th:text="${order.orderId}"></td>
+				<td th:text="${order.customerId}"></td>
+				<td th:text="${order.deliveryDate}"></td>
+				<td th:text="${order.orderDate}"></td>
+				<td th:text="${order.orderStatus}"></td>
+				<td th:text="${order.shippingAddress}"></td>
+			</tr>
+
+		</table>
+	</div>
+	<div th:if="${tab == 'don-da-giao'}" class="tab-content">
+		<h2>Đơn Đã Giao</h2>
+		<table class="order-list">
+			<tr>
+				<th>Mã Đơn Hàng</th>
+				<th>Mã Khách Hàng</th>
+				<th>Ngày Vận Chuyển</th>
+				<th>Ngày Đặt Hàng</th>
+				<th>Trạng Thái Đơn Hàng</th>
+				<th>Địa Chỉ Vận Chuyển</th>
+			</tr>
+			<tr th:each="order : ${Orders}">
+				<td th:text="${order.orderId}"></td>
+				<td th:text="${order.customerId}"></td>
+				<td th:text="${order.deliveryDate}"></td>
+				<td th:text="${order.orderDate}"></td>
+				<td th:text="${order.orderStatus}"></td>
+				<td th:text="${order.shippingAddress}"></td>
+			</tr>
+
+		</table>
+	</div>
+	<!-- Tab Đơn Hủy (Chưa có nội dung) -->
+	<div th:if="${tab == 'don-huy'}" class="tab-content">
+		<h2>Đơn Hủy</h2>
+		<table class="order-list">
+			<tr>
+				<th>Mã Đơn Hàng</th>
+				<th>Mã Khách Hàng</th>
+				<th>Ngày Vận Chuyển</th>
+				<th>Ngày Đặt Hàng</th>
+				<th>Trạng Thái Đơn Hàng</th>
+				<th>Địa Chỉ Vận Chuyển</th>
+				<th>Tình trạng</th>
+			</tr>
+			<tr th:each="Order : ${Orders}">
+				<td th:text="${Order != null ? Order.orderId : 'N/A'}"></td>
+				<td th:text="${Order != null ? Order.customerId : 'N/A'}"></td>
+				<td th:text="${Order != null ? Order.deliveryDate : 'N/A'}"></td>
+				<td th:text="${Order != null ? Order.orderDate : 'N/A'}"></td>
+				<td th:text="${Order != null ? Order.orderStatus : 'N/A'}"></td>
+				<td th:text="${Order != null ? Order.shippingAddress : 'N/A'}"></td>
+				<td>
+					<a th:href="@{|/employee/order-management/details/${Order != null ? Order.orderId : ''}|}"
+						class="button">Xem chi tiết</a>
+				</td>
+			</tr>
+
+		</table>
+	</div>
+<footer th:replace="~{employee/fragments/footer::footer}"></footer>
+</body>
+
+</html>

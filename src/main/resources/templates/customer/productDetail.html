@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link
+	href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"
+	rel="stylesheet">
+<!-- Icon font awesome -->
+<link rel="stylesheet"
+	href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+	integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+	crossorigin="anonymous">
+<!-- Reset css & grid system -->
+<link rel="stylesheet" href="/assets/css/library.css">
+<link href="/assets/owlCarousel/assets/owl.carousel.min.css"
+	rel="stylesheet">
+<!-- Layout -->
+<link rel="stylesheet" href="/assets/css/common.css">
+
+<style>
+/* Thêm CSS trực tiếp ở đây hoặc dùng file CSS riêng */
+body {
+	font-family: 'Roboto Slab', Arial, sans-serif;
+	background-color: #f9f9f9;
+	margin: 0;
+	padding: 0;
+}
+
+.container {
+	max-width: 1200px;
+	margin: auto;
+	padding: 20px;
+}
+
+.product-detail {
+	display: flex;
+	flex-wrap: wrap; /* Đảm bảo hiển thị tốt trên màn hình nhỏ */
+	gap: 30px;
+	margin-top: 20px;
+	background-color: #fff;
+	border-radius: 8px;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+	padding: 20px;
+}
+
+.product-detail .image {
+	flex: 1 1 300px; /* Đảm bảo chiếm đủ không gian nhưng không vượt quá */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.product-detail .image img {
+	max-width: 100%;
+	max-height: 400px;
+	object-fit: contain;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+}
+
+.product-detail .info {
+	flex: 2 1 500px; /* Linh hoạt chiếm không gian lớn hơn */
+}
+
+.product-detail .info h1 {
+	font-size: 24px;
+	color: #333;
+	margin-bottom: 15px;
+}
+
+.product-detail .info p {
+	margin: 5px 0;
+	font-size: 16px;
+	color: #333;
+	line-height: 1.6;
+}
+
+.product-detail .info .highlight {
+	font-weight: bold;
+	color: #e63946;
+	font-size: 18px;
+}
+
+.product-detail .info button {
+	display: inline-block;
+	margin-top: 20px;
+	padding: 10px 20px;
+	background-color: #007bff;
+	color: #fff;
+	border: none;
+	border-radius: 5px;
+	font-size: 16px;
+	font-weight: bold;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+.product-detail .info button:hover {
+	background-color: #0056b3;
+}
+
+#toggle-description, #toggle-ingredient, #toggle-how-to-use {
+	font-size: 14px;
+	text-decoration: underline;
+	padding: 0;
+	margin-left: 5px;
+	cursor: pointer;
+	border: none;
+	background: none;
+	color: #007bff;
+}
+
+.product-feedback {
+	font-family: Arial, sans-serif;
+	max-width: 600px;
+	margin: 20px auto;
+	padding: 15px;
+	border: 2px solid #ddd;
+	border-radius: 5px;
+	background-color: #f9f9f9;
+}
+
+.product-feedback h1 {
+	text-align: center;
+	color: #333;
+	font-size: 20px;
+}
+
+.feedback-item {
+	margin-bottom: 20px;
+}
+
+.feedback-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 5px;
+}
+
+.customer-name {
+	font-weight: bold;
+	color: #007BFF;
+}
+
+.rating {
+	font-size: 15px;
+	color: #FFA500; /* Màu cam cho sao */
+}
+
+.feedback-date, .feedback-comment {
+	margin-top: 10px;
+}
+
+.feedback-date strong, .feedback-comment strong {
+	color: #333;
+}
+
+.feedback-date span, .feedback-comment span {
+	color: #555;
+}
+
+.feedback-header p {
+	font-size: 14px;
+	line-height: 1.5;
+	color: #333;
+}
+
+.feedback-date p {
+	font-size: 14px;
+	line-height: 1.5;
+	color: #333;
+}
+
+.feedback-comment p {
+	font-size: 14px;
+	line-height: 1.5;
+	color: #333;
+}
+
+hr {
+	border: 0;
+	border-top: 1px solid #ddd;
+	margin: 10px 0;
+}
+
+.product-actions {
+	display: flex; /* Sử dụng flexbox để các phần tử nằm cùng một hàng */
+	align-items: center; /* Căn giữa theo chiều dọc */
+	gap: 80px; /* Tạo khoảng cách giữa button và icon */
+	font-size: 14px;
+}
+
+.product-info {
+	display: flex; /* Đảm bảo rằng icon và text sẽ nằm trong một dòng */
+	align-items: center; /* Căn giữa icon và văn bản */
+}
+
+.product-info i {
+	margin-right: 6px; /* Thêm khoảng cách nhỏ giữa icon và văn bản */
+	color: #28a745;
+}
+
+.product-info1 i {
+	margin-right: 6px; /* Thêm khoảng cách nhỏ giữa icon và văn bản */
+	color: #FF5733;
+}
+
+#toggle-description:hover, #toggle-ingredient:hover, #toggle-how-to-use:hover
+	{
+	text-decoration: underline;
+}
+</style>
+</head>
+<body>
+	<header th:replace="~{customer/fragments/header::header}"></header>
+
+	<div class="container">
+		<br> <br> <br> <br> <br> <br> <br>
+		<br> <br> <br>
+
+		<div class="product-detail">
+			<!-- Hình ảnh sản phẩm -->
+			<div class="image" th:if="${product.image.substring(0,4) != 'http'}">
+				<img th:src="@{'/assets/img/product/' + ${product.image}}" alt="Product Image">
+			</div>
+			
+			<div class="image" th:if="${product.image.substring(0,4) == 'http'}">
+				<img th:src="${product.image}" alt="Product Image">
+			</div>
+
+			<!-- Thông tin sản phẩm -->
+			<div class="info">
+				<h1 th:text="${product.productName}"></h1>
+				<p>
+					Thương hiệu: <span th:text="${product.brand}"></span>
+				</p>
+				<p>
+					Danh mục: <span th:text="${product.category}"></span>
+				</p>
+				<p>
+					Giá: <span class="highlight" th:text="${product.cost} + '₫'"></span>
+				</p>
+				<p>
+					Mô tả: <span id="short-description"
+						th:text="${product.description.substring(0, product.description.length < 30 ?  product.description.length : 30)} + '...'"></span>
+					<span id="full-description" style="display: none;"
+						th:text="${product.description}"></span>
+					<button id="toggle-description">Xem thêm</button>
+				</p>
+
+				<p>
+					Ngày sản xuất: <span th:text="${product.manufactureDate}"></span>
+				</p>
+				<p>
+					Hạn sử dụng: <span th:text="${product.expirationDate}"></span>
+				</p>
+				<p>
+					Thành phần: <span id="short-ingredient"
+						th:text="${product.ingredient.substring(0, product.ingredient.length < 30 ?  product.ingredient.length : 30)} + '...'"></span> <span
+						id="full-ingredient" th:text="${product.ingredient}"
+						style="display: none;"></span>
+					<button id="toggle-ingredient">Xem thêm</button>
+				</p>
+
+				<p>
+					Cách sử dụng: <span id="short-how-to-use"
+						th:text="${product.how_to_use.substring(0, product.how_to_use.length < 30 ?  product.how_to_use.length : 30)} + '...'"></span> <span
+						id="full-how-to-use" th:text="${product.how_to_use}"
+						style="display: none;"></span>
+					<button id="toggle-how-to-use">Xem thêm</button>
+				</p>
+
+				<p>
+					Thể tích: <span th:text="${product.volume}"></span>
+				</p>
+				<p>
+					Xuất xứ: <span th:text="${product.origin}"></span>
+				</p>
+				<p>
+					<label for="quantity">Số lượng:</label> <input type="number"
+						id="quantity" name="quantity" min="1" max="${product.stock}"
+						value="1" /> <span
+						th:text="${product.stock} + ' sản phẩm có sẵn'"></span>
+				</p>
+				<div class="product-actions">
+					<button th:disabled="${product.stock == 0}">
+						<a th:href="@{'/add-to-cart?productId=' + ${product.productId}}"
+							class="btn">Thêm vào giỏ hàng</a>
+					</button>
+					<div class="product-info">
+						<i class="fas fa-check-circle"></i> Hàng chính hãng 100%
+					</div>
+					<div class="product-info1">
+						<i class="fas fa-truck"></i> Miễn phí vận chuyển
+					</div>
+				</div>
+
+
+
+			</div>
+		</div>
+
+	</div>
+	<!-- Phần đánh giá sản phẩm -->
+	<div class="product-feedback">
+		<h1>Đánh giá sản phẩm</h1>
+		<div th:if="${product.productFeedbacks.size() == 0}">
+			<p>Chưa có đánh giá nào cho sản phẩm này.</p>
+		</div>
+		<div th:each="feedback : ${product.productFeedbacks}">
+			<div class="feedback-item">
+				<div class="feedback-header">
+					<p>
+						<strong>Mã người dùng:</strong> <span
+							th:text="${feedback.customerId}"></span>
+					</p>
+					<span class="rating" th:text="'⭐' + ${feedback.rating}"></span>
+				</div>
+				<div class="feedback-date">
+					<p>
+						<strong>Ngày đánh giá:</strong> <span
+							th:text="${feedback.feedbackDate}"></span>
+					</p>
+				</div>
+				<div class="feedback-comment">
+					<p>
+						<strong>Ý kiến:</strong> <span th:text="${feedback.comment}"></span>
+					</p>
+				</div>
+			</div>
+			<hr />
+		</div>
+	</div>
+
+
+
+
+
+	<script>
+		document
+				.addEventListener(
+						'DOMContentLoaded',
+						function() {
+							// Xử lý mô tả
+							const toggleDescriptionButton = document
+									.getElementById('toggle-description');
+							const shortDescription = document
+									.getElementById('short-description');
+							const fullDescription = document
+									.getElementById('full-description');
+
+							toggleDescriptionButton
+									.addEventListener(
+											'click',
+											function() {
+												if (fullDescription.style.display === 'none') {
+													fullDescription.style.display = 'inline';
+													shortDescription.style.display = 'none';
+													toggleDescriptionButton.textContent = 'Thu gọn';
+												} else {
+													fullDescription.style.display = 'none';
+													shortDescription.style.display = 'inline';
+													toggleDescriptionButton.textContent = 'Xem thêm';
+												}
+											});
+
+							// Xử lý thành phần
+							const toggleIngredientButton = document
+									.getElementById('toggle-ingredient');
+							const shortIngredient = document
+									.getElementById('short-ingredient');
+							const fullIngredient = document
+									.getElementById('full-ingredient');
+
+							toggleIngredientButton
+									.addEventListener(
+											'click',
+											function() {
+												if (fullIngredient.style.display === 'none') {
+													fullIngredient.style.display = 'inline';
+													shortIngredient.style.display = 'none';
+													toggleIngredientButton.textContent = 'Thu gọn';
+												} else {
+													fullIngredient.style.display = 'none';
+													shortIngredient.style.display = 'inline';
+													toggleIngredientButton.textContent = 'Xem thêm';
+												}
+											});
+
+							// Xử lý cách sử dụng
+							const toggleHowToUseButton = document
+									.getElementById('toggle-how-to-use');
+							const shortHowToUse = document
+									.getElementById('short-how-to-use');
+							const fullHowToUse = document
+									.getElementById('full-how-to-use');
+
+							toggleHowToUseButton
+									.addEventListener(
+											'click',
+											function() {
+												if (fullHowToUse.style.display === 'none') {
+													fullHowToUse.style.display = 'inline';
+													shortHowToUse.style.display = 'none';
+													toggleHowToUseButton.textContent = 'Thu gọn';
+												} else {
+													fullHowToUse.style.display = 'none';
+													shortHowToUse.style.display = 'inline';
+													toggleHowToUseButton.textContent = 'Xem thêm';
+												}
+											});
+						});
+	</script>
+	<footer th:replace="~{customer/fragments/footer::footer}"></footer>
+</body>
+
+</html>

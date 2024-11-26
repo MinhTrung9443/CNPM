@@ -3,11 +3,14 @@ package com.cnpm.service.impl;
 
 
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
 import com.cnpm.entity.Account;
+import com.cnpm.entity.Customer;
 import com.cnpm.entity.User;
 import com.cnpm.repository.AccountRepository;
 import com.cnpm.repository.UserRepository;
@@ -50,6 +53,11 @@ public class UserService implements IUserService{
 	public void delete(User entity) {
 		userrepo.delete(entity);
 	}
+
+	@Override
+	public Optional<User> findById(Long id) {
+		return userrepo.findById(id);
+	}
 	
-	
+
 }

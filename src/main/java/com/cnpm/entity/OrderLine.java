@@ -28,4 +28,5 @@ public class OrderLine implements Serializable {
     @JoinColumn(name = "orderId", referencedColumnName = "orderId")
     @JsonBackReference
     private Order order;
+    
 }

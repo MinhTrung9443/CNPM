@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+<meta charset="UTF-8">
+<title>Quên mật khẩu</title>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link
+	href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"
+	rel="stylesheet">
+<!-- Icon fontanwesome -->
+<link rel="stylesheet"
+	href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+	integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+	crossorigin="anonymous">
+<!-- Reset css & grid sytem -->
+<link rel="stylesheet" href="/assets/css/library.css">
+<link href="/assets/owlCarousel/assets/owl.carousel.min.css"
+	rel="stylesheet">
+<!-- Layout -->
+<link rel="stylesheet" href="/assets/css/common.css">
+<!-- index -->
+<link href="/assets/css/home.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Owl caroucel Js-->
+<script src="/assets/owlCarousel/owl.carousel.min.js"></script>
+<style>
+    .reset-password-form {
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .reset-password-form h2 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+    }
+    .reset-password-form button {
+        width: 100%;
+        padding: 10px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+    }
+    .reset-password-form button:hover {
+        background-color: #45a049;
+    }
+</style>
+</head>
+<body >
+<header th:replace="~{customer/fragments/header::header}"></header>
+	<div class="main__slice">
+		<div class="slider">
+			<div class="slide active"
+				style="background-image: url(/assets/img/slider/slide-6.jpg)">
+				<div class="container">
+					<div class="caption">
+						<h1>Giảm giá 30%</h1>
+						<p>Giảm giá cực sốc trong tháng 6!</p>
+						<a href="listProduct.html" class="btn btn--default">Xem ngay</a>
+					</div>
+				</div>
+			</div>
+			<div class="slide active"
+				style="background-image: url(/assets/img/slider/slide-4.jpg)">
+				<div class="container">
+					<div class="caption">
+						<h1>Giảm giá 30%</h1>
+						<p>Giảm giá cực sốc trong tháng 6!</p>
+						<a href="listProduct.html" class="btn btn--default">Xem ngay</a>
+					</div>
+				</div>
+			</div>
+			<div class="slide active"
+				style="background-image: url(/assets/img/slider/slide-5.jpg)">
+				<div class="container">
+					<div class="caption">
+						<h1>Giảm giá 30%</h1>
+						<p>Giảm giá cực sốc trong tháng 6!</p>
+						<a href="listProduct.html" class="btn btn--default">Xem ngay</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- controls  -->
+		<div class="controls">
+			<div class="prev">
+				<i class="fas fa-chevron-left"></i>
+			</div>
+			<div class="next">
+				<i class="fas fa-chevron-right"></i>
+			</div>
+		</div>
+		<!-- indicators -->
+		<div class="indicator"></div>
+	</div>
+    <div class="reset-password-form" layout:fragment="app-content">
+        <h2>Quên mật khẩu</h2>
+        <form action="/forgotpass" method="post">
+            <label for="email">Nhập email:</label>
+            <input type="email" name="email" required />
+            <button type="submit">Xác nhận</button>
+        </form>
+    </div>
+    <footer th:replace="~{customer/fragments/footer::footer}"></footer>
+</body>
+</html>

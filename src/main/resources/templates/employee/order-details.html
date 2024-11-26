@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Chi tiết đơn hàng</title>
+
+	<!-- Fonts and Icons -->
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+	<!-- Custom Styles -->
+	<link rel="stylesheet" href="/owner/header.css">
+	<link rel="stylesheet" href="/owner/footer.css">
+	<style>
+		body {
+			font-family: 'Roboto', sans-serif;
+			background-color: #f9f9f9;
+			margin: 0;
+			padding: 0;
+		}
+
+		.invoice-container {
+			max-width: 900px;
+			margin: 30px auto;
+			background-color: #fff;
+			border-radius: 8px;
+			padding: 20px;
+			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+		}
+
+		.invoice-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			border-bottom: 2px solid #ddd;
+			padding-bottom: 15px;
+			margin-bottom: 20px;
+		}
+
+		.invoice-header h1 {
+			font-size: 24px;
+			color: #007bff;
+		}
+
+		.invoice-details {
+			margin-bottom: 20px;
+		}
+
+		.invoice-details p {
+			margin: 0;
+			font-size: 14px;
+		}
+
+		.invoice-table {
+			width: 100%;
+			border-collapse: collapse;
+			margin-top: 20px;
+		}
+
+		.invoice-table th,
+		.invoice-table td {
+			padding: 12px;
+			border: 1px solid #ddd;
+			text-align: center;
+		}
+
+		.invoice-table th {
+			background-color: rgb(255, 255, 255);
+			color: rgb(0, 0, 0);
+			font-size: 14px;
+		}
+
+		.invoice-table tr:nth-child(even) {
+			background-color: rgb(128, 255, 255);
+		}
+
+		/* Chi tiết sản phẩm: chữ nhỏ hơn */
+		.invoice-table.small-text th,
+		.invoice-table.small-text td {
+			font-size: 15px;
+		}
+
+		.section-title {
+			font-size: 18px;
+			margin-top: 20px;
+		}
+
+		/* Bảng thanh toán */
+		.payment-table th {
+			text-align: left;
+			width: 40%;
+			background-color: rgb(255, 255, 255);
+		}
+
+		.payment-table td {
+			text-align: left;
+			padding-left: 15px;
+		}
+
+		.invoice-footer {
+			margin-top: 20px;
+			text-align: center;
+		}
+
+		.btn-back,
+		.btn-refund {
+			display: inline-block;
+			margin: 10px 5px;
+			padding: 10px 20px;
+			color: #fff;
+			text-decoration: none;
+			border-radius: 5px;
+		}
+
+		.btn-back {
+			background-color: #007bff;
+		}
+
+		.btn-refund {
+			background-color: #dc3545;
+			border: none;
+			cursor: pointer;
+		}
+
+		.btn-back:hover,
+		.btn-refund:hover {
+			opacity: 0.8;
+		}
+
+		footer {
+			margin-top: 30px;
+			text-align: center;
+			padding: 20px;
+			background-color: #f1f1f1;
+			font-size: 14px;
+			color: #555;
+		}
+	</style>
+</head>
+
+<body>
+	<header th:replace="~{employee/fragments/header::header}"></header>
+
+	<div class="invoice-container">
+		<div class="invoice-header">
+			<h1>Chi tiết đơn hàng</h1>
+			<p><strong>Mã đơn hàng:</strong> <span th:text="${orderDetails.orderId}"></span></p>
+		</div>
+
+		<div class="invoice-details">
+			<p><strong>Ngày đặt hàng:</strong> <span th:text="${orderDetails.orderDate}"></span></p>
+			<p><strong>Địa chỉ giao hàng:</strong> <span th:text="${orderDetails.shippingAddress}"></span></p>
+			<p><strong>Trạng thái:</strong> <span th:text="${orderDetails.orderStatus}"></span></p>
+			<p><strong>Ngày vận chuyển:</strong> <span th:text="${orderDetails.deliveryDate}"></span></p>
+			<p><strong>Khách hàng:</strong> <span th:text="${orderDetails.customerName}"></span></p>
+			<p><strong>Số điện thoại:</strong> <span th:text="${orderDetails.phone}"></span></p>
+		</div>
+
+		<h2 class="section-title">Chi tiết sản phẩm</h2>
+		<table class="invoice-table small-text">
+			<thead>
+				<tr>
+					<th>Mã SP</th>
+					<th>Tên SP</th>
+					<th>Số lượng</th>
+					<th>Đơn giá</th>
+					<th>Thành tiền</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="orderLine : ${orderDetails.orderLines}">
+					<td th:text="${orderLine.productId}"></td>
+					<td th:text="${orderLine.productName}"></td>
+					<td th:text="${orderLine.quantity}"></td>
+					<td th:text="${orderLine.price}"></td>
+					<td th:text="${orderLine.totalPrice}"></td>
+				</tr>
+			</tbody>
+		</table>
+
+		<h2 class="section-title">Thông tin thanh toán</h2>
+		<div class="section" th:if="${orderDetails.paymentMethod}">
+			<table class="invoice-table payment-table">
+				<tr>
+					<th>Phương thức thanh toán</th>
+					<td th:text="${orderDetails.paymentMethod}"></td>
+				</tr>
+				<tr>
+					<th>Trạng thái thanh toán</th>
+					<td th:text="${orderDetails.paymentStatus}"></td>
+				</tr>
+				<tr>
+					<th>Ngày thanh toán</th>
+					<td th:text="${orderDetails.paymentDate}"></td>
+				</tr>
+				<tr>
+					<th>Tổng tiền</th>
+					<td th:text="${orderDetails.paymentTotal}"></td>
+				</tr>
+			</table>
+		</div>
+		<div class="section" th:if="${orderDetails.paymentMethod == null}">
+			<p>Đơn hàng này chưa có thông tin thanh toán.</p>
+		</div>
+	</div>
+
+	<div class="invoice-footer">
+		<p><strong>Tổng tiền:</strong> <span th:text="${orderDetails.paymentTotal}"></span> VND</p>
+		<a href="/employee/order-management" class="btn-back">Trở về</a>
+		<form th:action="@{/employee/order-management/refund}" method="POST" style="display: inline;">
+			<input type="hidden" name="orderId" th:value="${orderId}">
+			<input type="hidden" name="status" value="REFUND">
+			<button type="submit" class="btn-refund">Hoàn tiền</button>
+		</form>
+	</div>
+
+	<footer th:replace="~{employee/fragments/footer::footer}"></footer>
+</body>
+
+</html>

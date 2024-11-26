@@ -104,7 +104,7 @@ public class PaypalController {
                 Logger.log("formattedDate" + LocalDateTime.now().format(formatter));
                 // Chuyển đổi sang String
                 String formattedDate = LocalDateTime.now().format(formatter);
-                orderService.updateOrderStatus(orderId, formattedDate);
+                orderService.updateOrderStatusPaymentTime(orderId, formattedDate);
 
             }
             return new ResponseEntity<Order>(response, HttpStatus.OK);

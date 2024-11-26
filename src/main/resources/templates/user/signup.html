@@ -25,7 +25,7 @@
 <!-- Owl caroucel Js-->
 <script src="/assets/owlCarousel/owl.carousel.min.js"></script>
 <style>
-form {
+.form-signup {
     display: grid;
     grid-template-columns: 1fr 1fr; /* Chia form thành 2 cột */
     gap: 16px; /* Khoảng cách giữa các ô */
@@ -39,7 +39,7 @@ form {
     font-size: 16px;
 }
 
-form h2 {
+.form-signup h2 {
     grid-column: span 2; /* Đặt tiêu đề form chiếm toàn bộ hàng */
     text-align: center;
     margin-bottom: 20px;
@@ -126,7 +126,7 @@ button:hover {
 		<div class="indicator"></div>
 	</div>
 	<div class="signupForm" >
-    <form action="/signup" method="post">
+    <form action="/signup" method="post" class = "form-signup">
         <h2>Đăng ký tài khoản</h2>
         <!-- Họ tên -->
         <label for="fullName">Họ tên:</label>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>Thông tin người dùng</title>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link
+	href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"
+	rel="stylesheet">
+<!-- Icon font awesome -->
+<link rel="stylesheet"
+	href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+	integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+	crossorigin="anonymous">
+<!-- Reset css & grid system -->
+<link rel="stylesheet" href="/assets/css/library.css">
+
+<!-- Layout -->
+<link rel="stylesheet" href="/assets/css/common.css">
+
+<style>
+body {
+	background-color: #f4f7fa;
+	font-family: 'Roboto Slab', serif;
+	padding: 0px;
+	margin: 0;
+	
+}
+
+.container {
+	margin-top: 40px;
+	max-width: 900px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.card {
+	border-radius: 12px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	overflow: hidden;
+}
+
+.card-header {
+	background-color: #ff7a00;
+	color: white;
+	padding: 20px;
+	text-align: center;
+}
+
+.card-header h2 {
+	margin: 0;
+	font-size: 2.5rem;
+}
+
+.card-body {
+	background-color: white;
+	padding: 30px;
+}
+
+.profile-info {
+	margin-bottom: 30px;
+}
+
+.profile-info .row {
+	margin-bottom: 20px;
+}
+
+.profile-info .col-md-4 {
+	font-weight: bold;
+	font-size: 2rem;
+}
+
+.profile-info .col-md-8 {
+	font-size: 2rem;
+	color: #555;
+}
+
+.btn-primary {
+	background-color:#ff7a00;
+	border-color:#ff7a00;
+	padding: 10px 20px;
+	font-size: 16px;
+	text-transform: uppercase;
+	border-radius: 5px;
+	text-decoration: none;
+	color: white;
+	display: inline-block;
+}
+
+.btn-primary:hover {
+	background-color:#ff7a00;
+	border-color:#ff7a00;
+}
+
+.text-center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 20px;
+	font-size:20px;
+}
+
+
+footer {
+	margin-top: 30px;
+	text-align: center;
+	padding: 10px;
+	background-color: #007bff;
+	color: white;
+}
+</style>
+</head>
+<body>
+	<header th:replace="~{customer/fragments/header::header}"></header>
+
+	<div class="container">
+		<!-- Card to hold user profile -->
+		<br><br><br><br><br><br><br><br><br><br>
+		<div class="card">
+
+			<div class="card-header">
+				<h2>Thông tin cá nhân</h2>
+			</div>
+			<div class="card-body">
+				<!-- Profile Information -->
+				
+				<div class="profile-info">
+					<div class="row" th:if="${user.account}">
+						<div class="col-md-4">Tên đăng nhập:   </div>
+						<div class="col-md-8">
+							<span th:text="${user.account.username}"></span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">Họ tên:   </div>
+						<div class="col-md-8">
+							<span th:text="${user.fullName}"></span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">Email:   </div>
+						<div class="col-md-8">
+							<span th:text="${user.email}"></span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">Số điện thoại:</div>
+						<div class="col-md-8">
+							<span th:text="${user.phone}"></span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">Địa chỉ:</div>
+						<div class="col-md-8">
+							<span th:text="${user.address}"></span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">Giới tính:</div>
+						<div class="col-md-8">
+							<span th:text="${user.gender}"></span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">Ngày sinh:</div>
+						<div class="col-md-8">
+							<span th:text="${user.birthDate}"></span>
+						</div>
+					</div>
+				</div>
+				<div class="text-center">
+					<!-- Edit button -->
+					<a href="/customer/update" class="btn btn-primary">Chỉnh sửa thông tin</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br><br>
+	<footer th:replace="customer/fragments/footer :: footer"></footer>
+
+
+</body>
+
+</html>

@@ -1,28 +1,40 @@
-<!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Trang chủ</title>
-<link rel="stylesheet" href="/owner/header.css">
-<link rel="stylesheet" href="/owner/footer.css">
-<link
-	href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"
-	rel="stylesheet">
-<link rel="preconnect" href="https://fonts.gstatic.com">
-<link rel="stylesheet"
-	href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-	integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
-	crossorigin="anonymous">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Nhân Viên - Beauty Mona Cosmetics</title>
+    <link rel="shortcut icon" href="img/favicon.ico" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+        crossorigin="anonymous">
+
+    <!-- Chart JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+
+    <!-- Our files -->
+    <link rel="stylesheet" href="/employee/header.css">
+    <link rel="stylesheet" href="/employee/footer.css">
+
 </head>
+
 <body>
-	<header th:replace="~{employee/fragments/header::header}"></header>
+    <header th:replace="~{/employee/fragments/header::header}">
+    </header>
 
-	<footer th:replace="~{employee/fragments/footer :: footer}"></footer>
+		<div>
+		<img alt="" src="/assets/img/slider/slide-10.jpg">
+		</div>
+    
 
+
+    <footer th:replace="~{/employee/fragments/footer::footer}">
+
+    </footer>
 </body>
+
 </html>

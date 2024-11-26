@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/css/cart.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"
+          rel="stylesheet"><!-- Icon fontanwesome -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+          integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous">
+    <!-- Reset css & grid sytem -->
+    <link rel="stylesheet" href="/assets/css/library.css">
+    <link href="/assets/owlCarousel/assets/owl.carousel.min.css" rel="stylesheet"><!-- Layout -->
+    <link rel="stylesheet" href="/assets/css/common.css"><!-- index -->
+    <link href="/assets/css/home.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script><!-- Owl caroucel Js-->
+    <script src="/assets/owlCarousel/owl.carousel.min.js"></script>
+    <title>Giỏ Hàng</title>
+</head>
+<body>
+
+<style>
+    /* Tổng thể bố cục giỏ hàng */
+    .main__cart {
+        margin: 20px 0;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Dòng sản phẩm và các tiêu đề */
+    .row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 0;
+        border-bottom: 1px solid #e5e5e5;
+    }
+
+    .title {
+        font-weight: bold;
+        font-size: 1.1rem;
+        border-bottom: 2px solid #007bff;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    .item:last-child {
+        border-bottom: none;
+    }
+
+    /* Phần sản phẩm với hình ảnh */
+    .main__cart-product {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .main__cart-product img {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        background-color: #fff;
+    }
+
+    .main__cart-product .name {
+        font-size: 1rem;
+        color: #555;
+        font-weight: 500;
+    }
+
+    /* Giá sản phẩm */
+    .main__cart-price {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #333;
+    }
+
+    /* Nhập số lượng sản phẩm */
+    .input-qty {
+        width: 60px;
+        height: 35px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        text-align: center;
+        font-size: 1rem;
+    }
+
+    /* Nút hành động */
+    .btn {
+        padding: 7px 15px;
+        border-radius: 5px;
+        font-size: 0.9rem;
+        transition: background-color 0.3s ease;
+        display: inline-block;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    .btn--default {
+        background-color: #28a745;
+        color: #fff;
+        margin-top: 20px;
+        display: inline-block;
+        text-decoration: none;
+        text-align: center;
+    }
+
+    .btn--default:hover {
+        background-color: #218838;
+    }
+
+    .btn.remove {
+        background-color: #dc3545;
+        color: #fff;
+    }
+
+    .btn.remove:hover {
+        background-color: #c82333;
+    }
+
+    /* Tổng tiền */
+    .total-money {
+        font-size: 1.3rem;
+        font-weight: bold;
+        text-align: right;
+        margin: 20px 0;
+        color: #007bff;
+    }
+</style>
+
+<header th:replace="~{customer/fragments/header::header}"></header>
+<!-- Slider -->
+		<div class="main__slice">
+			<div class="slider">
+				<div class="slide active"
+					style="background-image: url(/assets/img/slider/slide-10.jpg)">
+					<div class="container">
+						<div class="caption">
+
+							<p></p>
+							<a href="listProduct.html" class="btn btn--default">Xem ngay</a>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<!-- controls  -->
+			<div class="controls">
+				<div class="prev">
+					<i class="fas fa-chevron-left"></i>
+				</div>
+				<div class="next">
+					<i class="fas fa-chevron-right"></i>
+				</div>
+			</div>
+			<!-- indicators -->
+			<div class="indicator"></div>
+		</div>
+
+<div class="main">
+    <div class="grid wide">
+        <h1 style="font-size: 25px; text-align: center">Giỏ Hàng</h1>
+        <div class="main__cart">
+            <div class="row title">
+                <div class="col">Sản phẩm</div>
+                <div class="col">Giá</div>
+                <div class="col">Số lượng</div>
+                <div class="col">Tổng</div>
+                <div class="col">Hành động</div>
+            </div>
+
+            <!-- Iterate over cartItems -->
+            <div th:each="cartItem : ${cartItems}" class="row item">
+                <div class="col main__cart-product">
+                    <!-- Display product image -->
+                    <img th:src="@{${cartItem.product.image}}" alt="Product Image">
+                    <span class="name" th:text="${cartItem.product.productName}">Áo sơ mi caro</span>
+                </div>
+                <div class="col main__cart-price" th:text="${cartItem.product.cost} + ' ₫'">45,000 ₫</div>
+                <div class="col">
+                    <input type="number" th:value="${cartItem.quantity}" class="input-qty" min="1"
+                           th:data-cart-item-id="${cartItem.cartItemId}">
+                </div>
+                <div class="col main__cart-price" th:text="${cartItem.product.cost * cartItem.quantity} + ' ₫'">45,000
+                    ₫
+                </div>
+                <div class="col">
+                    <button class="btn remove" th:onclick="'removeItem(' + ${cartItem.cartItemId} + ')'">Xóa</button>
+                </div>
+            </div>
+            <!-- End iterate -->
+
+            <!-- Display total -->
+            <div class="total-money" th:text="'Tổng cộng: ' + ${total} + ' ₫'">Tổng cộng: 45,000 ₫</div>
+
+            <!-- Payment button -->
+<!--            <a href="checkout" class="btn btn&#45;&#45;default">Thanh toán</a>-->
+            <a th:href="@{/order/preview-checkout}" class="btn btn--default">Thanh toán</a>
+
+        </div>
+    </div>
+</div>
+<footer th:replace="~{customer/fragments/footer::footer}"></footer>
+
+		
+		
+<script src="/assets/js/cart.js"></script>
+<script>
+    // Function to handle the removal of cart items
+    function removeItem(cartItemId) {
+        $.ajax({
+            url: '/remove-item',  // URL to handle the request
+            type: 'POST',
+            data: {cartItemId: cartItemId},  // Sending cart item ID to backend
+            success: function (response) {
+                alert(response); // Show response message from backend
+                location.reload(); // Reload the page to reflect changes
+            },
+            error: function () {
+                alert("Có lỗi xảy ra");
+            }
+        });
+    }
+
+    // Function to update the total after any changes
+    function updateTotal() {
+        let total = 0;
+        document.querySelectorAll('.main__cart-price').forEach(price => {
+            const itemPrice = parseFloat(price.innerText.replace('₫', '').replace(',', ''));
+            total += itemPrice;
+        });
+        document.querySelector('.total-money').innerText = 'Tổng cộng: ' + total.toLocaleString() + ' ₫';
+    }
+
+    // Event listener for quantity changes
+    document.querySelectorAll('.input-qty').forEach(input => {
+        input.addEventListener('change', function () {
+            const cartItemId = input.getAttribute('data-cart-item-id');
+            const quantity = input.value;
+
+            // Update quantity via AJAX
+            $.ajax({
+                url: '/update-quantity', // URL to handle the update request
+                type: 'POST',
+                data: {cartItemId: cartItemId, quantity: quantity},
+                success: function (response) {
+                    alert(response); // Show success message
+                    updateTotal(); // Update the total price
+                },
+                error: function () {
+                    alert("Có lỗi xảy ra!");
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

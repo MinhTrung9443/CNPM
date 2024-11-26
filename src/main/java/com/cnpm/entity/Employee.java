@@ -15,4 +15,5 @@ import java.time.LocalDate;
 @Entity
 public class Employee extends User implements Serializable {
     private LocalDate startDate;
+    
 }
