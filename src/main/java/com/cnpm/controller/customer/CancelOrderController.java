@@ -37,7 +37,6 @@ public class CancelOrderController implements Serializable{
 		try
 		{
 			order = opOrder.get();
-			return new ModelAndView("redirect:/followOrder/100",model);
 		}catch (Exception e) {
 			e.printStackTrace();// TODO: handle exception
 		}
@@ -49,15 +48,28 @@ public class CancelOrderController implements Serializable{
 			
 			int quantity =  orderline.getQuantity();
 			Product pro = productservice.findById(orderline.getProduct().getProductId()).get();
-			pro.setProductId(null);
-			pro.setIsUsed(0);
+			Product newProduct = new Product();
+			newProduct.setProductCode(pro.getProductCode());
+			newProduct.setProductName(pro.getProductName());
+			newProduct.setCategory(pro.getCategory());
+			newProduct.setCost(pro.getCost());
+			newProduct.setDescription(pro.getDescription());
+			newProduct.setBrand(pro.getBrand());
+			newProduct.setManufactureDate(pro.getManufactureDate());
+			newProduct.setExpirationDate(pro.getExpirationDate());
+			newProduct.setIngredient(pro.getIngredient());
+			newProduct.setHow_to_use(pro.getHow_to_use());
+			newProduct.setVolume(pro.getVolume());
+			newProduct.setOrigin(pro.getOrigin());
+			newProduct.setImage(pro.getImage());
+			newProduct.setIsUsed(0);
 			for (int i = 0;i<quantity;i++)
 			{
-				productservice.save(pro);
+				productservice.save(newProduct);
 			}
 			
 		}
-		return new ModelAndView("",model);
+		return new ModelAndView("redirect:/customer/order-history",model);
 
 	}
 }
