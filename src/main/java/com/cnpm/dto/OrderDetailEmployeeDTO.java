@@ -17,7 +17,7 @@ public class OrderDetailEmployeeDTO {
 	    private LocalDateTime deliveryDate;
 	    private Long customerId; 
 	    private String customerName;
-	    private String accountNumber;
+	    private String phone;
 	    // Thông tin sản phẩm
 	    private Set<OrderLineDTO> orderLines;
 	 // Thông tin thanh toán

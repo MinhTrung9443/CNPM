@@ -1,5 +1,6 @@
 package com.cnpm.controller.employee;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,12 @@ public class ManageOrderController {
 			orders = orderService.getOrdersByStatus(OrderStatus.COMPLETED); // Đơn đã giao
 			break;
 		case "don-huy":
-			orders = orderService.getOrdersByStatus(OrderStatus.CANCELLED); // Đơn hủy
+			List<Order> cancelledOrders = orderService.getOrdersByStatus(OrderStatus.CANCELLED);
+			List<Order> refundedOrders = orderService.getOrdersByStatus(OrderStatus.REFUNDED);
+
+			orders = new ArrayList<>();
+			orders.addAll(cancelledOrders);
+			orders.addAll(refundedOrders); // Đơn hủy
 			break;
 		default:
 			orders = orderService.getAllOrders(); // Mặc định là tất cả đơn hàng
@@ -115,4 +121,5 @@ public class ManageOrderController {
 		}
 		return ResponseEntity.notFound().build(); // Trả về HTTP 404 nếu không tìm thấy đơn hàng
 	}
+	
 }

@@ -1,56 +1,175 @@
 <!doctype html>
-<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
- <head>
-    <!-- Thêm link Font Awesome nếu chưa có -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Header</title>
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
- </head>
- <body>
- <header th:fragment="header">
- <div class="header scrolling" id="myHeader">
-  <div class="grid wide">
-   <div class="header__top">
-   
-	<div class="header__logo">
-	<a href="index.html" >
-     <img src="./assets/logo.png" alt="">
-    </a>
-	</div>
-    <!-- Hiển thị tên người dùng nếu đã đăng nhập -->
-    <h1 th:text="'Hi, ' + ${session.username}"></h1>  <!-- Lấy username từ session -->
-    <div class="header__account" th:if="${session.user != null}">
-     <a href="MyAccount" class="header__account-login">Tài khoản cá nhân <i class="fa-solid fa-user"></i></a>
-    </div>
-  
-   </div>
-  </div>
-  <!-- Menu -->
-  <div class="header__nav">
-   <ul class="header__nav-list">
-   <li class="header__nav-item index">
-     <a href="index.html" class="header__nav-link"><i class="fa-solid fa-list"></i></a>
-    </li>
-    <li class="header__nav-item">
-     <a href="index.html" class="header__nav-link">Trang chủ</a>
-    </li>
-    <li class="header__nav-item">
-     <a href="/employee/products" class="header__nav-link">Quản lý sản phẩm</a>
-    </li>
-    <li class="header__nav-item">
-     <a href="#" class="header__nav-link">Quản lý đơn hàng</a>
-    </li>
-        <li class="header__nav-item">
-     <a href="signout" class="header__nav-link">Đăng xuất</a>
-     <!-- Icon Liên hệ (Email) -->
-     <li class="header__nav-item">
-        <!-- Truyền username vào đường dẫn chat -->
-        <a th:href="@{chat/{username}(username=${session.username})}" class="header__nav-link">
-            <i class="fa-solid fa-comment"></i> Chat với khách hàng
-        </a>
-    </li>
-    </li>
-   </ul>
-  </div>
- </div>
- </header>
- </body>
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f4f9;
+        }
+
+        /* Header */
+        .header {
+            background: #ffffff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header__top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: #4b77be;
+        }
+
+        .header__logo img {
+            width: 160px;
+            height: auto;
+        }
+
+        .header__account a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header__account a:hover {
+            color: #fbd46d;
+        }
+
+        /* Navigation */
+        .header__nav {
+            display: flex;
+            justify-content: center;
+            padding: 10px 20px;
+            background-color: #ffffff;
+        }
+
+        .header__nav-list {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header__nav-item {
+            position: relative;
+        }
+
+        .header__nav-link {
+            text-decoration: none;
+            color: #4b77be;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 10px 15px;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header__nav-link:hover {
+            background-color: #4b77be;
+            color: #ffffff;
+            box-shadow: 0 4px 10px rgba(75, 119, 190, 0.3);
+        }
+
+        /* Dropdown Menu */
+        .header__nav-item .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #ffffff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            min-width: 200px;
+        }
+
+        .header__nav-item:hover .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 10px 15px;
+            color: #4b77be;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #4b77be;
+            color: #ffffff;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header__nav {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .header__nav-list {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <!-- Top Header -->
+        <div class="header__top">
+            <div class="header__logo">
+                <a href="index.html">
+                   
+                </a>
+            </div>
+           
+        </div>
+        <!-- Navigation -->
+        <nav class="header__nav">
+            <ul class="header__nav-list">
+                <li class="header__nav-item">
+                    <a href="/signin" class="header__nav-link"><i class="fa-solid fa-home"></i> Trang chủ</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="/employee/products" class="header__nav-link"><i class="fa-solid fa-box"></i> Quản lý sản phẩm</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="/employee/order-management" class="header__nav-link"><i class="fa-solid fa-file-invoice"></i> Quản lý đơn hàng</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="signout" class="header__nav-link"><i class="fa-solid fa-sign-out-alt"></i> Đăng xuất</a>
+                </li>
+                <li class="header__nav-item">
+                    <a th:href="@{chat/{username}(username=${session.username})}" class="header__nav-link">
+                        <i class="fa-solid fa-comment"></i> Chat với khách hàng
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+</body>
+
 </html>
