@@ -19,7 +19,7 @@ public class Cart implements Serializable {
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL,orphanRemoval = true)
     @JsonManagedReference
     private Set<CartItem> cartItems=new HashSet<>();
 
