@@ -200,7 +200,7 @@ public class OrderService implements IOrderService {
 				.shippingAddress(order.getShippingAddress()).orderStatus(order.getOrderStatus().toString())
 				.deliveryDate(order.getDeliveryDate()).customerId(order.getCustomerId()) // Gán ID khách hàng
 				.customerName(customer.getFullName()) // Gán tên khách hàng
-				.accountNumber(String.valueOf(customer.getAccount().getAccountId()))
+				.phone(String.valueOf(customer.getPhone()))
 				.orderLines(order.getOrderLines().stream().map(this::mapOrderLineToDTO) // Chuyển đổi từng OrderLine //
 																						// sang DTO
 						.collect(Collectors.toSet()))
@@ -294,7 +294,7 @@ public class OrderService implements IOrderService {
                     Product product = orderLine.getProduct();
                     if (product != null) {
                         return new ProductHistoryDTO(
-                                product.getProductId(),
+                                product.getProductCode(),
                                 product.getProductName(),
                                 orderLine.getQuantity(),
                                 product.getImage(),
