@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 @Data
 public class ProductDTO {
+	private Long productId; //CN
     private String productCode;
     @NotEmpty(message="The name is required")
     private String productName;

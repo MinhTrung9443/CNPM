@@ -56,14 +56,20 @@
 						<a href="/signin" class="header__account-login">Đăng Nhập</a> <a
 							href="/signup" class="header__account-register">Đăng Kí</a>
 					</div>
-										<div class="header__account" th:if="${session.user != null}">
+					<div class="header__account" th:if="${session.user != null}">
 						<a href="/customer/profile" class="header__account-login">Tài
-							khoản cá nhân</a> <span class="divider"></span> <a href="/signout"
+							khoản cá nhân</a>
+						<div class="dropdown-menu">
+							<a href="/customer/order-history" class="dropdown-item">Đơn hàng</a>
+						</div>
+						<span class="divider"></span> <a href="/signout"
 							class="header__account-login">Đăng xuất</a> <a
 							class="header__cart have" href="/customer/cart.html"> <i
 							class="fas fa-shopping-basket"></i>
 						</a>
 					</div>
+
+
 				</div>
 			</div>
 			<!-- Menu -->

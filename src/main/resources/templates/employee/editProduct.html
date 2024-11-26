@@ -151,7 +151,7 @@
 				
 				<div class="row mb-3">
 					<div class="offset-sm-4 col-sm-8">
-						<img th:src="@{'/assets/img/product/' + ${product.image}}" alt="..." width="150">
+						<img th:src="@{'/assets/img/product/' + ${product.image}}" alt="..." width="150" onerror="this.onerror=null;this.src='/assets/img/product/loading.gif';">
 					</div>
 				</div>
 				

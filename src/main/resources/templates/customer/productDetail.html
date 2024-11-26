@@ -279,24 +279,33 @@ hr {
 				<p>
 					Xuất xứ: <span th:text="${product.origin}"></span>
 				</p>
-				<p>
-					<label for="quantity">Số lượng:</label> <input type="number"
-						id="quantity" name="quantity" min="1" max="${product.stock}"
-						value="1" /> <span
-						th:text="${product.stock} + ' sản phẩm có sẵn'"></span>
-				</p>
-				<div class="product-actions">
-					<button th:disabled="${product.stock == 0}">
-						<a th:href="@{'/add-to-cart?productId=' + ${product.productId}}"
-							class="btn">Thêm vào giỏ hàng</a>
-					</button>
-					<div class="product-info">
-						<i class="fas fa-check-circle"></i> Hàng chính hãng 100%
-					</div>
-					<div class="product-info1">
-						<i class="fas fa-truck"></i> Miễn phí vận chuyển
-					</div>
-				</div>
+				
+				<!-- Sửa nút thêm sản phẩm vào giỏ hàng -->
+
+            <form th:action="@{/add-to-cart}" method="post">
+                <input type="hidden" name="productId" th:value="${product.productId}"/>
+
+                <p>
+                    <label for="quantity">Số lượng:</label> <input type="number"
+                                                                   id="quantity" name="quantity" min="1"
+                                                                   max="${product.stock}"
+                                                                   value="1"/> <span
+                        th:text="${product.stock} + ' sản phẩm có sẵn'"></span>
+                </p>
+                <div class="product-actions">
+                    <button th:disabled="${product.stock == 0}">Thêm vào giỏ
+                        hàng
+                    </button>
+                    <div class="product-info">
+                        <i class="fas fa-check-circle"></i> Hàng chính hãng 100%
+                    </div>
+                    <div class="product-info1">
+                        <i class="fas fa-truck"></i> Miễn phí vận chuyển
+                    </div>
+                </div>
+            </form>
+
+            <!-- -->
 
 
 

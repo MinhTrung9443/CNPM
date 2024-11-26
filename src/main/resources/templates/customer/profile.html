@@ -175,6 +175,36 @@ footer {
 				</div>
 			</div>
 		</div>
+		<div class="card">
+
+			<div class="card-header">
+				<h2>Tài khoản ngân hàng (có thể dùng để hoàn tiền)</h2>
+			</div>
+			<div class="card-body">
+				<!-- Profile Information -->
+				
+				<div class="profile-info" th:if="${user.accountRefund != null}">
+					<div class="row" th:if="${user.accountRefund.type}">
+						<div class="col-md-4">Tên ngân hàng (hoặc ví điện tử):   </div>
+						<div class="col-md-8">
+							<span th:text="${user.accountRefund.type}"></span>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-4">Số tài khoản:</div>
+						<div class="col-md-8">
+							<span th:text="${user.accountRefund.accountNum}"></span>
+						</div>
+					</div>
+
+				</div>
+				<div class="text-center">
+					<!-- Edit button -->
+					<a href="/customer/updateAccountRefund" class="btn btn-primary">Chỉnh sửa thông tin tài khoản</a>
+				</div>
+			</div>
+		</div>
 	</div>
 	<br><br>
 	<footer th:replace="customer/fragments/footer :: footer"></footer>

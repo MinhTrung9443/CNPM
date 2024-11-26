@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chỉnh sửa thông tin người dùng</title>
+
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link
+	href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"
+	rel="stylesheet">
+<!-- Icon font awesome -->
+<link rel="stylesheet"
+	href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+	integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+	crossorigin="anonymous">
+<!-- Reset css & grid system -->
+<link rel="stylesheet" href="/assets/css/library.css">
+<link href="/assets/owlCarousel/assets/owl.carousel.min.css"
+	rel="stylesheet">
+<!-- Layout -->
+<link rel="stylesheet" href="/assets/css/common.css">
+
+<!-- Custom Styles -->
+<style>
+  /* Tổng quan */
+  body {
+    font-family: 'Roboto Slab', serif;
+    background-color: #f9fafb; /* Màu nền nhẹ nhàng */
+    margin: 0;
+    padding: 0;
+    color: #333;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 30px;
+  }
+
+  /* Thẻ card */
+  .card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+
+  .card-header {
+    background-color: #ff7a00; /* Màu header nổi bật */
+    color: white;
+    text-align: center;
+    padding: 20px 15px;
+    font-size: 22px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  .card-body {
+    padding: 20px 30px;
+  }
+
+  /* Form */
+  .form-label {
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: inline-block;
+    font-size: 16px;
+  }
+
+  .form-control,
+  .form-select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .form-control:focus,
+  .form-select:focus {
+    border-color: #ff7a00;
+    box-shadow: 0 0 5px rgba(255, 122, 0, 0.3);
+    outline: none;
+  }
+
+  .btn-primary {
+    background-color: #ff7a00;
+    border: none;
+    color: white;
+    font-weight: bold;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-transform: uppercase;
+    width: 100%;
+  }
+
+  .btn-primary:hover {
+    background-color: #e56e00;
+  }
+
+  .text-center {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  /* Cảnh báo lỗi */
+  .alert {
+    color: #d93025;
+    font-weight: bold;
+    background-color: #fbe9e7;
+    padding: 10px;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    margin-bottom: 20px;
+  }
+</style>
+
+</head>
+<body>
+
+	<header th:replace="~{customer/fragments/header::header}"></header>
+<br><br><br><br><br><br><br><br><br><br><br><br>
+	<div class="container">
+		
+		<div class="card">
+			<div class="card-header">
+				<h2>Chỉnh sửa thông tin tài khoản</h2>
+			</div>
+			<div class="card-body">
+				<!-- Form chỉnh sửa thông tin -->
+				<div th:if="${error}" class="alert alert-danger">
+					<span th:text="${error}"></span>
+				</div>
+				<form action="/customer/updateAccountRefund" method="POST" th:object="${accountRefund}">
+					<input type="text" id="accountRefundId" name="accountRefundId" th:field="*{accountRefundId}"
+						hidden="hidden" />
+					<div class="mb-3">
+						<label for="type" class="form-label">Tên ngân hàng (hoặc ví điện tử):</label> <input
+							type="text" id="type" th:field="*{type}"
+							class="form-control" />
+					</div>
+
+					<div class="mb-3">
+						<label for="accountNum" class="form-label">Số tài khoản:</label> <input
+							type="text" id="accountNum" th:field="*{accountNum}" class="form-control" />
+					</div>
+
+				<div class="text-center">
+						<button type="submit" class="btn btn-primary">Cập nhật
+							thông tin</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<br>
+	</div>
+
+	<footer th:replace="customer/fragments/footer :: footer"></footer>
+
+
+</body>
+</html>

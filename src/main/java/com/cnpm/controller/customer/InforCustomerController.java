@@ -1,5 +1,6 @@
 package com.cnpm.controller.customer;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.cnpm.entity.AccountRefund;
 import com.cnpm.entity.Customer;
 import com.cnpm.entity.User;
 import com.cnpm.service.IUserService;
@@ -51,6 +53,24 @@ public class InforCustomerController {
 
 		return "customer/updateProfile";
 	}
+	
+	@GetMapping("/updateAccountRefund")
+	public String editUserAccountRefund(HttpSession session, Model model) {
+		User user = (User) session.getAttribute("user");
+		if (user == null) {
+			return "redirect:/signin";
+		}
+		if (user instanceof Customer) {
+			Customer customer = (Customer) user; // Chuyển kiểu xuống Customer
+			
+			model.addAttribute("user", customer);
+			model.addAttribute("accountRefund", customer.getAccountRefund());
+		} else {
+			model.addAttribute("user", user);
+		}
+
+		return "customer/updateAccountRefund";
+	}
 
 	@PostMapping("/update")
 	public String updateUserProfile(HttpSession session, Model model, @ModelAttribute Customer updatedUser) {
@@ -88,5 +108,24 @@ public class InforCustomerController {
 
 		return "/customer/profile";
 	}
+	@PostMapping("/updateAccountRefund")
+	public String updateAccountRefund(HttpSession session, Model model, @ModelAttribute Customer updatedUser, @ModelAttribute AccountRefund acc) {
+		Customer user = (Customer) session.getAttribute("user");
+		if (user == null) {
+			return "redirect:/signin";
+		}
 
+		AccountRefund accrefund = new AccountRefund();
+		BeanUtils.copyProperties(acc, accrefund);
+		user.setAccountRefund(accrefund);
+		
+
+		userService.save(user);
+
+		session.setAttribute("user", user);
+
+		model.addAttribute("user", user);
+
+		return "/customer/profile";
+	}
 }

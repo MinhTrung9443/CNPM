@@ -37,9 +37,9 @@ public class ReviewController {
 		{
 			feedback.setProduct(pro);
 			feedbackservice.save(feedback);
-			return new ModelAndView("redirect:/followOrder/100",model);
+			return new ModelAndView("redirect:/customer/order-history",model);
 		}
 		model.addAttribute("Err", "Hệ thống đang gặp lỗi, mời thử lại sau!!!");
-		return new ModelAndView("redirect:/followOrder/100",model);
+		return new ModelAndView("redirect:/customer/order-history",model);
 	}
 }
