@@ -53,7 +53,7 @@ public class OrderController {
 
 
     @PostMapping("/preview-checkout")
-    public ModelAndView checkout(@RequestParam("cartItemIds") List<Long> cartItemIds, HttpSession session, ModelMap model, String voucherCode) {
+    public ModelAndView checkout(@RequestParam("cartItemIds") List<Long> cartItemIds, HttpSession session, ModelMap model) {
 //        Logger.log("" +session.getAttribute("user"));
 //        Logger.log("" +session.getAttribute("username"));
 
@@ -92,21 +92,22 @@ public class OrderController {
                 .sum();
         double total = subtotal; // You can include discount logic here if needed
         Double discount = 0.0;
-        if (voucherCode != null) {
-            Voucher voucher = voucherService.findFirst(voucherCode).orElse(null);
-            if (voucher == null) {
-                model.addAttribute("error", "Voucher " + voucherCode + " is not available");
-            } else
-                discount = voucherService.getDiscount(voucherCode);
-            Logger.log("Discount: " + discount);
-            total = total - discount;
-        }
+//        if (voucherCode != null) {
+//            Logger.log("Voucher code: " + voucherCode);
+//            Voucher voucher = voucherService.findFirst(voucherCode).orElse(null);
+//            if (voucher == null) {
+//                model.addAttribute("error", "Voucher " + voucherCode + " is not available");
+//            } else
+//                discount = voucherService.getDiscount(voucherCode);
+//            Logger.log("Discount: " + discount);
+//            total = total - discount;
+//        }
 
         // Add calculated data to the model to be displayed in the view
         model.addAttribute("cartItems", cartItems);
         model.addAttribute("subtotal", subtotal);
         model.addAttribute("total", total);
-        model.addAttribute("voucherCode", voucherCode);
+//        model.addAttribute("voucherCode", voucherCode);
         model.addAttribute("userId", userId);
 //        return "customer/checkout";
         return new ModelAndView("customer/checkout", model);
