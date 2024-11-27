@@ -16,4 +16,6 @@ public interface IVoucherService {
 	void deleteVoucherById(Long voucherId);
 	List<Voucher> getAllVoucher();
 	Voucher saveVoucher(VoucherDTO voucherDTO);
+
+    Voucher getVoucherByVoucherCode(String voucherCode);
 }

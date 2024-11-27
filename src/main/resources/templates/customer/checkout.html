@@ -183,14 +183,14 @@
                         </div>
                     </div>
                     <div class="d-flex justify-content-between mb-2">
-                        <span>Subtotal:</span> <span th:text="${subtotal}">$19.99</span>
+                        <span>Subtotal:</span> <span th:text="${subtotal}" id="subtotal">$19.99</span>
                     </div>
                     <div class="d-flex justify-content-between mb-2">
-                        <span>Discount: </span> <span th:text="-${subtotal - total}"></span>
+                        <span>Discount: </span> <span id="discount" th:text="-${subtotal - total}"></span>
                     </div>
                     <hr>
                     <div class="d-flex justify-content-between mb-2 fw-bold">
-                        <span>Total:</span> <span th:text="${total}"></span>
+                        <span>Total:</span> <span id="total" th:text="${total}"></span>
                     </div>
                 </div>
             </div>
@@ -307,14 +307,33 @@
         // Lấy giá trị từ input
         const discountCode = $("#discountCode").val();
 
+
         // Kiểm tra và xử lý
         if ($.trim(discountCode) === "") {
             alert("Please enter a discount code!");
         } else {
-            const url = `/order/preview-checkout?voucherCode=${encodeURIComponent(discountCode)}`;
-            window.location.href = url;
+            // const url = `/order/preview-checkout?voucherCode=${encodeURIComponent(discountCode)}`;
+            // window.location.href = url;
+        //     lay thong tin voucher tu api
+            const url='/api/vouchers?voucherCode='+discountCode;
+            $.ajax(url, {
+                success: function (data) {
+                    if (data === null) {
+                        alert("Invalid discount code!");
+                    } else {
+                        // Tính lại tổng tiền
+                        const subtotal = parseFloat($("#subtotal").text());
+                        const discount = data.voucherValue ;
+                        const total = subtotal - discount;
+                        $("#discount").text(discount);
+                        $("#total").text(total);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert("Voucher "+discountCode+" không khả dụng");
+                }
+            });
         }
-    });
     document.querySelector("button[type='submit']").addEventListener("click", function (event) {
         event.preventDefault(); // Ngăn chặn reload trang
         //neu là momo

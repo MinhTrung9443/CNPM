@@ -60,4 +60,14 @@ public class VoucherController {
         Voucher voucherUpdate = voucherService.updateVoucher(voucherId, voucherDTO);
         return new ResponseEntity<>(voucherUpdate, HttpStatus.OK);
     }
+
+    @GetMapping("")
+    public ResponseEntity<?> getVoucherByVoucherCode(@RequestParam String voucherCode){
+        try{
+            Voucher voucher = voucherService.getVoucherByVoucherCode(voucherCode);
+            return new ResponseEntity<>(voucher, HttpStatus.OK);
+        }catch (RuntimeException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
 }

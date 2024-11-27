@@ -31,6 +31,11 @@ public class VoucherService implements IVoucherService{
     }
 
     @Override
+    public Voucher getVoucherByVoucherCode(String voucherCode) {
+        return voucherRepository.findFirstByVoucherCodeAndIsUsedFalseAndStartDateBeforeAndEndDateAfter(voucherCode, LocalDateTime.now(), LocalDateTime.now()).orElseThrow(() -> new RuntimeException("Voucher "+voucherCode+" is not available"));
+    }
+
+    @Override
 	public List<Voucher> getAllVoucher() {
         return voucherRepository.findAll();
     }
