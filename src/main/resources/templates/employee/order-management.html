@@ -6,9 +6,9 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Quản Lý Đơn Hàng</title>
-	    <!-- Our files -->
-    <link rel="stylesheet" href="/employee/header.css">
-    <link rel="stylesheet" href="/employee/footer.css">
+	<!-- Our files -->
+	<link rel="stylesheet" href="/employee/header.css">
+	<link rel="stylesheet" href="/employee/footer.css">
 	<style>
 		.manageproduct-body {
 			margin: 0px;
@@ -28,123 +28,197 @@
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	 <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 0;
-        }
+	<style>
+		body {
+			font-family: 'Roboto', sans-serif;
+			background-color: #f8f9fa;
+			margin: 0;
+			padding: 0;
+		}
 
-        header {
-            background-color: #343a40;
-            color: white;
-            padding: 15px 30px;
-        }
+		header {
+			background-color: #343a40;
+			color: white;
+			padding: 15px 30px;
+		}
 
-        header h1 {
-            font-size: 24px;
-            margin: 0;
-        }
+		header h1 {
+			font-size: 24px;
+			margin: 0;
+		}
 
-        .tab {
-            display: flex;
-            justify-content: space-between;
-            overflow-x: auto;
-            background-color: #ffffff;
-            padding: 10px 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
+		.tab {
+			display: flex;
+			justify-content: space-between;
+			overflow-x: auto;
+			background-color: #ffffff;
+			padding: 10px 20px;
+			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+			margin-bottom: 20px;
+		}
 
-        .tab a {
-            flex: 1;
-            text-align: center;
-            font-size: 16px;
-            padding: 10px;
-            text-decoration: none;
-            color: #495057;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-        }
+		.tab a {
+			flex: 1;
+			text-align: center;
+			font-size: 17px;
+			padding: 10px;
+			text-decoration: none;
+			color: #495057;
+			border-radius: 5px;
+			transition: all 0.3s ease;
+		}
+
 		.tab a:hover {
-            background-color: #007bff;
-            color: #fff;
-        }
+			background-color: #007bff;
+			color: #fff;
+		}
+
 		.tab a.active {
 			background-color: #007bff;
 			color: #fff;
 		}
 
-        .tab-content {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
+		.tab-content {
+			background-color: #ffffff;
+			padding: 20px;
+			border-radius: 10px;
+			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+		}
 
-        h2 {
-            font-size: 20px;
-            color: #343a40;
-            margin-bottom: 20px;
-        }
+		h2 {
+			font-size: 30px;
+			font-weight: 700;
+			color: #007bff;
+			/* Màu xanh */
+			margin-bottom: 20px;
+		}
 
-        .order-list {
-            width: 100%;
-            border-collapse: collapse;
-        }
+		.order-list {
+			width: 100%;
+			border-collapse: separate;
+			border-spacing: 0;
+			border: 1px solid #ddd;
+			/* Đường viền ngoài */
+			border-radius: 8px;
+			overflow: hidden;
+			/* Làm tròn viền */
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+			/* Tạo hiệu ứng nổi */
+		}
 
-        .order-list th,
-        .order-list td {
-            padding: 15px;
-            text-align: left;
-            border: 1px solid #dee2e6;
-        }
+		.order-list th {
+			background-color: #007bff;
+			/* Màu nền tiêu đề bảng */
+			color: white;
+			/* Màu chữ */
+			padding: 12px 15px;
+			/* Cách đều trong ô */
+			font-size: 20px;
+			text-align: left;
+		}
 
-        .order-list th {
-            background-color: #f8f9fa;
-            font-weight: 500;
-            color: #495057;
-        }
+		.order-list td {
+			padding: 12px 15px;
+			/* Cách đều trong ô */
+			font-size: 20px;
+			color: #333;
+			background-color: #fff;
+			/* Màu nền mặc định */
+			border-top: 1px solid #ddd;
+			/* Đường kẻ ngang giữa các hàng */
+		}
 
-        .order-list td {
-            background-color: #ffffff;
-            color: #212529;
-        }
 
-        .order-list tr:hover {
-            background-color: #f1f3f5;
-        }
+		.order-list tr:hover td {
+			background-color: #f1f8ff;
+			/* Màu nền khi hover */
+			transition: background-color 0.3s ease;
+			/* Hiệu ứng chuyển động */
+		}
 
-        .status-select {
-            width: 100%;
-            padding: 8px;
-            border-radius: 5px;
-            border: 1px solid #ced4da;
-        }
+		.status-select {
+			width: 100%;
+			padding: 8px;
+			border: 1px solid #ddd;
+			border-radius: 5px;
+			background-color: #f8f9fa;
+			font-size: 20px;
+			color: #333;
+		}
 
-        .button {
-            text-decoration: none;
-            background-color: #007bff;
-            color: #fff;
-            padding: 8px 12px;
-            border-radius: 5px;
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
+		status-container {
+			display: flex;
+			justify-content: center;
+			/* Căn giữa theo chiều ngang */
+			align-items: center;
+			/* Căn giữa theo chiều dọc */
+			height: 100px;
+			/* Chiều cao của phần tử chứa */
+			margin-top: 20px;
+			/* Khoảng cách phía trên */
+		}
 
-        .button:hover {
-            background-color: #0056b3;
-        }
+		button {
+			background-color: #28a745;
+			color: white;
+			padding: 10px 15px;
+			border: none;
+			border-radius: 5px;
+			font-size: 18px;
+			cursor: pointer;
+			transition: all 0.3s ease;
+		}
 
-        footer {
-            background-color: #343a40;
-            color: white;
-            text-align: center;
-            padding: 15px;
-            margin-top: 20px;
-        }
-    </style>
+		/* Hiệu ứng khi rê chuột lên nút */
+		button:hover {
+			background-color: #0056b3;
+			/* Màu xanh đậm hơn */
+		}
+
+		footer {
+			background-color: #343a40;
+			color: white;
+			text-align: center;
+			padding: 15px;
+			margin-top: 20px;
+		}
+
+		/* Phân trang */
+		.pagination {
+			display: flex;
+			justify-content: center;
+			/* Căn giữa */
+			margin-top: 20px;
+			margin-bottom: 20px;
+		}
+
+		.pagination .page-item {
+			margin: 0 5px;
+			/* Giãn cách giữa các trang */
+		}
+
+		.pagination .page-link {
+			font-size: 20px;
+			/* Làm cho chữ lớn hơn */
+			padding: 10px 20px;
+			/* Điều chỉnh khoảng cách trong nút */
+			text-decoration: none;
+			color: #495057;
+			border-radius: 5px;
+			transition: all 0.3s ease;
+		}
+
+		.pagination .page-link:hover {
+			background-color: #007bff;
+			color: white;
+		}
+
+		.pagination .page-item.active .page-link {
+			background-color: #007bff;
+			color: white;
+		}
+	</style>
+
 </head>
 
 <body>
@@ -184,11 +258,13 @@
 					<form th:action="@{/employee/order-management}" method="post">
 						<input type="hidden" name="orderId" th:value="${Order.orderId}" />
 						<select name="status" class="status-select">
-							<option value="PENDING" th:selected="${Order.orderStatus == 'PENDING'}">PENDING</option>
-							<option value="CONFIRMED" th:selected="${Order.orderStatus == 'CONFIRMED'}">CONFIRMED
+							<option value="PENDING" th:selected="${Order.orderStatus == 'PENDING'}">Chờ xác nhận
 							</option>
-							<option value="SHIPPING" th:selected="${Order.orderStatus == 'SHIPPING'}">SHIPPING</option>
-							<option value="COMPLETED" th:selected="${Order.orderStatus == 'COMPLETED'}">COMPLETED
+							<option value="CONFIRMED" th:selected="${Order.orderStatus == 'CONFIRMED'}">Đã xác nhận
+							</option>
+							<option value="SHIPPING" th:selected="${Order.orderStatus == 'SHIPPING'}">Đang vận chuyển
+							</option>
+							<option value="COMPLETED" th:selected="${Order.orderStatus == 'COMPLETED'}">Đã hoàn thành
 							</option>
 
 						</select>
@@ -237,6 +313,7 @@
 				<td th:text="${order.deliveryDate}"></td>
 				<td th:text="${order.orderDate}"></td>
 				<td th:text="${order.orderStatus}"></td>
+
 				<td th:text="${order.shippingAddress}"></td>
 			</tr>
 
@@ -314,7 +391,29 @@
 
 		</table>
 	</div>
+	<div class="pagination">
+		<ul class="pagination">
+			<!-- Nút Trang Trước -->
+			<li class="page-item" th:classappend="${currentPage > 1 ? '' : 'disabled'}">
+				<a class="page-link"
+					th:href="@{'/employee/order-management?tab=' + ${tab} + '&page=' + ${currentPage - 1}}"
+					th:text="'<'"></a>
+			</li>
 
+			<!-- Các số trang -->
+			<li class="page-item" th:each="pageNum : ${pageNumbers}">
+				<a class="page-link" th:href="@{'/employee/order-management?tab=' + ${tab} + '&page=' + ${pageNum}}"
+					th:text="${pageNum}"></a>
+			</li>
+
+			<!-- Nút Trang Sau -->
+			<li class="page-item" th:classappend="${currentPage < totalPages ? '' : 'disabled'}">
+				<a class="page-link"
+					th:href="@{'/employee/order-management?tab=' + ${tab} + '&page=' + ${currentPage + 1}}"
+					th:text="'>'"></a>
+			</li>
+		</ul>
+	</div>
 	<footer th:replace="~{employee/fragments/footer :: footer}"></footer>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"

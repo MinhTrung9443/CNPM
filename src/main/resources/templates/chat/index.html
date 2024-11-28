@@ -20,6 +20,8 @@
 				<p>Xin chào, <span id="name"></span></p>
 
 				<h2>Phòng Chat Trực Tuyến Với Nhân Viên</h2>
+				<!-- Thêm nút quay về -->
+				<button id="go-home" class="secondary">Quay về Trang Chủ</button>
 			</div>
 			<div class="connecting">
 				Connecting...
@@ -56,6 +58,16 @@
 
 			// Hiển thị trang chat
 			document.getElementById('chat-page').classList.remove('hidden');
+
+			// Xử lý nút quay về trang chủ
+			const goHomeButton = document.getElementById('go-home');
+			goHomeButton.addEventListener('click', function () {
+				if (window.location.pathname.includes('employee')) {
+					window.location.href = '/employee/index';
+				} else {
+					window.location.href = '/index';
+				}
+			});
 		});
 	</script>
 </body>

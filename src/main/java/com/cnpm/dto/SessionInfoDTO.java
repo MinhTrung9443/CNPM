@@ -12,14 +12,14 @@ import lombok.NoArgsConstructor;
 @Data
 public class SessionInfoDTO {
     private String sessionId;
-    private String userName;
+    private String fullname;
 
     // Constructor với 1 tham số String để tạo giá trị ngẫu nhiên cho sessionId và userName
-    public SessionInfoDTO(String username) {
+    public SessionInfoDTO(String fullname) {
         // Tạo sessionId ngẫu nhiên với UUID
         this.sessionId = UUID.randomUUID().toString();
         
         // Tạo userName ngẫu nhiên với giá trị prefix
-        this.userName = username;
+        this.fullname = fullname;
     }
 }

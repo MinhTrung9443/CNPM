@@ -18,18 +18,42 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping({"","*/"})
+@RequestMapping({ "", "*/" })
 public class ChatController {
 
+	// Phương thức hiển thị trang chat cho người dùng thông thường
 	@GetMapping("/chat/{SessionInfoname}")
-	public String showChatPage(@PathVariable String SessionInfoname, Model model) {
+	public String showChatPage(@PathVariable(required = false) String SessionInfoname, Model model,
+			HttpSession session) {
 		try {
+			if (SessionInfoname == null || SessionInfoname.isEmpty()) {
+				SessionInfoname = "guest"; // Nếu không có, gán giá trị mặc định
+			}
 			model.addAttribute("SessionInfoname", SessionInfoname); // Truyền tên người dùng vào model
-			return "chat/index"; // Đảm bảo trả về đúng template
+			return "chat/index"; // Trả về trang chat chính
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "redirect:/signin"; // Chuyển hướng đến trang đăng nhập nếu có lỗi
 		}
-		catch (Exception e) {
-			e.printStackTrace();// TODO: handle exception
-			return "redirect/signin";
+	}
+
+	// Phương thức hiển thị trang chat cho người dùng từ /employee
+	@GetMapping("/chat/employee/{SessionInfoname}")
+	public String showEmployeeChatPage(@PathVariable(required = false) String SessionInfoname, Model model,
+			HttpSession session) {
+		try {
+			if (SessionInfoname == null || SessionInfoname.isEmpty()) {
+				SessionInfoname = "guest"; // Nếu không có, gán giá trị mặc định
+			}
+
+			// Thêm từ "Nhân viên" vào trước SessionInfoname
+			String employeeSessionName = "Nhân viên " + SessionInfoname;
+
+			model.addAttribute("SessionInfoname", employeeSessionName); // Truyền tên người dùng đã thay đổi vào model
+			return "chat/index"; // Trả về trang chat chính
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "redirect:/signin"; // Chuyển hướng đến trang đăng nhập nếu có lỗi
 		}
 	}
 
@@ -37,18 +61,14 @@ public class ChatController {
 	@MessageMapping("/chat.addSessionInfo")
 	@SendTo("/topic/public")
 	public ChatMessage addSessionInfo(@Payload ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
-		// Tạo đối tượng SessionInfoDTO thay vì sử dụng HttpSession
 		SessionInfoDTO SessionInfoDTO = (SessionInfoDTO) headerAccessor.getSessionAttributes().get("SessionInfoDTO");
 
 		if (SessionInfoDTO == null) {
-			// Nếu không có SessionInfoDTO trong session, có thể là người dùng chưa đăng
-			// nhập
-			SessionInfoDTO = new SessionInfoDTO("anonymousSessionInfo");
+			SessionInfoDTO = new SessionInfoDTO("anonymousSessionInfo"); // Nếu không có SessionInfoDTO, tạo mới
 		}
 
-		// Thêm SessionInfoname vào WebSocket session
 		headerAccessor.getSessionAttributes().put("SessionInfoDTO", SessionInfoDTO);
-		chatMessage.setSender(SessionInfoDTO.getUserName()); // Gửi SessionInfoname trong tin nhắn
+		chatMessage.setSender(SessionInfoDTO.getFullname()); // Gửi tên người dùng vào tin nhắn
 
 		return chatMessage;
 	}
@@ -73,5 +93,4 @@ public class ChatController {
 		chatMessage.setType(ChatMessage.MessageType.LEAVE); // Đảm bảo set type là LEAVE
 		return chatMessage;
 	}
-
 }

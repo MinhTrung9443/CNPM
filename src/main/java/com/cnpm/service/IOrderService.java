@@ -5,6 +5,8 @@ import com.cnpm.dto.PurchaseHistoryDTO;
 import com.cnpm.entity.Order;
 import com.cnpm.enums.OrderStatus;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,7 +15,7 @@ import java.util.Set;
 
 @Service
 public interface IOrderService{
-    public Set<PurchaseHistoryDTO> getAllOrders(Long customerId);
+    public Page<PurchaseHistoryDTO> getAllOrders(Long customerId,Pageable pageable);
 
     public Set<PurchaseHistoryDTO> getPurchaseHistory(Long customerId, OrderStatus status);
 
@@ -23,9 +25,9 @@ public interface IOrderService{
 
 	Order getOrderById(Long id);
 
-	List<Order> getAllOrders();
+	Page<Order> getAllOrders(Pageable pageable);
 
-	List<Order> getOrdersByStatus(OrderStatus pending);
+	  Page<Order> getOrdersByStatus(OrderStatus status, Pageable pageable);
 	void deleteOrder(Long id);
 
 	OrderDetailEmployeeDTO getOrderDetails(Long orderId);
@@ -39,4 +41,8 @@ public interface IOrderService{
     void updateOrderStatus(Long orderId);
 
     Double getOrderTotal(Long orderId);
+
+	public Page<Order> getCancelledAndRefundedOrders(Pageable pageable);
+
+	Set<PurchaseHistoryDTO> getAllOrders(Long customerId);
 }
