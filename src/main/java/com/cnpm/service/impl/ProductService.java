@@ -29,21 +29,7 @@ public class ProductService implements IProductService{
     private ProductFeedbackRepository productFeedbackRepository;
     @Override
     public List<ProductResponse> findDistinctProduct(Pageable page) {
-//        List<Product> products = productRepository.findAll();
-//        List<Product> distinctProducts = products.stream()
-//                .collect(Collectors.groupingBy(Product::getProductCode))
-//                .values()
-//                .stream()
-//                .map(List::getFirst)
-//                .toList();
-//        return distinctProducts.stream()
-//                .map(product -> {
-//                    ProductResponse productResponse = new ProductResponse();
-//                    BeanUtils.copyProperties(product, productResponse);
-//                    productResponse.setStock(getStockByProductCode(product.getProductCode()));
-//                    return productResponse;
-//                })
-//                .collect(Collectors.toList());
+
         List<Product> products = productRepository.findDistinctProduct(page).getContent();
         Logger.log(products.toString());
         return products.stream()
@@ -85,67 +71,58 @@ public class ProductService implements IProductService{
 
             // Tạo đối tượng ProductDTO
             ProductResponse productDTO = new ProductResponse();
-//            productDTO.setProductCode(product.getProductCode());
-//            productDTO.setProductName(product.getProductName());
-//            productDTO.setCategory(product.getCategory());
-//            productDTO.setCost(product.getCost());
-//            productDTO.setDescription(product.getDescription());
-//            productDTO.setBrand(product.getBrand());
-//            productDTO.setManufactureDate(product.getManufactureDate());
-//            productDTO.setExpirationDate(product.getExpirationDate());
-//            productDTO.setIngredient(product.getIngredient());
-//            productDTO.setHow_to_use(product.getHow_to_use());
-//            productDTO.setVolume(product.getVolume());
-//            productDTO.setOrigin(product.getOrigin());
-//            productDTO.setImage(product.getImage());
-            
+
             BeanUtils.copyProperties(product, productDTO);
             
-            
-
             // Lấy tồn kho từ productCode
             Long stock = getStockByProductCode(product.getProductCode());
             productDTO.setStock(stock);
 
             return productDTO;
         }
-        return null; // Trả về null nếu không tìm thấy sản phẩm
+        return null; 
     }
     public List<ProductFeedback> getProductFeedbacksByProductId(String productCode) {
-        // Lấy danh sách nhận xét từ ProductFeedback
         return productFeedbackRepository.findAllByProduct_productCode(productCode);
     }
  
 
-    public List<Product> searchProductsWithFilters(String keyword, Double minPrice, Double maxPrice, String brand, String origin, String category) {
-        // Lấy danh sách sản phẩm theo từ khóa
-        List<Product> products = productRepository.findDistinctProductsByKeyword(keyword);
-
-        // Áp dụng bộ lọc
-        if (minPrice != null) {
-            products = products.stream()
-                               .filter(p -> p.getCost() >= minPrice)
-                               .collect(Collectors.toList()); }
-        
-        if (maxPrice != null) {
-            products = products.stream()
-                               .filter(p -> p.getCost() <= maxPrice)
-                               .collect(Collectors.toList()); }
-        if (brand != null && brand != "") {
-            products = products.stream()
-                               .filter(p -> p.getBrand().equalsIgnoreCase(brand))
-                               .collect(Collectors.toList());}
-        if (origin != null && origin != "") {
-            products = products.stream()
-                               .filter(p -> p.getOrigin().equalsIgnoreCase(origin))
-                               .collect(Collectors.toList()); }
-        if (category != null && category != "") {
-            products = products.stream()
-                               .filter(p -> p.getCategory().equalsIgnoreCase(category))
-                               .collect(Collectors.toList()); }
-        return products;
-    }
     
+    public List<Product> searchProductsWithMultipleKeywords(String keywords, Double minPrice, Double maxPrice, String brand, String origin, String category) {
+        List<String> keywordList = List.of(keywords.split("\\s+"));
+
+        List<Product> filteredProducts = keywordList.stream()
+                .flatMap(keyword -> productRepository.findDistinctProductsBySingleKeyword(keyword).stream())
+                .distinct()
+                .collect(Collectors.toList());
+
+        if (minPrice != null) {
+            filteredProducts = filteredProducts.stream()
+                    .filter(p -> p.getCost() >= minPrice)
+                    .collect(Collectors.toList());
+        }
+        if (maxPrice != null) {
+            filteredProducts = filteredProducts.stream()
+                    .filter(p -> p.getCost() <= maxPrice)
+                    .collect(Collectors.toList());
+        }
+        if (brand != null && !brand.isEmpty()) {
+            filteredProducts = filteredProducts.stream()
+                    .filter(p -> p.getBrand().equalsIgnoreCase(brand))
+                    .collect(Collectors.toList());
+        }
+        if (origin != null && !origin.isEmpty()) {
+            filteredProducts = filteredProducts.stream()
+                    .filter(p -> p.getOrigin().equalsIgnoreCase(origin))
+                    .collect(Collectors.toList());
+        }
+        if (category != null && !category.isEmpty()) {
+            filteredProducts = filteredProducts.stream()
+                    .filter(p -> p.getCategory().equalsIgnoreCase(category))
+                    .collect(Collectors.toList());
+        }
+        return filteredProducts;
+    }
 
 
     @Override
@@ -183,7 +160,6 @@ public class ProductService implements IProductService{
     {
     	return productRepository.findProductsByProductCode(productCode);
     }
-    
     public List<Product> findProductsByCategory(String category) {
         return productRepository.findDistinctProductsByCategory(category);
     }

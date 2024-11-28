@@ -12,11 +12,6 @@ import org.springframework.stereotype.Repository;
 import com.cnpm.entity.Product;
 
 import java.util.List;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
@@ -101,10 +96,16 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     	    WHERE p.productId IN (
     	        SELECT MIN(productId)
     	        FROM Product
-    	        WHERE category = :category AND isUsed = 0
+    	        WHERE isUsed = 0
+    	          AND (
+    	              LOWER(productName) LIKE LOWER(CONCAT('%', :keyword, '%'))
+    	          )
     	        GROUP BY productCode
     	    )
     	""", nativeQuery = true)
-    	List<Product> findDistinctProductsByCategory(@Param("category") String category);
+    	List<Product> findDistinctProductsBySingleKeyword(@Param("keyword") String keyword);
+
+	List<Product> findDistinctProductsByCategory(String category);
+
 
 }
