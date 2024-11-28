@@ -19,123 +19,8 @@
     <title>Giỏ Hàng</title>
 </head>
 <body>
-
-<style>
-    /* Tổng thể bố cục giỏ hàng */
-    .main__cart {
-        margin: 20px 0;
-        padding: 20px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        background-color: #f9f9f9;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-    }
-
-    /* Dòng sản phẩm và các tiêu đề */
-    .row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 15px 0;
-        border-bottom: 1px solid #e5e5e5;
-    }
-
-    .title {
-        font-weight: bold;
-        font-size: 1.1rem;
-        border-bottom: 2px solid #007bff;
-        margin-bottom: 10px;
-        color: #333;
-    }
-
-    .item:last-child {
-        border-bottom: none;
-    }
-
-    /* Phần sản phẩm với hình ảnh */
-    .main__cart-product {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-    }
-
-    .main__cart-product img {
-        width: 80px;
-        height: 80px;
-        object-fit: cover;
-        border-radius: 5px;
-        border: 1px solid #ddd;
-        background-color: #fff;
-    }
-
-    .main__cart-product .name {
-        font-size: 1rem;
-        color: #555;
-        font-weight: 500;
-    }
-
-    /* Giá sản phẩm */
-    .main__cart-price {
-        font-size: 1.2rem;
-        font-weight: 600;
-        color: #333;
-    }
-
-    /* Nhập số lượng sản phẩm */
-    .input-qty {
-        width: 60px;
-        height: 35px;
-        border-radius: 5px;
-        border: 1px solid #ddd;
-        text-align: center;
-        font-size: 1rem;
-    }
-
-    /* Nút hành động */
-    .btn {
-        padding: 7px 15px;
-        border-radius: 5px;
-        font-size: 0.9rem;
-        transition: background-color 0.3s ease;
-        display: inline-block;
-        text-align: center;
-        cursor: pointer;
-    }
-
-    .btn--default {
-        background-color: #28a745;
-        color: #fff;
-        margin-top: 20px;
-        display: inline-block;
-        text-decoration: none;
-        text-align: center;
-    }
-
-    .btn--default:hover {
-        background-color: #218838;
-    }
-
-    .btn.remove {
-        background-color: #dc3545;
-        color: #fff;
-    }
-
-    .btn.remove:hover {
-        background-color: #c82333;
-    }
-
-    /* Tổng tiền */
-    .total-money {
-        font-size: 1.3rem;
-        font-weight: bold;
-        text-align: right;
-        margin: 20px 0;
-        color: #007bff;
-    }
-</style>
-
 <header th:replace="~{customer/fragments/header::header}"></header>
-<!-- Slider -->
+
 		<div class="main__slice">
 			<div class="slider">
 				<div class="slide active"
@@ -162,12 +47,67 @@
 			<!-- indicators -->
 			<div class="indicator"></div>
 		</div>
+		
+<style>
 
+    .main__cart {
+        margin: 20px 0;
+        padding: 20px;
+        border: 1px solid #ccc;
+    }
+
+    .row {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+    }
+
+    .title {
+        font-weight: bold;
+        border-bottom: 2px solid #000;
+    }
+
+    .item {
+        border-bottom: 1px solid #eee;
+    }
+
+    .main__cart-product {
+        display: flex;
+        align-items: center;
+    }
+
+    .main__cart-product img {
+        width: 70px;
+        height: 70px;
+        margin-right: 10px;
+    }
+
+    .main__cart-price {
+        font-size: 1.2rem;
+    }
+
+    .input-qty {
+        width: 50px;
+    }
+
+    .btn {
+        padding: 5px 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn.remove {
+        background-color: #dc3545;
+    }
+</style>
 <div class="main">
     <div class="grid wide">
-        <h1 style="font-size: 25px; text-align: center">Giỏ Hàng</h1>
+        <h1>Giỏ Hàng</h1>
         <div class="main__cart">
             <div class="row title">
+                <div class="col">Chọn</div> <!-- New Column for selecting items -->
                 <div class="col">Sản phẩm</div>
                 <div class="col">Giá</div>
                 <div class="col">Số lượng</div>
@@ -177,6 +117,11 @@
 
             <!-- Iterate over cartItems -->
             <div th:each="cartItem : ${cartItems}" class="row item">
+                <div class="col">
+                    <!-- Checkbox for selection -->
+                    <input type="checkbox" class="item-checkbox" th:data-cart-item-id="${cartItem.cartItemId}" onchange="updateTotal()">
+                    <!-- -->
+                </div>
                 <div class="col main__cart-product">
                     <!-- Display product image -->
                     <img th:src="@{${cartItem.product.image}}" alt="Product Image">
@@ -187,9 +132,7 @@
                     <input type="number" th:value="${cartItem.quantity}" class="input-qty" min="1"
                            th:data-cart-item-id="${cartItem.cartItemId}">
                 </div>
-                <div class="col main__cart-price" th:text="${cartItem.product.cost * cartItem.quantity} + ' ₫'">45,000
-                    ₫
-                </div>
+                <div class="col main__cart-price" th:text="${cartItem.product.cost * cartItem.quantity} + ' ₫'">45,000 ₫</div>
                 <div class="col">
                     <button class="btn remove" th:onclick="'removeItem(' + ${cartItem.cartItemId} + ')'">Xóa</button>
                 </div>
@@ -200,16 +143,42 @@
             <div class="total-money" th:text="'Tổng cộng: ' + ${total} + ' ₫'">Tổng cộng: 45,000 ₫</div>
 
             <!-- Payment button -->
-            <a href="checkout" class="btn btn--default">Thanh toán</a>
+<!--            <a th:href="@{/order/preview-checkout}" class="btn btn&#45;&#45;default">Thanh toán</a>-->
+            <button type="button" class="btn btn--default" onclick="prepareCheckout()">Thanh toán</button>
+
         </div>
+
     </div>
 </div>
-<footer th:replace="~{customer/fragments/footer::footer}"></footer>
-
-		
-		
 <script src="/assets/js/cart.js"></script>
 <script>
+    function prepareCheckout() {
+        // Lấy tất cả các checkbox được chọn
+        const selectedItems = Array.from(document.querySelectorAll('.item-checkbox:checked'))
+            .map(checkbox => checkbox.getAttribute('data-cart-item-id')); // Lấy giá trị cartItemId
+
+        if (selectedItems.length === 0) {
+            alert("Vui lòng chọn ít nhất một sản phẩm để thanh toán.");
+            return;
+        }
+        // console.log(selectedItems);
+
+        // Gửi dữ liệu đến controller bằng form ẩn hoặc AJAX
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/order/preview-checkout';
+
+        selectedItems.forEach(id => {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'cartItemIds';
+            input.value = id;
+            form.appendChild(input);
+        });
+
+        document.body.appendChild(form);
+        form.submit();
+    }
     // Function to handle the removal of cart items
     function removeItem(cartItemId) {
         $.ajax({
@@ -229,11 +198,26 @@
     // Function to update the total after any changes
     function updateTotal() {
         let total = 0;
-        document.querySelectorAll('.main__cart-price').forEach(price => {
-            const itemPrice = parseFloat(price.innerText.replace('₫', '').replace(',', ''));
-            total += itemPrice;
+        let selectedItemsTotal = 0;
+
+        // Loop through all cart items and calculate the total for selected items
+        document.querySelectorAll('.row.item').forEach(function (itemRow) {
+            const checkbox = itemRow.querySelector('.item-checkbox');
+            const priceElement = itemRow.querySelector('.main__cart-price');
+            const quantityInput = itemRow.querySelector('.input-qty');
+
+            if (checkbox && checkbox.checked) {
+                const price = parseFloat(priceElement.innerText.replace('₫', '').replace(',', ''));
+                const quantity = quantityInput ? parseInt(quantityInput.value) : 1;
+                selectedItemsTotal += price * quantity;
+            }
+
+            // Always add the total price to get the complete sum
+            total += parseFloat(priceElement.innerText.replace('₫', '').replace(',', ''));
         });
-        document.querySelector('.total-money').innerText = 'Tổng cộng: ' + total.toLocaleString() + ' ₫';
+
+        // Update the displayed total
+        document.querySelector('.total-money').innerText = 'Tổng cộng: ' + selectedItemsTotal.toLocaleString() + ' ₫';
     }
 
     // Event listener for quantity changes
@@ -257,6 +241,19 @@
             });
         });
     });
+
+    // Event listener for checkbox change
+    document.querySelectorAll('.item-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', function () {
+            updateTotal(); // Update the total price when a checkbox is checked/unchecked
+        });
+    });
+
+    // Initial total calculation on page load
+    document.addEventListener('DOMContentLoaded', function () {
+        updateTotal();
+    });
 </script>
+<footer th:replace="~{customer/fragments/footer::footer}"></footer>
 </body>
 </html>

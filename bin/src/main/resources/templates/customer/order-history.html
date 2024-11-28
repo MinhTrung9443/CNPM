@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="/assets/css/order-history.css">
 </head>
 <body>
+
+
+
 <div class="main">
     <div class="tab mt-4 mb-4 container text-center">
         <ul class="nav nav-tabs justify-content-center">
@@ -34,7 +37,7 @@
     <div th:if="${tab == 'tat-ca-don-hang'}" class="tab-content">
         <div th:each="order : ${orders}" class="card mb-3 container">
             <div class="card-header">
-                <h5 th:text="'Đơn hàng ngày: ' + ${#temporals.format(order.orderDate, 'dd/MM/yyyy')}"></h5>
+                <a th:href="'/customer/followOrder/'+ ${order.orderId}"><h5 th:text="'Đơn hàng ngày: ' + ${#temporals.format(order.orderDate, 'dd/MM/yyyy')}"></h5></a>
             </div>
             <div th:each="product : ${order.products}" class="row g-0">
                 <div class="col-md-3">
@@ -67,9 +70,6 @@
             </div>
             <div class="row mb-4">
                 <div class="d-flex justify-content-end align-items-center">
-                    <div th:if="${order.orderStatus.toString() == 'COMPLETED'}">
-                        <button type="button" class="btn btn-outline me-2" style="border: 2px solid black">Đánh giá</button>
-                    </div>
                     <div th:if="${order.orderStatus.toString() == 'COMPLETED' or order.orderStatus.toString() == 'CANCELLED' or order.orderStatus.toString() == 'REFUNDED'}">
                         <button type="button" class="btn btn-danger">Mua lại</button>
                     </div>
@@ -81,7 +81,7 @@
     <div th:if="${tab == 'don-cho-xac-nhan'}" class="tab-content">
         <div th:each="order : ${orders}" class="card mb-3 container">
             <div class="card-header">
-                <h5 th:text="'Đơn hàng ngày: ' + ${#temporals.format(order.orderDate, 'dd/MM/yyyy')}"></h5>
+                <a th:href="'/customer/followOrder/'+ ${order.orderId}"><h5 th:text="'Đơn hàng ngày: ' + ${#temporals.format(order.orderDate, 'dd/MM/yyyy')}"></h5></a>
             </div>
             <div th:each="product : ${order.products}" class="row g-0">
                 <div class="col-md-3">
@@ -108,16 +108,13 @@
                     <strong class="card-text" th:text="'Tổng tiền: ' + ${order.totalCost}"></strong>
                 </div>
             </div>
-            <div class="mb-4 text-end">
-                <button type="button" class="btn btn-danger">Hủy đơn hàng</button>
-            </div>
         </div>
     </div>
 
     <div th:if="${tab == 'don-da-xac-nhan'}" class="tab-content">
         <div th:each="order : ${orders}" class="card mb-3 container">
             <div class="card-header">
-                <h5 th:text="'Đơn hàng ngày: ' + ${#temporals.format(order.orderDate, 'dd/MM/yyyy')}"></h5>
+                <a th:href="'/customer/followOrder/'+ ${order.orderId}"><h5 th:text="'Đơn hàng ngày: ' + ${#temporals.format(order.orderDate, 'dd/MM/yyyy')}"></h5></a>
             </div>
             <div th:each="product : ${order.products}" class="row g-0">
                 <div class="col-md-3">
@@ -150,7 +147,7 @@
     <div th:if="${tab == 'don-dang-van-chuyen'}" class="tab-content">
         <div th:each="order : ${orders}" class="card mb-3 container">
             <div class="card-header">
-                <h5 th:text="'Đơn hàng ngày: ' + ${#temporals.format(order.orderDate, 'dd/MM/yyyy')}"></h5>
+                <a th:href="'/customer/followOrder/'+ ${order.orderId}"><h5 th:text="'Đơn hàng ngày: ' + ${#temporals.format(order.orderDate, 'dd/MM/yyyy')}"></h5></a>
             </div>
             <div th:each="product : ${order.products}" class="row g-0">
                 <div class="col-md-3">
@@ -183,7 +180,7 @@
     <div th:if="${tab == 'don-da-giao'}" class="tab-content">
         <div th:each="order : ${orders}" class="card mb-3 container">
             <div class="card-header">
-                <h5 th:text="'Đơn hàng ngày: ' + ${#temporals.format(order.orderDate, 'dd/MM/yyyy')}"></h5>
+                <a th:href="'/customer/followOrder/'+ ${order.orderId}"><h5 th:text="'Đơn hàng ngày: ' + ${#temporals.format(order.orderDate, 'dd/MM/yyyy')}"></h5></a>
             </div>
             <div th:each="product : ${order.products}" class="row g-0">
                 <div class="col-md-3">
@@ -211,7 +208,6 @@
                 </div>
             </div>
             <div class="text-end mb-4 ml-4">
-                <button type="button" class="btn btn-outline" style="border: 2px solid black">Đánh giá</button>
                 <button type="button" class="btn btn-danger">Mua lại</button>
             </div>
         </div>
@@ -220,7 +216,7 @@
     <div th:if="${tab == 'don-huy'}" class="tab-content">
         <div th:each="order : ${orders}" class="card mb-3 container">
             <div class="card-header">
-                <h5 th:text="'Đơn hàng ngày: ' + ${#temporals.format(order.orderDate, 'dd/MM/yyyy')}"></h5>
+                <a th:href="'/customer/followOrder/'+ ${order.orderId}"><h5 th:text="'Đơn hàng ngày: ' + ${#temporals.format(order.orderDate, 'dd/MM/yyyy')}"></h5></a>
             </div>
             <div th:each="product : ${order.products}" class="row g-0">
                 <div class="col-md-3">
@@ -256,5 +252,7 @@
         </div>
     </div>
 </div>
+
+
 </body>
 </html>

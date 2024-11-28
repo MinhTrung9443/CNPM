@@ -327,20 +327,6 @@ select::-ms-expand {
 			</p>
 		</div>
 
-		<!-- Thông tin chi tiết của khách hàng -->
-		<div>
-			<h2>Customer Information</h2>
-			<p>
-				<strong>Name:</strong> <span th:text="${order.customer.fullName}"></span>
-			</p>
-			<p>
-				<strong>Email:</strong> <span th:text="${order.customer.email}"></span>
-			</p>
-			<p>
-				<strong>Phone:</strong> <span th:text="${order.customer.phone}"></span>
-			</p>
-		</div>
-
 		<!-- Danh sách sản phẩm trong đơn hàng -->
 		<div>
 			<h2>Order Items</h2>
@@ -422,12 +408,6 @@ select::-ms-expand {
 						<textarea id="comment" name="comment"
 							placeholder="Nhập lời đánh giá của bạn..."></textarea>
 					</div>
-
-					<div class="form-group">
-						<label for="image">Thêm ảnh:</label> <input type="file" id="image"
-							name="image" accept="image/*">
-					</div>
-
 					<button type="submit" class="submit-btn">Gửi đánh giá</button>
 				</form>
 			</div>
