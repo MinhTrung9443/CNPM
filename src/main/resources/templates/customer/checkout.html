@@ -334,9 +334,11 @@
                 }
             });
         }
+    });
     document.querySelector("button[type='submit']").addEventListener("click", function (event) {
         event.preventDefault(); // Ngăn chặn reload trang
         //neu là momo
+        console.log("dang dat hang")
         if(document.querySelector("input[name='paymentMethod']:checked").id === "MOMO"){
             alert("Chức năng thanh toán qua Momo đang bảo trì, vui lòng chọn cái khác");
             return;
