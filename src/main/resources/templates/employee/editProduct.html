@@ -72,11 +72,11 @@
 					<label class="col-sm-4 col-form-label">Category</label>
 					<div class="col-sm-8">
 						<select class="form-select" th:field="*{category}">
-							<option value='Body'>Body</option>
-							<option value='Hair'>Hair</option>
-							<option value='MakeUp'>MakeUp</option>
+							<option value='Cơ Thể'>Cơ Thể</option>
+							<option value='Tóc'>Tóc</option>
+							<option value='Trang Điểm'>Trang Điểm</option>
 							<option value='Wellness'>Wellness</option>
-							<option value='Skin'>Skin</option>
+							<option value='Da'>Da</option>
 						</select>
 						<p th:if="${#fields.hasErrors('category')}" th:errorclass="text-danger"
 						th:errors="*{category}"></p>
@@ -163,7 +163,10 @@
 				
 				<div class="row mb-3">
 					<div class="offset-sm-4 col-sm-8">
-						<img th:src="@{'/assets/img/product/' + ${product.image}}" alt="..." width="150" onerror="this.onerror=null;this.src='/assets/img/product/loading.gif';">
+						<img
+						th:src="${product.image.startsWith('http') ? product.image : '/uploads/' + product.image}"
+						alt="Product Image" width="100"
+						onerror="this.onerror=null;this.src='/assets/img/product/loading.gif';" />
 					</div>
 				</div>
 				

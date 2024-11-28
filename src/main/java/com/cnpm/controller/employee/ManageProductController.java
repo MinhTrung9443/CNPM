@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -36,6 +37,8 @@ import org.apache.commons.lang3.RandomStringUtils;
 @RequestMapping("/employee/products")
 public class ManageProductController {
 
+	@Value("${app.upload.directory}")
+    private String uploadDirectory;
 	@Autowired
 	private IProductService productServ;
 
@@ -74,15 +77,15 @@ public class ManageProductController {
 		String storageFileName = randString + "_" + image.getOriginalFilename();
 
 		try {
-			String uploadDir = "src/main/resources/static/assets/img/product/";
-			Path uploadPath = Paths.get(uploadDir);
+			Path uploadPath = Paths.get(uploadDirectory);
 
 			if (!Files.exists(uploadPath)) {
 				Files.createDirectories(uploadPath);
+				System.out.println("Directory created: " + uploadPath);
 			}
 
 			try (InputStream inputStream = image.getInputStream()) {
-				Files.copy(inputStream, Paths.get(uploadDir + storageFileName), StandardCopyOption.REPLACE_EXISTING);
+				Files.copy(inputStream, uploadPath.resolve(storageFileName), StandardCopyOption.REPLACE_EXISTING);
 			}
 		} catch (Exception ex) {
 			System.out.println("Exception: " + ex.getMessage());
@@ -155,8 +158,7 @@ public class ManageProductController {
 			
 			if (!productdto.getImage().isEmpty()) {
 				// delete old image
-				String uploadDir = "src/main/resources/static/assets/img/product/";
-				Path oldImagePath = Paths.get(uploadDir + product1.getImage());
+				Path oldImagePath = Paths.get(uploadDirectory, product1.getImage());
 
 				try {
 					Files.delete(oldImagePath);
@@ -169,7 +171,8 @@ public class ManageProductController {
 				String storageFileName = randString + "_" + image.getOriginalFilename();
 
 				try (InputStream inputStream = image.getInputStream()) {
-					Files.copy(inputStream, Paths.get(uploadDir + storageFileName),
+					 Path newImagePath = Paths.get(uploadDirectory, storageFileName);
+					Files.copy(inputStream,  newImagePath,
 							StandardCopyOption.REPLACE_EXISTING);
 				}
 				for (Product product : productsFiltered) {
@@ -221,9 +224,10 @@ public class ManageProductController {
 					if(flag==0)
 					{
 						// delete product image
-						Path imagePath = Paths.get("src/main/resources/static/assets/img/product/" + product.getImage());
+						Path oldImagePath = Paths.get(uploadDirectory, product.getImage());
+
 						try {
-							Files.delete(imagePath);
+							Files.delete(oldImagePath);
 						} catch (Exception ex) {
 							System.out.println("Exception: " + ex.getMessage());
 						}

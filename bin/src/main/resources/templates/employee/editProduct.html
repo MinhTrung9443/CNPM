@@ -54,9 +54,16 @@
 				<div class="row mb-3">
 					<label class="col-sm-4 col-form-label">Brand</label>
 					<div class="col-sm-8">
-						<input class="form-control" th:field="*{brand}">
-						<p th:if="${#fields.hasErrors('brand')}" th:errorclass="text-danger"
-						th:errors="*{brand}"></p>
+						<select class="form-control" th:field="*{brand}">
+							<option value='The Ordinary'>The Ordinary</option>
+							<option value='Ultra Violette'>Ultra Violette</option>
+							<option value='Sweed'>Sweed</option>
+							<option value='Saie'>Saie</option>
+							<option value="Paula's Choice">Paula's Choice</option>
+							<option value='Hello Sunday'>Hello Sunday</option>
+							<option value='CeraVe'>CeraVe</option>
+							<option value='Biossance'>Biossance</option>
+						</select>
 					
 					</div>
 				</div>
@@ -65,13 +72,11 @@
 					<label class="col-sm-4 col-form-label">Category</label>
 					<div class="col-sm-8">
 						<select class="form-select" th:field="*{category}">
-							<option value='Khác'>Khác</option>
-							<option value='Son Môi'>Son Môi</option>
-							<option value='Phấn má'>Phấn má</option>
-							<option value='Kem nền'>Kem nền</option>
-							<option value='Sữa rửa mặt'>Sữa rửa mặt</option>
-							<option value='Dầu gội'>Dầu gội</option>
-							<option value='Nước hoa'>Nước hoa</option>
+							<option value='Body'>Body</option>
+							<option value='Hair'>Hair</option>
+							<option value='MakeUp'>MakeUp</option>
+							<option value='Wellness'>Wellness</option>
+							<option value='Skin'>Skin</option>
 						</select>
 						<p th:if="${#fields.hasErrors('category')}" th:errorclass="text-danger"
 						th:errors="*{category}"></p>
@@ -116,9 +121,16 @@
 				<div class="row mb-3">
 					<label class="col-sm-4 col-form-label">Origin</label>
 					<div class="col-sm-8">
-						<input class="form-control" th:field="*{origin}">
-						<p th:if="${#fields.hasErrors('origin')}" th:errorclass="text-danger"
-						th:errors="*{origin}"></p>
+						<select class="form-control" th:field="*{origin}">
+							<option value='Anh'>Anh</option>
+							<option value='Đức'>Đức</option>
+							<option value='Hàn Quốc'>Hàn Quốc</option>
+							<option value='Mỹ'>Mỹ</option>
+							<option value='Nhật Bản'>Nhật Bản</option>
+							<option value='Pháp'>Pháp</option>
+							<option value='Việt Nam'>Việt Nam</option>
+							<option value='Ý'>Ý</option>
+						</select>
 					</div>
 				</div>
 				
