@@ -68,4 +68,9 @@ public class HomeController {
         return "customer/index";
     }
 
+
+    @GetMapping("/gioithieu")
+    public String showAboutPage() {
+        return "gioithieu"; // Tên của tệp HTML trong thư mục templates
+    }
 }

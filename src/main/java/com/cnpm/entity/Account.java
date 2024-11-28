@@ -3,7 +3,6 @@ package com.cnpm.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -17,7 +16,11 @@ import java.io.Serializable;
 @Data
 @Entity
 public class Account implements Serializable {
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long accountId;
     @Column(unique = true)
