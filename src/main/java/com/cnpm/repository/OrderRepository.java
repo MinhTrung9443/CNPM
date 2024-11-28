@@ -16,7 +16,7 @@ import java.util.Set;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
     @Query("SELECT new com.cnpm.dto.PurchaseHistoryDTO(o.orderId, o.orderDate, o.shippingAddress, o.orderStatus, " +
-           "(SELECT new com.cnpm.dto.ProductHistoryDTO(ol.product.productCode, ol.product.productName, ol.quantity, ol.product.image, ol.product.cost, ol.product.category) " +
+           "(SELECT new com.cnpm.dto.ProductHistoryDTO(ol.product.productId,ol.product.productCode, ol.product.productName, ol.quantity, ol.product.image, ol.product.cost, ol.product.category) " +
            "FROM OrderLine ol WHERE ol.order = o), " +
            "(SELECT SUM(ol.product.cost * ol.quantity) FROM OrderLine ol WHERE ol.order = o)) " +
            "FROM Order o WHERE o.customerId = :customerId")

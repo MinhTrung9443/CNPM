@@ -4,13 +4,51 @@
 <head>
     <meta charset="UTF-8">
     <title>Xem lịch sử mua hàng</title>
-<!--    <link rel="stylesheet" href="/assets/css/common.css">-->
+    <!--    <link rel="stylesheet" href="/assets/css/common.css">-->
     <link rel="stylesheet" href="/assets/css/order-history.css">
+    <!-- Reset css & grid sytem -->
+    <link rel="stylesheet" href="/assets/css/library.css">
+    <link href="/assets/owlCarousel/assets/owl.carousel.min.css"
+          rel="stylesheet">
+    <!-- Layout -->
+    <link rel="stylesheet" href="/assets/css/common.css">
+    <!-- index -->
+    <link href="/assets/css/home.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Owl caroucel Js-->
+    <script src="/assets/owlCarousel/owl.carousel.min.js"></script>
 </head>
 <body>
 
 
+<header th:replace="~{customer/fragments/header::header}"></header>
+<!-- Slider -->
+<div class="main__slice">
+    <div class="slider">
+        <div class="slide active"
+             style="background-image: url(/assets/img/slider/slide-10.jpg)">
+            <div class="container">
+                <div class="caption">
 
+                    <p></p>
+                    <a href="listProduct.html" class="btn btn--default">Xem ngay</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- controls  -->
+    <div class="controls">
+        <div class="prev">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+        <div class="next">
+            <i class="fas fa-chevron-right"></i>
+        </div>
+    </div>
+    <!-- indicators -->
+    <div class="indicator"></div>
+</div>
 <div class="main">
     <div class="tab mt-4 mb-4 container text-center">
         <ul class="nav nav-tabs justify-content-center">
@@ -57,6 +95,17 @@
                         </div>
                     </div>
                 </div>
+                <div class="row mb-4">
+                    <div class="d-flex justify-content-end align-items-center">
+                        <div th:if="${order.orderStatus.toString() == 'COMPLETED' or order.orderStatus.toString() == 'CANCELLED' or order.orderStatus.toString() == 'REFUNDED'}">
+                            <form th:action="@{/add-to-cart}" method="post">
+                                <input type="hidden" name="productId" th:value="${product.productId}" />
+                                <input type="hidden" name="quantity" th:value="${product.quantity}" />
+                                <button type="submit" class="btn">Mua lại</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
                 <hr>
             </div>
             <div class="text-end mb-2" style="color: green;">
@@ -66,13 +115,6 @@
             <div class="row">
                 <div class="col-md-12 text-end mb-4">
                     <strong class="card-text" th:text="'Tổng tiền: ' + ${order.totalCost}"></strong>
-                </div>
-            </div>
-            <div class="row mb-4">
-                <div class="d-flex justify-content-end align-items-center">
-                    <div th:if="${order.orderStatus.toString() == 'COMPLETED' or order.orderStatus.toString() == 'CANCELLED' or order.orderStatus.toString() == 'REFUNDED'}">
-                        <button type="button" class="btn btn-danger">Mua lại</button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -200,15 +242,19 @@
                         </div>
                     </div>
                 </div>
+                <div class="text-end mb-4 ml-4">
+                    <form th:action="@{/add-to-cart}" method="post">
+                        <input type="hidden" name="productId" th:value="${product.productId}" />
+                        <input type="hidden" name="quantity" th:value="${product.quantity}" />
+                        <button type="submit" class="btn">Mua lại</button>
+                    </form>
+                </div>
                 <hr>
             </div>
             <div class="row">
                 <div class="col-md-12 text-end mb-4">
                     <strong class="card-text" th:text="'Tổng tiền: ' + ${order.totalCost}"></strong>
                 </div>
-            </div>
-            <div class="text-end mb-4 ml-4">
-                <button type="button" class="btn btn-danger">Mua lại</button>
             </div>
         </div>
     </div>
@@ -236,6 +282,13 @@
                         </div>
                     </div>
                 </div>
+                <div class="text-end mb-4">
+                    <form th:action="@{/add-to-cart}" method="post">
+                        <input type="hidden" name="productId" th:value="${product.productId}" />
+                        <input type="hidden" name="quantity" th:value="${product.quantity}" />
+                        <button type="submit" class="btn">Mua lại</button>
+                    </form>
+                </div>
                 <hr>
             </div>
             <div class="text-end mb-2" style="color: green;">
@@ -246,13 +299,10 @@
                     <strong class="card-text" th:text="'Tổng tiền: ' + ${order.totalCost}"></strong>
                 </div>
             </div>
-            <div class="text-end mb-4">
-                <button type="button" class="btn btn-danger me-2">Mua lại</button>
-            </div>
         </div>
     </div>
 </div>
 
-
+<footer th:replace="customer/fragments/footer :: footer"></footer>
 </body>
 </html>

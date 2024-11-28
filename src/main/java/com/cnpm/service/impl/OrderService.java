@@ -307,7 +307,7 @@ public class OrderService implements IOrderService {
 		Set<ProductHistoryDTO> productHistoryDTOs = order.getOrderLines().stream().map(orderLine -> {
 			Product product = orderLine.getProduct();
 			if (product != null) {
-				return new ProductHistoryDTO(product.getProductCode(), product.getProductName(),
+				return new ProductHistoryDTO(product.getProductId(),product.getProductCode(), product.getProductName(),
 						orderLine.getQuantity(), product.getImage(), product.getCost(), product.getCategory());
 			}
 			return null;
