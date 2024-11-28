@@ -156,6 +156,7 @@ public class AuthController {
     @PostMapping("/signin")
     public ModelAndView signin(@RequestParam("g-recaptcha-response") String response, ModelMap model, HttpSession session, @RequestParam String username,
             @RequestParam String password) {
+        captchaService.processResponse(response);
         Account account = userService.findByUsernameAndPassword(username, password);
         if (account == null) {
             model.addAttribute("Err", "Tên đăng nhập hoặc mật khẩu không đúng");
