@@ -78,11 +78,11 @@
 					<label class="col-sm-4 col-form-label">Category</label>
 					<div class="col-sm-8">
 						<select class="form-select" th:field="*{category}">
-							<option value='Body'>Body</option>
-							<option value='Hair'>Hair</option>
-							<option value='MakeUp'>MakeUp</option>
+							<option value='Cơ Thể'>Cơ Thể</option>
+							<option value='Tóc'>Tóc</option>
+							<option value='Trang Điểm'>Trang Điểm</option>
 							<option value='Wellness'>Wellness</option>
-							<option value='Skin'>Skin</option>
+							<option value='Da'>Da</option>
 						</select>
 						<p th:if="${#fields.hasErrors('category')}"
 							th:errorclass="text-danger" th:errors="*{category}"></p>
