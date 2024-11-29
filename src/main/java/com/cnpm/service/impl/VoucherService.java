@@ -27,6 +27,7 @@ public class VoucherService implements IVoucherService{
         voucher.setVoucherValue(voucherDTO.getVoucherValue());
         voucher.setStartDate(voucherDTO.getStartDate());
         voucher.setEndDate(voucherDTO.getEndDate());
+        voucher.setVoucherCode(voucherDTO.getVoucherCode());
         return voucherRepository.save(voucher);
     }
 
@@ -81,4 +82,14 @@ public class VoucherService implements IVoucherService{
 	public Optional<Voucher> findFirst(String voucherCode) {
         return voucherRepository.findFirstByVoucherCodeAndIsUsedFalseAndStartDateBeforeAndEndDateAfter(voucherCode, LocalDateTime.now(), LocalDateTime.now());
     }
+
+	@Override
+	public List<Voucher> findAllByIsUsedFalseAndStartDateBeforeAndEndDateAfter() {
+		LocalDateTime startDate = LocalDateTime.now();
+		LocalDateTime endDate = LocalDateTime.now();
+		
+		return voucherRepository.findAllByIsUsedFalseAndStartDateBeforeAndEndDateAfter(startDate, endDate);
+	}
+    
+    
 }

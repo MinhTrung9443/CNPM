@@ -18,4 +18,5 @@ public interface IVoucherService {
 	Voucher saveVoucher(VoucherDTO voucherDTO);
 
     Voucher getVoucherByVoucherCode(String voucherCode);
+	List<Voucher> findAllByIsUsedFalseAndStartDateBeforeAndEndDateAfter();
 }

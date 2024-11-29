@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 public class VoucherDTO {
 
     Long voucherId;
+    String voucherCode;
     Double voucherValue;
     LocalDateTime startDate;
     LocalDateTime endDate;

@@ -21,7 +21,8 @@ public class OrderDetailEmployeeDTO {
 	    // Thông tin sản phẩm
 	    private Set<OrderLineDTO> orderLines;
 	 // Thông tin thanh toán
-	    private String accountRefundId;
+	    private String accountType;
+	    private String accountNum;
 	    private String paymentMethod;
 	    private String paymentStatus;
 	    private String paymentDate;

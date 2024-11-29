@@ -64,6 +64,12 @@ public class InforCustomerController {
 			Customer customer = (Customer) user; // Chuyển kiểu xuống Customer
 			
 			model.addAttribute("user", customer);
+			AccountRefund accountRF = customer.getAccountRefund();
+			if (accountRF == null)
+			{
+				accountRF = new AccountRefund();
+				customer.setAccountRefund(accountRF);
+			}
 			model.addAttribute("accountRefund", customer.getAccountRefund());
 		} else {
 			model.addAttribute("user", user);

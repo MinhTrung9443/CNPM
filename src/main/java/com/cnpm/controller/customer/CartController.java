@@ -59,7 +59,10 @@ public class CartController {
     @PostMapping("/add-to-cart")
     public String addProductToCart(@RequestParam Long productId, @RequestParam int quantity, HttpSession session) {
         User user = (User) session.getAttribute("user");
-
+        if (user == null)
+        {
+        	return "redirect:/signin";
+        }
         Optional<Cart> optionalCart = cartRepository.findByCustomerUserId(user.getUserId());
         Cart cart;
         if (optionalCart.isPresent()) {

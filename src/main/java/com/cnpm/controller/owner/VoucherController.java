@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @RestController
 @RequestMapping("/api/vouchers")
@@ -25,7 +26,15 @@ public class VoucherController {
 
     @PostMapping("/add")
     public ResponseEntity<Voucher> creationVoucher(@RequestBody VoucherDTO request){
+    	Random random = new Random();
+        StringBuilder result = new StringBuilder();
 
+        for (int i = 0; i < 5; i++) {
+            int digit = random.nextInt(10);
+            result.append(digit);
+        }
+    	
+    	request.setVoucherCode(result.toString());
         Voucher saveVoucher = voucherService.saveVoucher(request);
         return new ResponseEntity<>(saveVoucher, HttpStatus.CREATED);
     }

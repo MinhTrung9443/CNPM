@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cnpm.dto.ProductResponse;
 import com.cnpm.entity.Product;
+import com.cnpm.entity.Voucher;
+import com.cnpm.service.IVoucherService;
 import com.cnpm.service.impl.ProductService;
 
 @Controller
@@ -21,8 +24,10 @@ import com.cnpm.service.impl.ProductService;
 public class HomeController {
     @Autowired
     private ProductService productService;
+    @Autowired
+    private IVoucherService voucherService;
 
-    @GetMapping({"", "/index", "/index.html", "/customer/index.html", "/Customer*/index", "/page"})
+    @GetMapping({"", "/index", "/index.html", "/customer/index.html", "/customer/index", "/page"})
     public String showHomePage(Model model,@RequestParam(value = "pageNo", defaultValue = "1") int pageNo) {
     	
 	    int pageSize = 25;
@@ -46,6 +51,11 @@ public class HomeController {
         List<Product> allProducts = productService.findAllDistinctProduct();
         model.addAttribute("products", allProducts);
         return "Employee/index";
+    }
+    
+    @GetMapping({"owner/index.html", "owner/index"})
+    public String showOwnerPage(Model model) {
+        return "owner/index";
     }
     
     @GetMapping("/products")
@@ -72,5 +82,12 @@ public class HomeController {
     @GetMapping("/gioithieu")
     public String showAboutPage() {
         return "gioithieu"; // Tên của tệp HTML trong thư mục templates
+    }
+    
+    @GetMapping("ViewVoucher")
+    public String ShowVoucher(ModelMap model) {
+    	List<Voucher> vouchers = voucherService.findAllByIsUsedFalseAndStartDateBeforeAndEndDateAfter();
+    	model.addAttribute("listVoucher", vouchers);
+    	return "customer/viewVoucher";
     }
 }

@@ -229,8 +229,8 @@ public class OrderService implements IOrderService {
 				.orderLines(order.getOrderLines().stream().map(this::mapOrderLineToDTO) // Chuyển đổi từng OrderLine
 																						// sang DTO
 						.collect(Collectors.toSet()))
-				.accountRefundId(accountRefund != null ? String.valueOf(accountRefund.getAccountRefundId()) : null)
-
+				.accountType(accountRefund != null ? String.valueOf(accountRefund.getType()) : null)
+				.accountNum(accountRefund != null ? String.valueOf(accountRefund.getAccountNum()) : null)
 				// accountRefundId
 				// Thông tin thanh toán
 				.paymentMethod(payment != null ? payment.getPaymentMethod().name() : null)

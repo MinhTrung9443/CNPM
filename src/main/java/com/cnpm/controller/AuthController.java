@@ -214,7 +214,8 @@ public class AuthController {
 		} catch (Exception e) {
 			e.printStackTrace(); // TODO: handle exception
 		}
-		return new ModelAndView("customer/index", model);
+		model.addAttribute("Err", "Email không tồn tại, mời nhập lại thông tin");
+		return new ModelAndView("user/forgotPass", model);
 	}
 
 	@PostMapping("/resetpassword")
@@ -226,7 +227,7 @@ public class AuthController {
 		if (otp.equals(OTP)) {
 			user.getAccount().setPassword(newPassword);
 			accService.save(user.getAccount());
-			return new ModelAndView("customer/index", model);
+			return new ModelAndView("redirect:/signin", model);
 		}
 		model.addAttribute("OtpErr", "Mã OTP không trùng khớp");
 		return new ModelAndView("forward:user/AuthOTP", model);
@@ -238,11 +239,11 @@ public class AuthController {
 		if (user != null) {
 			long roleid = user.getAccount().getRole().getRoleId();
 			if (roleid == 3) {
-				return "customer/index";
+				return "redirect:/customer/index";
 			} else if (roleid == 2) {
-				return "employee/index";
+				return "redirect:/employee/index.html";
 			} else {
-				return "owner/index";
+				return "redirect:/owner/index";
 			}
 		}
 		return "";
