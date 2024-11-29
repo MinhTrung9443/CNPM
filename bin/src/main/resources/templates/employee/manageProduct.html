@@ -37,7 +37,8 @@
 		<a class="btn btn-primary" href="/employee/products/create">Create
 			Product</a>
 
-		<table class="table" style="margin-left:-70px; width: 100%; word-wrap: break-word;">
+		<table class="table"
+			style="margin-left: -70px; width: 100%; word-wrap: break-word;">
 			<thead>
 				<tr>
 					<th>Product Code</th>
@@ -61,21 +62,27 @@
 				<tr th:each="product : ${products}">
 					<td th:text="${product.productCode}"></td>
 					<td th:text="${product.productName}"></td>
-					<td th:text="@{${product.cost} + '$'}"></td>
-					<td th:text="${product.description.substring(0, product.description.length < 50 ? product.description.length : 50) + '...'}"></td>
+					<td th:text="@{${product.cost} + 'đ'}"></td>
+					<td
+						th:text="${product.description.substring(0, product.description.length < 50 ? product.description.length : 50) + '...'}"></td>
 					<td th:text="${product.category}"></td>
 					<td th:text="${product.brand}"></td>
 					<td th:text="${product.expirationDate}"></td>
 					<td th:text="${product.manufactureDate}"></td>
-					<td th:text="${product.ingredient.substring(0, product.ingredient.length < 50 ? product.ingredient.length : 50) + '...'}"></td>
-					<td th:text="${product.how_to_use.substring(0, product.how_to_use.length < 50 ? product.how_to_use.length : 50) + '...'}"></td>
+					<td
+						th:text="${product.ingredient.substring(0, product.ingredient.length < 50 ? product.ingredient.length : 50) + '...'}"></td>
+					<td
+						th:text="${product.how_to_use.substring(0, product.how_to_use.length < 50 ? product.how_to_use.length : 50) + '...'}"></td>
 					<td th:text="${product.volume}"></td>
 					<td th:text="${product.origin}"></td>
 
-					<td th:if="${product.image.substring(0,4) != 'http'}"><img th:src="@{'/assets/img/product/' + ${product.image}}" alt="Product Image" width="100" onerror="this.onerror=null;this.src='/assets/img/product/loading.gif';"></td>
+					<td><img
+						th:src="${product.image.startsWith('http') ? product.image : '/uploads/' + product.image}"
+						alt="Product Image" width="100"
+						onerror="this.onerror=null;this.src='/assets/img/product/loading.gif';" />
+					</td>
 					<td th:if="${product.image.substring(0,4) == 'http'}"><img
-						th:src="${product.image}" alt="..."
-						width="100"></td>
+						th:src="${product.image}" alt="..." width="100"></td>
 					<td th:text="${product.stock}"></td>
 					<td style="white-space: nowrap"><a
 						class="btn btn-primary btn-sm"
@@ -87,7 +94,8 @@
 			</tbody>
 		</table>
 
-		<nav aria-label="Page navigation example" style="display: flex; justify-content: center;">
+		<nav aria-label="Page navigation example"
+			style="display: flex; justify-content: center;">
 			<ul class="pagination">
 				<!-- Nút "Previous" -->
 				<li class="page-item"

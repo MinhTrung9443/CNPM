@@ -103,9 +103,11 @@
 		<!-- indicators -->
 		<div class="indicator"></div>
 	</div>
-    <div class="reset-password-form" layout:fragment="app-content">
+    <div class="reset-password-form" layout:fragment="app-content" style="font-size: 18px">
         <h2>Quên mật khẩu</h2>
+        <h2 th:if="${Err}" th:text="${Err}" style="color:  red"></h2>
         <form action="/forgotpass" method="post">
+        	
             <label for="email">Nhập email:</label>
             <input type="email" name="email" required />
             <button type="submit">Xác nhận</button>
