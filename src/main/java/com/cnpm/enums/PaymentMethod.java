@@ -1,5 +1,5 @@
 package com.cnpm.enums;
 
 public enum PaymentMethod {
-    COD, VNPAY, PAYPAL,METHOD
+    COD, VNPAY, PAYPAL, MOMO
 }
