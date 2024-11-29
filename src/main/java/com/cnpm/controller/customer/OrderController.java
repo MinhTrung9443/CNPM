@@ -118,24 +118,27 @@ public class OrderController {
         try {
             OrderResponse orderResponse = orderService.createOrder(createOrderRequest);
             session.setAttribute("orderId", orderResponse.getOrderId());
+            session.setAttribute("paymentMethod", orderResponse.getPaymentMethod());
             // Kiểm tra phương thức thanh toán
             if (createOrderRequest.getPaymentMethod().equals(PaymentMethod.COD)) {
-                // Trả về chi tiết đơn hàng nếu thanh toán COD
-                return ResponseEntity.ok().body(Map.of("redirectUrl", "/order/payment-return?orderId=" + orderResponse.getOrderId()));
+                orderService.updateOrderStatus(orderResponse.getOrderId());
             } else if (createOrderRequest.getPaymentMethod().equals(PaymentMethod.VNPAY)) {
-                // Tạo liên kết thanh toán VNPay và trả về
+                // Tạo liên kết thanh toán VNPay
                 String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
                 String vnpayUrl = vnpayService.createOrder(request, orderResponse.getTotal(), orderResponse.getOrderId().toString(), baseUrl);
-                return ResponseEntity.ok().body(Map.of("redirectUrl", vnpayUrl));
+                //lưu liên kết thanh toán vào session
+                session.setAttribute("vnpayUrl", vnpayUrl);
             } else if (createOrderRequest.getPaymentMethod().equals(PaymentMethod.PAYPAL)) {
-                // Tạo liên kết thanh toán Paypal và trả về
+                // Tạo liên kết thanh toán Paypal
                 String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
-//                return ResponseEntity.ok().body(Map.of("redirectUrl", "/paypal/checkout?orderId=" + orderResponse.getOrderId()));
-                return ResponseEntity.ok().body(Map.of("redirectUrl", "/paypal/checkout"));
+//                lưu liên kết thanh toán vào session
+                session.setAttribute("paypalUrl", "/paypal/checkout");
             }
             else{
                 return ResponseEntity.badRequest().body("Invalid payment method");
             }
+            //trả về trạng thái 200 và liên kết chuyển hướng
+            return ResponseEntity.ok().body(Map.of("redirectUrl", "/order/payment-return"));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -143,24 +146,31 @@ public class OrderController {
 
 
     @GetMapping("/payment-return")
-    public String paymentCompleted(@RequestParam Long orderId) {
-        // Xử lý thanh toán
-        // Cập nhật trạng thái đơn hàng
-        orderService.updateOrderStatus(orderId);
-        return "customer/ordersuccess";
+    public String paymentProcess(HttpSession session){
+        {
+            // Xử lý thanh toán
+            // Lấy ra phương thức thanh toán
+            PaymentMethod paymentMethod = PaymentMethod.valueOf(session.getAttribute("paymentMethod").toString());
+            if (paymentMethod.equals(PaymentMethod.COD)) {
+                // Cập nhật trạng thái đơn hàng
+                return "customer/ordersuccess";
+            } else if (paymentMethod.equals(PaymentMethod.VNPAY)) {
+                // Lấy liên kết thanh toán VNPay
+                String vnpayUrl = (String) session.getAttribute("vnpayUrl");
+                // Xóa liên kết thanh toán VNPay
+                session.removeAttribute("vnpayUrl");
+                // Chuyển hướng đến liên kết thanh toán VNPay
+                return "redirect:" + vnpayUrl;
+            } else if (paymentMethod.equals(PaymentMethod.PAYPAL)) {
+                // Lấy liên kết thanh toán Paypal
+                String paypalUrl = (String) session.getAttribute("paypalUrl");
+                // Xóa liên kết thanh toán Paypal
+                session.removeAttribute("paypalUrl");
+                // Chuyển hướng đến liên kết thanh toán Paypal
+                return "redirect:" + paypalUrl;
+            }
+            return "err/error";
+        }
     }
 
-
-//    @PostMapping("/apply-voucher")
-//    public ResponseEntity<?> applyVoucher(@RequestParam String voucherCode, HttpSession session) {
-//        try {
-//            // Lấy thông tin giỏ hàng từ session
-//            List<CartItemDTO> cartItems = (List<CartItemDTO>) session.getAttribute("cartItems");
-//            // Tính toán giảm giá
-//            double discount = orderService.calculateDiscount(cartItems, voucherCode);
-//            return ResponseEntity.ok().body(Map.of("discount", discount));
-//        } catch (RuntimeException e) {
-//            return ResponseEntity.badRequest().body(e.getMessage());
-//        }
-//    }
 }
