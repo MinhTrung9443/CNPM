@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<link rel="preconnect" href="https://fonts.gstatic.com">
-<!-- Font Awesome CDN -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<!-- Font Awesome CDN -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 <link
 	href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"
@@ -26,8 +26,9 @@
 <style>
 
 
-</style>
+	</style>
 </head>
+
 <body>
 	<header th:fragment="header">
 		<div class="header " id="myHeader">
@@ -36,26 +37,24 @@
 					<div class="navbar-icon">
 						<span></span> <span></span> <span></span>
 					</div>
-					<a href="index.html" class="header__logo"> <img
-						src="./assets/logo.png" alt="">
+					<a href="index.html" class="header__logo"> <img src="./assets/logo.png" alt="">
 					</a>
 					<div class="header__search">
 						<form action="/search" method="get">
 							<div class="header__search-wrap">
-								<input type="text" class="header__search-input" name="keyword"
-									placeholder="Tìm kiếm" /> <a class="header__search-icon"
-									href="javascript:void(0);"
-									onclick="this.closest('form').submit();"> <i
-									class="fas fa-search"></i>
+								<input type="text" class="header__search-input" name="keyword" placeholder="Tìm kiếm" />
+								<a class="header__search-icon" href="javascript:void(0);"
+									onclick="this.closest('form').submit();"> <i class="fas fa-search"></i>
 								</a>
 							</div>
 						</form>
 					</div>
 
 
+
 					<div class="header__account" th:if="${session.user == null}">
-						<a href="/signin" class="header__account-login">Đăng Nhập</a> <a
-							href="/signup" class="header__account-register">Đăng Kí</a>
+						<a href="/signin" class="header__account-login">Đăng Nhập</a> <a href="/signup"
+							class="header__account-register">Đăng Kí</a>
 					</div>
 					<div class="header__account" th:if="${session.user != null}">
 						<a href="/customer/profile" class="header__account-login">Tài
@@ -63,10 +62,8 @@
 						<div class="dropdown-menu">
 							<a href="/customer/order-history" class="dropdown-item">Đơn hàng</a>
 						</div>
-						<span class="divider"></span> <a href="/signout"
-							class="header__account-login">Đăng xuất</a> <a
-							class="header__cart have" href="/customer/cart.html"> <i
-							class="fas fa-shopping-basket"></i>
+						<span class="divider"></span> <a href="/signout" class="header__account-login">Đăng xuất</a> <a
+							class="header__cart have" href="/customer/cart.html"> <i class="fas fa-shopping-basket"></i>
 						</a>
 					</div>
 
@@ -78,15 +75,13 @@
 				<ul class="header__nav-list">
 					<li class="header__nav-item nav__search">
 						<div class="nav__search-wrap">
-							<input class="nav__search-input" type="text" name="" id=""
-								placeholder="Tìm sản phẩm...">
+							<input class="nav__search-input" type="text" name="" id="" placeholder="Tìm sản phẩm...">
 						</div>
 						<div class="nav__search-btn">
 							<i class="fas fa-search"></i>
 						</div>
 					</li>
-					<li class="header__nav-item authen-form"><a href="#"
-						class="header__nav-link">Tài Khoản</a>
+					<li class="header__nav-item authen-form"><a href="#" class="header__nav-link">Tài Khoản</a>
 						<ul class="sub-nav">
 							<li class="sub-nav__item"><a href="#my-Login"
 								class="sub-nav__link">Đăng Nhập</a></li>
@@ -101,33 +96,36 @@
 						class="header__nav-link">Sản Phẩm</a>
 						<div class="sub-nav-wrap">
 							<ul class="sub-nav">
-								<li class="sub-nav__item"><a
-									href="/products?category=Wellness" class="sub-nav__link">Wellness</a></li>
+								<li class="sub-nav__item"><a href="/products?category=Wellness"
+										class="sub-nav__link">Wellness</a></li>
 								<li class="sub-nav__item"><a href="/products?category=Body"
-									class="sub-nav__link">Body</a></li>
-								<li class="sub-nav__item"><a
-									href="/products?category=MakeUp" class="sub-nav__link">Make
+										class="sub-nav__link">Body</a></li>
+								<li class="sub-nav__item"><a href="/products?category=MakeUp" class="sub-nav__link">Make
 										up</a></li>
 								<li class="sub-nav__item"><a href="/products?category=Hair"
-									class="sub-nav__link">Hair</a></li>
+										class="sub-nav__link">Hair</a></li>
 								<li class="sub-nav__item"><a href="/products?category=Skin"
-									class="sub-nav__link">Skin</a></li>
+										class="sub-nav__link">Skin</a></li>
 							</ul>
-						</div></li>
+						</div>
+					</li>
 
 
-					<li class="header__nav-item"><a href="news.html"
-						class="header__nav-link">Tin Tức</a></li>
-					<li class="header__nav-item"><a href="contact.html"
-						class="header__nav-link">Liên Hệ</a></li>
-					<li class="header__nav-item"><a
-						th:href="@{/chat/{username}(username=${session.username})}"
-						class="header__nav-link"> <!-- Sử dụng icon bong bóng chat -->
+					<li class="header__nav-item"><a href="news.html" class="header__nav-link">Tin Tức</a></li>
+
+					<li class="header__nav-item" th:if="${session.user != null}">
+						<a th:href="@{/chat/{fullname}(fullname=${session.fullname != null ? session.fullname : 'Guest'})}"
+							class="header__nav-link">
+							<!-- Sử dụng icon bong bóng chat -->
 							<i class="fa-solid fa-comment"></i> Chat với nhân viên
-					</a></li>
+						</a>
+					</li>
+
+
 				</ul>
 			</div>
 		</div>
 	</header>
 </body>
+
 </html>

@@ -25,18 +25,18 @@
 //    public void init() {
 //        try {
 //            JsonElement root;
-////            root= JsonParser.parseReader(new InputStreamReader(new FileInputStream("D:\\BodyVietnamese.json"), StandardCharsets.UTF_8));
-////            parseJson(root);
-////            root = JsonParser.parseReader(new InputStreamReader(new FileInputStream("D:\\WellnessVietnamese.json"), StandardCharsets.UTF_8));
-////            parseJson(root);
-////            root = JsonParser.parseReader(new InputStreamReader(new FileInputStream("D:\\SkinVietnamese.json"), StandardCharsets.UTF_8));
-////            parseJson(root);
-////            root = JsonParser.parseReader(new InputStreamReader(new FileInputStream("D:\\MakeUpVietnamese.json"), StandardCharsets.UTF_8));
-////            parseJson(root);
-////            root = JsonParser.parseReader(new InputStreamReader(new FileInputStream("D:\\HairVietnamese.json"), StandardCharsets.UTF_8));
-////            parseJson(root);
-////            root = JsonParser.parseReader(new InputStreamReader(new FileInputStream("D:\\FragranceVietnamese.json"), StandardCharsets.UTF_8));
-////            parseJson(root);
+//            root= JsonParser.parseReader(new InputStreamReader(new FileInputStream("D:\\BodyVietnamese.json"), StandardCharsets.UTF_8));
+//            parseJson(root);
+//            root = JsonParser.parseReader(new InputStreamReader(new FileInputStream("D:\\WellnessVietnamese.json"), StandardCharsets.UTF_8));
+//            parseJson(root);
+//            root = JsonParser.parseReader(new InputStreamReader(new FileInputStream("D:\\SkinVietnamese.json"), StandardCharsets.UTF_8));
+//            parseJson(root);
+//            root = JsonParser.parseReader(new InputStreamReader(new FileInputStream("D:\\MakeUpVietnamese.json"), StandardCharsets.UTF_8));
+//            parseJson(root);
+//            root = JsonParser.parseReader(new InputStreamReader(new FileInputStream("D:\\HairVietnamese.json"), StandardCharsets.UTF_8));
+//            parseJson(root);
+//            root = JsonParser.parseReader(new InputStreamReader(new FileInputStream("D:\\FragranceVietnamese.json"), StandardCharsets.UTF_8));
+//            parseJson(root);
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }

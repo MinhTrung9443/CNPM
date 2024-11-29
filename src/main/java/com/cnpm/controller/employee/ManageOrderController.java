@@ -1,9 +1,14 @@
 package com.cnpm.controller.employee;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,112 +19,106 @@ import com.cnpm.entity.Order;
 import com.cnpm.enums.OrderStatus;
 import com.cnpm.service.IOrderService;
 
-
 @Controller
 @RequestMapping("/employee/order-management")
 public class ManageOrderController {
 
-	private final IOrderService orderService;
+    private final IOrderService orderService;
 
-	@Autowired
-	public ManageOrderController(IOrderService orderService) {
-		this.orderService = orderService;
-	}
+    @Autowired
+    public ManageOrderController(IOrderService orderService) {
+        this.orderService = orderService;
+    }
 
-	// Hiển thị trang quản lý đơn hàng
-	@GetMapping("")
-	public String getOrderPage(
-			@RequestParam(value = "tab", required = false, defaultValue = "tat-ca-don-hang") String tab, Model model) {
-		List<Order> orders;
+    // Hiển thị trang quản lý đơn hàng
+    @GetMapping("")
+    public String getOrderPage(
+            @RequestParam(value = "tab", required = false, defaultValue = "tat-ca-don-hang") String tab,
+            @RequestParam(value = "page", defaultValue = "1") Optional<Integer> page,
+            @RequestParam(value = "size", defaultValue = "5") Optional<Integer> size,
+            Model model) {
 
-		// Lọc đơn hàng theo trạng thái
-		switch (tab) {
-		case "tat-ca-don-hang":
-			orders = orderService.getAllOrders(); // Tất cả đơn hàng
-			break;
-		case "don-cho-xac-nhan":
-			orders = orderService.getOrdersByStatus(OrderStatus.PENDING); // Đơn chờ xác nhận
-			break;
-		case "don-da-xac-nhan":
-			orders = orderService.getOrdersByStatus(OrderStatus.CONFIRMED); // Đơn chờ xác nhận
-			break;
-		case "don-dang-van-chuyen":
-			orders = orderService.getOrdersByStatus(OrderStatus.SHIPPING); // Đơn đang vận chuyển
-			break;
-		case "don-da-giao":
-			orders = orderService.getOrdersByStatus(OrderStatus.COMPLETED); // Đơn đã giao
-			break;
-		case "don-huy":
-			List<Order> cancelledOrders = orderService.getOrdersByStatus(OrderStatus.CANCELLED);
-			List<Order> refundedOrders = orderService.getOrdersByStatus(OrderStatus.REFUNDED);
+        int currentPage = page.orElse(1);
+        int pageSize = size.orElse(5);
 
-			orders = new ArrayList<>();
-			orders.addAll(cancelledOrders);
-			orders.addAll(refundedOrders); // Đơn hủy
-			break;
-		default:
-			orders = orderService.getAllOrders(); // Mặc định là tất cả đơn hàng
-			break;
-		}
+        Pageable pageable = PageRequest.of(currentPage - 1, pageSize);
+        Page<Order> orderPage;
 
-		model.addAttribute("Orders", orders);
-		model.addAttribute("tab", tab); // Thêm biến tab vào model để giữ trạng thái tab
-		return "employee/order-management"; // Trả về trang HTML
-	}
-
-	@PostMapping
-	public String updateOrderStatus(@RequestParam Long orderId, @RequestParam String status) {
-		orderService.updateOrderStatus(orderId, status); // Gọi service cập nhật
-		return "redirect:/employee/order-management"; // Reload trang sau khi cập nhật
-	}
-	  // Phương thức hoàn tiền
-    @PostMapping("/refund")
-    public String processRefund(@RequestParam("orderId") Long orderId, @RequestParam("status") String status, Model model) {
-    	System.out.println(orderId);
-        // Kiểm tra xem trạng thái có phải là 'REFUND' hay không
-        if ("REFUND".equalsIgnoreCase(status)) {
-            // Cập nhật trạng thái đơn hàng là hoàn tiền
-            boolean refundSuccess = orderService.processRefund(orderId);
-
-            if (refundSuccess) {
-                model.addAttribute("message", "Hoàn tiền thành công!");
-            } else {
-                model.addAttribute("message", "Lỗi trong quá trình hoàn tiền.");
-            }
-        } else {
-            model.addAttribute("message", "Trạng thái không hợp lệ.");
+        // Lọc đơn hàng theo trạng thái và áp dụng phân trang
+        switch (tab) {
+            case "tat-ca-don-hang":
+                orderPage = orderService.getAllOrders(pageable); // Tất cả đơn hàng
+                break;
+            case "don-cho-xac-nhan":
+                orderPage = orderService.getOrdersByStatus(OrderStatus.PENDING, pageable); // Đơn chờ xác nhận
+                break;
+            case "don-da-xac-nhan":
+                orderPage = orderService.getOrdersByStatus(OrderStatus.CONFIRMED, pageable); // Đơn đã xác nhận
+                break;
+            case "don-dang-van-chuyen":
+                orderPage = orderService.getOrdersByStatus(OrderStatus.SHIPPING, pageable); // Đơn đang vận chuyển
+                break;
+            case "don-da-giao":
+                orderPage = orderService.getOrdersByStatus(OrderStatus.COMPLETED, pageable); // Đơn đã giao
+                break;
+            case "don-huy":
+                orderPage = orderService.getCancelledAndRefundedOrders(pageable); // Đơn hủy và hoàn tiền
+                break;
+            default:
+                orderPage = orderService.getAllOrders(pageable); // Mặc định là tất cả đơn hàng
+                break;
         }
 
-        // Trả về trang quản lý đơn hàng sau khi xử lý
+        // Tính toán các số trang để hiển thị
+        int totalPages = orderPage.getTotalPages();
+        int start = Math.max(1, currentPage - 2);
+        int end = Math.min(currentPage + 2, totalPages);
+        List<Integer> pageNumbers = IntStream.rangeClosed(start, end).boxed().collect(Collectors.toList());
+
+        model.addAttribute("Orders", orderPage.getContent());
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("pageNumbers", pageNumbers);
+        model.addAttribute("tab", tab);
+
+        return "employee/order-management";
+    }
+
+    @PostMapping
+    public String updateOrderStatus(@RequestParam Long orderId, @RequestParam String status) {
+        orderService.updateOrderStatus(orderId, status);
         return "redirect:/employee/order-management";
     }
 
-	@GetMapping("/details/{orderId}")
-	public String viewOrderDetails(@PathVariable Long orderId, Model model) {
-		if (orderId != null) {
-		
+    @PostMapping("/refund")
+    public String processRefund(@RequestParam("orderId") Long orderId, @RequestParam("status") String status, Model model) {
+        if ("REFUND".equalsIgnoreCase(status)) {
+            boolean refundSuccess = orderService.processRefund(orderId);
+            model.addAttribute("message", refundSuccess ? "Hoàn tiền thành công!" : "Lỗi trong quá trình hoàn tiền.");
+        } else {
+            model.addAttribute("message", "Trạng thái không hợp lệ.");
+        }
+        return "redirect:/employee/order-management";
+    }
 
-			OrderDetailEmployeeDTO orderDetails = orderService.getOrderDetails(orderId);
+    @GetMapping("/details/{orderId}")
+    public String viewOrderDetails(@PathVariable Long orderId, Model model) {
+        if (orderId != null) {
+            OrderDetailEmployeeDTO orderDetails = orderService.getOrderDetails(orderId);
+            model.addAttribute("orderDetails", orderDetails);
+            return "employee/order-details";
+        } else {
+            return "redirect:/employee/order-management";
+        }
+    }
 
-			model.addAttribute("orderDetails", orderDetails);
-
-			return "employee/order-details"; // Tên file HTML Thymeleaf để hiển thị
-		} else {
-			System.out.println("alllllo");
-			return "";
-		}
-
-	}
-
-	// Xóa đơn hàng
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
-		Order existingOrder = orderService.getOrderById(id);
-		if (existingOrder != null) {
-			orderService.deleteOrder(id); // Gọi service để xóa đơn hàng
-			return ResponseEntity.noContent().build(); // Trả về HTTP 204 - No Content
-		}
-		return ResponseEntity.notFound().build(); // Trả về HTTP 404 nếu không tìm thấy đơn hàng
-	}
-	
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
+        Order existingOrder = orderService.getOrderById(id);
+        if (existingOrder != null) {
+            orderService.deleteOrder(id);
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
 }
