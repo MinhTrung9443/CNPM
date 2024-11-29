@@ -79,6 +79,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     	    WHERE p.productId IN (
     	        SELECT MIN(productId)
     	        FROM Product
+    	        WHERE isUsed = 0
     	        GROUP BY productCode
     	    )
     	""", nativeQuery = true)

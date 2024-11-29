@@ -40,6 +40,6 @@ public class ReviewController {
 			return new ModelAndView("redirect:/customer/order-history",model);
 		}
 		model.addAttribute("Err", "Hệ thống đang gặp lỗi, mời thử lại sau!!!");
-		return new ModelAndView("redirect:/customer/order-history",model);
+		return new ModelAndView("redirect:/customer/order-history?tab=don-da-giao",model);
 	}
 }

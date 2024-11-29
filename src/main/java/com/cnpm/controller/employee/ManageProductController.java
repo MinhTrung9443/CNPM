@@ -1,6 +1,7 @@
 package com.cnpm.controller.employee;
 
 import java.io.InputStream;
+import java.net.URI;
 import java.nio.file.*;
 
 import java.util.Date;
@@ -214,27 +215,33 @@ public class ManageProductController {
 			List<Product> productsFiltered = productServ.findAllProductsByProductCode(productCode);
 			int flag = 0;
 			for (Product product : productsFiltered) {
-				if(product.getIsUsed()==1)
-					flag=flag+1;
+				if (product.getIsUsed() == 1)
+					flag = flag + 1;
 			}
 
 			for (Product product : productsFiltered) {
+				String imagePath = product.getImage();
 
 				if (product.getIsUsed() == 0) {
-					if(flag==0)
-					{
-						// delete product image
-						Path oldImagePath = Paths.get(uploadDirectory, product.getImage());
+					if (flag == 0) {
+						if (isValidURL(imagePath)) {
+							productServ.delete(product);
+							continue;
+						} else {
+							// delete product image
+							Path oldImagePath = Paths.get(uploadDirectory, product.getImage());
 
-						try {
-							Files.delete(oldImagePath);
-						} catch (Exception ex) {
-							System.out.println("Exception: " + ex.getMessage());
+							try {
+								Files.delete(oldImagePath);
+							} catch (Exception ex) {
+								System.out.println("Exception: " + ex.getMessage());
+							}
 						}
+
 					}
-					
+
 					productServ.delete(product);
-					
+
 				}
 
 			}
@@ -243,6 +250,18 @@ public class ManageProductController {
 			System.out.println("Exception: " + ex.getMessage());
 		}
 		return "redirect:/employee/products";
+	}
+	
+	private boolean isValidURL(String urlString) {
+		try {
+			// Create and validate the URI
+	        URI uri = new URI(urlString);
+	        // Convert the URI to URL to ensure it can be used as a URL
+	        uri.toURL();
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 	
 	@GetMapping("/page/{pageNo}")
