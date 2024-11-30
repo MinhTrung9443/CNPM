@@ -59,7 +59,7 @@ public class HomeController {
         return "owner/index";
     }
     
-    @GetMapping("/products")
+    @GetMapping({"/products","/product/page"})
     public String showProductsByCategory(@RequestParam(value = "category", required = false) String category,Model model,
     		@RequestParam(value = "pageNo", defaultValue = "1") int pageNo) {
     	int pageSize = 10;
@@ -88,7 +88,7 @@ public class HomeController {
 	    model.addAttribute("pageSize", pageSize);
 	    model.addAttribute("totalItems", count);
 	    model.addAttribute("totalPages", (int) count / pageSize);
-        return "customer/index";
+        return "customer/productCategory";
     }
 
 
