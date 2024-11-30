@@ -26,7 +26,7 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/customer")
-public class FollowOrderController {
+public class OrderTrackingController {
 	@Autowired
 	private IOrderService orderservice;
 	@Autowired

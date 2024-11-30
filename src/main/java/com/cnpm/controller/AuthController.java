@@ -149,9 +149,9 @@ public class AuthController {
 	}
 
     @PostMapping("/signin")
-    public ModelAndView signin(@RequestParam("g-recaptcha-response") String response, ModelMap model, HttpSession session, @RequestParam String username,
+    public ModelAndView signin( ModelMap model, HttpSession session, @RequestParam String username,
             @RequestParam String password) {
-        captchaService.processResponse(response);
+        
         Account account = userService.findByUsernameAndPassword(username, password);
         if (account == null) {
 			// Nếu không tìm thấy tài khoản, thử kiểm tra nếu đăng nhập qua Google hoặc
