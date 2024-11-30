@@ -3,10 +3,7 @@ package com.cnpm.controller.customer;
 import com.cnpm.dto.CartItemDTO;
 import com.cnpm.dto.CreateOrderRequest;
 import com.cnpm.dto.OrderResponse;
-import com.cnpm.entity.Cart;
-import com.cnpm.entity.CartItem;
-import com.cnpm.entity.Customer;
-import com.cnpm.entity.Voucher;
+import com.cnpm.entity.*;
 import com.cnpm.enums.PaymentMethod;
 import com.cnpm.service.IVoucherService;
 import com.cnpm.service.impl.*;
@@ -117,60 +114,45 @@ public class OrderController {
     public ResponseEntity<?> create(@RequestBody @Valid CreateOrderRequest createOrderRequest, HttpSession session, HttpServletRequest request) {
         try {
             OrderResponse orderResponse = orderService.createOrder(createOrderRequest);
-            session.setAttribute("orderId", orderResponse.getOrderId());
-            session.setAttribute("paymentMethod", orderResponse.getPaymentMethod());
+            Long orderId = orderResponse.getOrderId();
+            String redirectUrl=null;
             // Kiểm tra phương thức thanh toán
             if (createOrderRequest.getPaymentMethod().equals(PaymentMethod.COD)) {
                 orderService.updateOrderStatus(orderResponse.getOrderId());
+                redirectUrl ="/order/payment-return?orderId=" + orderId;
             } else if (createOrderRequest.getPaymentMethod().equals(PaymentMethod.VNPAY)) {
                 // Tạo liên kết thanh toán VNPay
                 String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
                 String vnpayUrl = vnpayService.createOrder(request, orderResponse.getTotal(), orderResponse.getOrderId().toString(), baseUrl);
-                //lưu liên kết thanh toán vào session
-                session.setAttribute("vnpayUrl", vnpayUrl);
+                redirectUrl = vnpayUrl;
             } else if (createOrderRequest.getPaymentMethod().equals(PaymentMethod.PAYPAL)) {
                 // Tạo liên kết thanh toán Paypal
-                String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
-//                lưu liên kết thanh toán vào session
-                session.setAttribute("paypalUrl", "/paypal/checkout");
+                redirectUrl = "/paypal/checkout?orderId=" + orderId;
             }
             else{
                 return ResponseEntity.badRequest().body("Invalid payment method");
             }
-            //trả về trạng thái 200 và liên kết chuyển hướng
-            return ResponseEntity.ok().body(Map.of("redirectUrl", "/order/payment-return"));
+            //trả về trạng thái 200 và liên kết chuyển hướng redirectUrl
+            return ResponseEntity.ok().body(Map.of("redirectUrl", redirectUrl));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-
+    // Controller này xử lý cho phương thức thanh toán COD
     @GetMapping("/payment-return")
-    public String paymentProcess(HttpSession session){
-        {
-            // Xử lý thanh toán
-            // Lấy ra phương thức thanh toán
-            PaymentMethod paymentMethod = PaymentMethod.valueOf(session.getAttribute("paymentMethod").toString());
-            if (paymentMethod.equals(PaymentMethod.COD)) {
-                // Cập nhật trạng thái đơn hàng
-                return "customer/ordersuccess";
-            } else if (paymentMethod.equals(PaymentMethod.VNPAY)) {
-                // Lấy liên kết thanh toán VNPay
-                String vnpayUrl = (String) session.getAttribute("vnpayUrl");
-                // Xóa liên kết thanh toán VNPay
-                session.removeAttribute("vnpayUrl");
-                // Chuyển hướng đến liên kết thanh toán VNPay
-                return "redirect:" + vnpayUrl;
-            } else if (paymentMethod.equals(PaymentMethod.PAYPAL)) {
-                // Lấy liên kết thanh toán Paypal
-                String paypalUrl = (String) session.getAttribute("paypalUrl");
-                // Xóa liên kết thanh toán Paypal
-                session.removeAttribute("paypalUrl");
-                // Chuyển hướng đến liên kết thanh toán Paypal
-                return "redirect:" + paypalUrl;
-            }
+    public String paymentProcess(@RequestParam("orderId") Long orderId, Model model,HttpSession session){
+        // Xử lý thanh toán
+        Order order = orderService.getOrderById(orderId);
+        //Lấy ra người dùng đã đăng nhập
+        Long userId = ((Customer)session.getAttribute("user")).getUserId();
+        // Kiểm tra xem đơn hàng có tồn tại và có thuộc về người dùng đó không, nếu không trả về trang lỗi
+        if (order == null || !order.getCustomerId().equals(userId)) {
             return "err/error";
         }
+        model.addAttribute("order", order);
+        return "customer/ordersuccess";
+
     }
 
 }

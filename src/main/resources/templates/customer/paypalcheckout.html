@@ -15,8 +15,10 @@
 <div id="paypal-button-container" class="paypal-button-container"></div>
 <p id="result-message"></p>
 
+<!--lấy từ thymeleaf-->
+<input type="hidden" id="orderId" th:value="${orderId}"/>
+
 <script src="https://www.paypal.com/sdk/js?client-id=AXhtecUPrING-XZ_zSXd3MbLE67YPxdxxKl57vQGHBCR4iZBK1uXqljD-9uielrur3E0wLa4TZ6pjmQl&buyer-country=US&currency=USD&components=buttons&enable-funding=venmo"></script>
-<!--lay tu thmeleaf-->
 <script>
     window.paypal
         .Buttons({
@@ -42,7 +44,8 @@
                                 id: "YOUR_PRODUCT_ID",
                                 quantity: "YOUR_PRODUCT_QUANTITY",
                             },
-                        ]
+                        ],
+                        orderId: $("#orderId").val()
                     }),
                 })
                     .then(function(orderData) {
