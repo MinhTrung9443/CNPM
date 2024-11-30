@@ -41,21 +41,21 @@
 			style="margin-left: -70px; width: 100%; word-wrap: break-word;">
 			<thead>
 				<tr>
-					<th>Product Code</th>
-					<th>Product Name</th>
-					<th>Price</th>
-					<th>Description</th>
-					<th>Category</th>
-					<th>Brand</th>
-					<th>Expiration Date</th>
-					<th>Manufacturing Date</th>
-					<th>Ingredient</th>
-					<th>Instruction</th>
-					<th>Weight</th>
-					<th>Origin</th>
-					<th>Image</th>
-					<th>Stock</th>
-					<th>Action</th>
+					<th>Mã Sản Phẩm</th>
+					<th>Tên Sản Phẩm</th>
+					<th>Giá</th>
+					<th>Mô Tả Sản Phẩm</th>
+					<th>Thể Loại</th>
+					<th>Nhãn Hàng</th>
+					<th>Ngày Hết Hạn</th>
+					<th>Ngày Sản Xuất</th>
+					<th>Thành Phần</th>
+					<th>Hướng Dẫn Sử Dụng</th>
+					<th>Dung tích</th>
+					<th>Nguồn Gốc</th>
+					<th>Hình Ảnh</th>
+					<th>Số Lượng</th>
+					<th>Hành Động</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -84,10 +84,10 @@
 					<td th:text="${product.stock}"></td>
 					<td style="white-space: nowrap"><a
 						class="btn btn-primary btn-sm"
-						th:href="@{/employee/products/edit(id=${product.productId})}">Edit</a>
+						th:href="@{/employee/products/edit(id=${product.productId})}">Chỉnh Sửa</a>
 						<a class="btn btn-danger btn-sm"
 						th:href="@{/employee/products/delete(id=${product.productId})}"
-						onclick="return confirm('Are you sure?')">Delete</a></td>
+						onclick="return confirm('Are you sure?')">Xóa</a></td>
 				</tr>
 			</tbody>
 		</table>

@@ -232,8 +232,10 @@
 			<div class="product-container">
 				<!-- Hiển thị danh sách sản phẩm -->
 				<div class="product-card" th:each="product : ${products}">
-					<img th:src="@{${product.image}}" alt="Product Image"
-						class="product-image" />
+					<img
+					th:src="${product.image.startsWith('http') ? product.image : '/uploads/' + product.image}"
+					alt="Product Image" style="width: 250px; height: auto;"
+					onerror="this.onerror=null;this.src='/assets/img/product/loading.gif';" />
 					<div class="overlay">
 						<button class="btn">
 							<a

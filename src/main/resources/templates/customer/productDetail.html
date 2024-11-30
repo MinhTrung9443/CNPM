@@ -28,6 +28,25 @@ body {
 	margin: 0;
 	padding: 0;
 }
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+    text-align: left;
+    margin-right: 15px; /* Khoảng cách giữa label và nội dung */
+    width: 150px; /* Đặt chiều rộng cố định cho label để dễ căn chỉnh */
+    float: left; /* Làm cho label và nội dung thẳng hàng */
+}
+
+p {
+    overflow: hidden;
+}
+
+span {
+    display: inline-block;
+    vertical-align: middle; /* Giúp căn giữa với label */
+    padding-left: 10px; /* Thêm một chút khoảng cách giữa label và nội dung */
+}
 
 .container {
 	max-width: 1200px;
@@ -212,6 +231,9 @@ hr {
 	{
 	text-decoration: underline;
 }
+ label {
+            font-weight: bold;
+        }
 </style>
 </head>
 <body>
@@ -235,49 +257,49 @@ hr {
 			<div class="info">
 				<h1 th:text="${product.productName}"></h1>
 				<p>
-					Thương hiệu: <span th:text="${product.brand}"></span>
+					<label for="brand">Thương hiệu:</label> <span th:text="${product.brand}"></span>
 				</p>
 				<p>
-					Danh mục: <span th:text="${product.category}"></span>
+					<label for="category">Danh mục:</label> <span th:text="${product.category}"></span>
 				</p>
 				<p>
-					Giá: <span class="highlight" th:text="${product.cost} + '₫'"></span>
+					<label for="cost">Giá:</label> <span class="highlight" th:text="${product.cost} + '₫'"></span>
 				</p>
 				<p>
-					Mô tả: <span id="short-description"
-						th:text="${product.description.substring(0, product.description.length < 30 ?  product.description.length : 30)} + '...'"></span>
+					<label for="description">Mô tả:</label> <span id="short-description"
+						th:text="${product.description.substring(0, product.description.length < 100 ?  product.description.length : 100)} + '...'"></span>
 					<span id="full-description" style="display: none;"
 						th:text="${product.description}"></span>
 					<button id="toggle-description">Xem thêm</button>
 				</p>
 
 				<p>
-					Ngày sản xuất: <span th:text="${product.manufactureDate}"></span>
+					<label for="manufactureDate">Ngày sản xuất:</label> <span th:text="${product.manufactureDate}"></span>
 				</p>
 				<p>
-					Hạn sử dụng: <span th:text="${product.expirationDate}"></span>
+					<label for="expirationDate">Hạn sử dụng:</label> <span th:text="${product.expirationDate}"></span>
 				</p>
 				<p>
-					Thành phần: <span id="short-ingredient"
-						th:text="${product.ingredient.substring(0, product.ingredient.length < 30 ?  product.ingredient.length : 30)} + '...'"></span>
+					<label for="ingredient">Thành phần:</label> <span id="short-ingredient"
+						th:text="${product.ingredient.substring(0, product.ingredient.length < 40 ?  product.ingredient.length : 40)} + '...'"></span>
 					<span id="full-ingredient" th:text="${product.ingredient}"
 						style="display: none;"></span>
 					<button id="toggle-ingredient">Xem thêm</button>
 				</p>
 
 				<p>
-					Cách sử dụng: <span id="short-how-to-use"
-						th:text="${product.how_to_use.substring(0, product.how_to_use.length < 30 ?  product.how_to_use.length : 30)} + '...'"></span>
+					<label for="how_to_use">Cách sử dụng:</label> <span id="short-how-to-use"
+						th:text="${product.how_to_use.substring(0, product.how_to_use.length < 50 ?  product.how_to_use.length : 50)} + '...'"></span>
 					<span id="full-how-to-use" th:text="${product.how_to_use}"
 						style="display: none;"></span>
 					<button id="toggle-how-to-use">Xem thêm</button>
 				</p>
 
 				<p>
-					Thể tích: <span th:text="${product.volume}"></span>
+					<label for="vomule">Dung tích:</label> <span th:text="${product.volume}"></span>
 				</p>
 				<p>
-					Xuất xứ: <span th:text="${product.origin}"></span>
+					<label for="origin">Xuất xứ:</label> <span th:text="${product.origin}"></span>
 				</p>
 
 				<!-- Sửa nút thêm sản phẩm vào giỏ hàng -->

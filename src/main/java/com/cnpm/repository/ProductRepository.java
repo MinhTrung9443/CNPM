@@ -106,6 +106,16 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     	""", nativeQuery = true)
     	List<Product> findDistinctProductsBySingleKeyword(@Param("keyword") String keyword);
 
+    @Query(value = """
+    	    SELECT *
+    	    FROM Product p
+    	    WHERE p.productId IN (
+    	        SELECT MIN(productId)
+    	        FROM Product
+    	        WHERE category = :category AND isUsed = 0
+    	        GROUP BY productCode
+    	    )
+    	""", nativeQuery = true)
 	List<Product> findDistinctProductsByCategory(String category);
 
 
