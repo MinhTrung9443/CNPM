@@ -415,6 +415,11 @@ select::-ms-expand {
 		
 	</div>
 	<div>
+<!--		button thanh toán, chỉ hiện khi orderstatus is pending-->
+	<div th:if = "${order.orderStatus.toString() == 'PENDING'}">
+		<button class="submit-btn" type="button" onclick="pay()" th:data-order-id="${order.orderId}"  th:data-order-status="${order.orderStatus.name()}">Thanh toán lại</button>
+	</div>
+<!--		<button th:if="${order.orderStatus == 'PENDING'}" class="submit-btn" type="button" onclick="pay()" th:data-order-id="${order.orderId}"  th:data-order-status="${order.orderStatus.name()}">Thanh toán</button>-->
 	<button class="submit-btn" type="button" onclick="cancelOrder()" th:data-order-id="${order.orderId}" th:data-order-status="${order.orderStatus.name()}">Hủy đơn hàng</button>
 	</div>
 	<div th:if="${Err != null}" class = "Error">
@@ -446,6 +451,20 @@ select::-ms-expand {
 				
 				window.location.href = '/cancelOrder/' + orderId;
 			}
+		}
+
+		function pay(){
+			const orderId = document.querySelector(
+					'button[onclick="pay()"]').getAttribute(
+					'data-order-id');
+			const orderstatus = document.querySelector(
+					'button[onclick="pay()"]').getAttribute(
+					'data-order-status');
+			if (orderstatus !== "PENDING") {
+		        alert('Đơn hàng không đủ điều kiện để thanh toán.');
+		        return; // Dừng hàm nếu điều kiện không đúng
+		    }
+			window.location.href = '/order/reprocessPayment/' + orderId;
 		}
 	</script>
 </body>

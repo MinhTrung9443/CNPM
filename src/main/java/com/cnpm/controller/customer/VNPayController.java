@@ -1,4 +1,4 @@
-package com.cnpm.controller.Payment;
+package com.cnpm.controller.customer;
 
 import com.cnpm.service.impl.OrderService;
 import com.cnpm.service.payment.VNPAYService;

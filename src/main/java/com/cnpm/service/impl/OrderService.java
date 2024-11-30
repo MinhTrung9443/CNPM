@@ -3,6 +3,7 @@ package com.cnpm.service.impl;
 import com.cnpm.dto.ProductHistoryDTO;
 import com.cnpm.dto.PurchaseHistoryDTO;
 import com.cnpm.enums.OrderStatus;
+import com.cnpm.enums.PaymentMethod;
 import com.cnpm.repository.OrderRepository;
 import com.cnpm.dto.CartItemForOrderDTO;
 import com.cnpm.dto.CreateOrderRequest;
@@ -411,4 +412,10 @@ public class OrderService implements IOrderService {
 		return orders.stream().map(this::mapperToPurchaseHistoryDTO).collect(Collectors.toSet()); // Chuyển đổi
 	}
 
+	public PaymentMethod getPaymentMethodByOrderId(Long orderId) {
+		Order order = orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("Order not found"));
+		Payment payment = paymentRepository.findByOrder(order)
+				.orElseThrow(() -> new RuntimeException("Payment not found"));
+		return payment.getPaymentMethod();
+	}
 }

@@ -1,4 +1,4 @@
-package com.cnpm.controller.Payment;
+package com.cnpm.controller.customer;
 
 import com.cnpm.entity.Customer;
 import com.cnpm.service.interfaces.IOrderService;
@@ -104,39 +104,4 @@ public class PaypalController {
         }
     }
 
-//        private Order createOrder(String cart, Double amount) throws IOException, ApiException {
-//
-//            OrdersCreateInput ordersCreateInput = new OrdersCreateInput.Builder(
-//                    null,
-//                    new OrderRequest.Builder(
-//                            CheckoutPaymentIntent.CAPTURE,
-//                            Arrays.asList(
-//                                    new PurchaseUnitRequest.Builder(
-//                                            new AmountWithBreakdown.Builder(
-//                                                    "USD",
-////													"999.00",
-//                                                    String.valueOf(0.000039*amount)
-//                                            )
-//                                                    .build())
-//                                            .build()))
-//                            .build())
-//                    .build();
-//
-//            OrdersController ordersController = client.getOrdersController();
-//
-//            ApiResponse<Order> apiResponse = ordersController.ordersCreate(ordersCreateInput);
-//
-//            return apiResponse.getResult();
-//        }
-//
-//        private Order captureOrders(String orderID) throws IOException, ApiException {
-//            OrdersCaptureInput ordersCaptureInput = new OrdersCaptureInput.Builder(
-//                    orderID,
-//                    null)
-//                    .build();
-//            OrdersController ordersController = client.getOrdersController();
-//            ApiResponse<Order> apiResponse = ordersController.ordersCapture(ordersCaptureInput);
-//            return apiResponse.getResult();
-//        }
-//
 }

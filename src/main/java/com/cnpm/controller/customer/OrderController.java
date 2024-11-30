@@ -164,4 +164,26 @@ public class OrderController {
 
     }
 
+    @GetMapping("/reprocessPayment/{orderId}")
+    public String reprocessPayment(@PathVariable Long orderId, HttpSession session, Model model,HttpServletRequest request) {
+        Order order = orderService.getOrderById(orderId);
+        //Lấy ra người dùng đã đăng nhập
+        Long userId = ((Customer) session.getAttribute("user")).getUserId();
+        // Kiểm tra xem đơn hàng có tồn tại và có thuộc về người dùng đó không, nếu không trả về trang lỗi
+        if (order == null || !order.getCustomerId().equals(userId)) {
+            return "err/error";
+        }
+        //lấy ra phuog thức thanh toán của đơn hàng
+        PaymentMethod paymentMethod = orderService.getPaymentMethodByOrderId(orderId);
+        String redirectUrl = null;
+        if (paymentMethod.equals(PaymentMethod.VNPAY)) {
+            String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+            String vnpayUrl = vnpayService.createOrder(request, order.getTotal().intValue(), order.getOrderId().toString(), baseUrl);
+            redirectUrl = vnpayUrl;
+        } else if (paymentMethod.equals(PaymentMethod.PAYPAL)) {
+            redirectUrl = "/paypal/checkout?orderId=" + orderId;
+        }
+        return "redirect:" + redirectUrl;
+    }
+
 }
