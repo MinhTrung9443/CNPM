@@ -232,8 +232,10 @@
 			<div class="product-container">
 				<!-- Hiển thị danh sách sản phẩm -->
 				<div class="product-card" th:each="product : ${products}">
-					<img th:src="@{${product.image}}" alt="Product Image"
-						class="product-image" />
+					<img
+					th:src="${product.image.startsWith('http') ? product.image : '/uploads/' + product.image}"
+					alt="Product Image" style="width: 250px; height: auto;"
+					onerror="this.onerror=null;this.src='/assets/img/product/loading.gif';" />
 					<div class="overlay">
 						<button class="btn">
 							<a
@@ -261,14 +263,14 @@
     <ul class="pagination">
         <!-- Nút "Previous" -->
         <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
-            <a class="page-link" th:href="${currentPage > 1} ? @{'/page?pageNo=' + ${currentPage-1}} : '#'" aria-label="Previous">
+            <a class="page-link" th:href="${currentPage > 1} ? @{'/product/page?category=' + ${selectedCategory} + '&pageNo=' + ${currentPage-1}} : '#'" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
             </a>
         </li>
 
         <!-- Hiển thị các số trang -->
         <li class="page-item" th:if="${currentPage > 3}">
-            <a class="page-link" th:href="@{'/page?pageNo=' + 1}">1</a>
+            <a class="page-link" th:href="@{'/product/page?category=' + ${selectedCategory} + '&pageNo=' + 1}">1</a>
         </li>
         <li class="page-item disabled" th:if="${currentPage > 4}">
             <a class="page-link">...</a>
@@ -276,19 +278,19 @@
 
         <!-- Hiển thị trang trước, trang hiện tại và trang tiếp theo -->
         <li class="page-item" th:each="i : ${#numbers.sequence(currentPage - 1, currentPage + 1)}" th:if="${i >= 1 and i <= totalPages}" th:classappend="${i == currentPage} ? 'active'">
-            <a class="page-link" th:href="@{'/page?pageNo=' + ${i}}" th:text="${i}"></a>
+            <a class="page-link" th:href="@{'/product/page?category=' + ${selectedCategory} + '&pageNo=' + ${i}}" th:text="${i}"></a>
         </li>
 
         <li class="page-item disabled" th:if="${currentPage < totalPages - 3}">
             <a class="page-link">...</a>
         </li>
         <li class="page-item" th:if="${currentPage < totalPages - 2}">
-            <a class="page-link" th:href="@{'/page?pageNo=' + ${totalPages}}" th:text="${totalPages}"></a>
+            <a class="page-link" th:href="@{'/product/page?category=' + ${selectedCategory} + '&pageNo=' + ${totalPages}}" th:text="${totalPages}"></a>
         </li>
 
         <!-- Nút "Next" -->
         <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
-            <a class="page-link" th:href="${currentPage < totalPages} ? @{'/page?pageNo=' + ${currentPage+1}} : '#'" aria-label="Next">
+            <a class="page-link" th:href="${currentPage < totalPages} ? @{'/product/page?category=' + ${selectedCategory} + '?pageNo=' + ${currentPage+1}} : '#'" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
             </a>
         </li>

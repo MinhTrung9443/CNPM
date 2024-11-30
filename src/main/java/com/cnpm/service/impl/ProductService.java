@@ -10,6 +10,7 @@ import com.cnpm.service.IProductService;
 import com.cnpm.util.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -160,8 +161,34 @@ public class ProductService implements IProductService{
     {
     	return productRepository.findProductsByProductCode(productCode);
     }
-    public List<Product> findProductsByCategory(String category) {
-        return productRepository.findDistinctProductsByCategory(category);
+    public Page<Product> findProductsByCategory(String category, Pageable page) {
+        return productRepository.findDistinctProductsByCategory(category, page);
     }
+
+	public long countDistinctProductsByCategory(String category) {
+		return productRepository.countDistinctProductsByCategory(category);
+	}
+	// Tìm kiếm sản phẩm theo tên hoặc mô tả
+
+		@Override
+		public List<ProductResponse> searchProductsWithName(String query, Pageable page) {
+			List<Product> products = productRepository.findDistinctProductsByProductNameContaining(query, page)
+					.getContent();
+			Logger.log(products.toString());
+			return products.stream().map(product -> {
+				ProductResponse productResponse = new ProductResponse();
+				BeanUtils.copyProperties(product, productResponse);
+				productResponse.setStock(getStockByProductCode(product.getProductCode()));
+				return productResponse;
+			}).collect(Collectors.toList());
+
+		}
+
+		// dem san pham duoc lco theo ten
+
+		@Override
+		public long countDistinctProducts(String productName) {
+			return productRepository.countDistinctProductsByProductNameContaining(productName);
+		}
 
 }

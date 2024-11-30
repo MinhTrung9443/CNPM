@@ -189,15 +189,15 @@ button:hover {
 				</div>
 				<div th:if="${phoneErr != null}"></div>
 				<div>
-					<label for="username">Username:</label> <input type="text"
+					<label for="username">Tên đăng nhập:</label> <input type="text"
 						name="username" required />
 				</div>
 				<div>
-					<label for="password">Password:</label> <input type="password"
+					<label for="password">Mật khẩu:</label> <input type="password"
 						name="password" required />
 				</div>
-				<div class="g-recaptcha" data-sitekey="6LfhgooqAAAAACfj2CyCG45KmQmX7zXUI9cDMXmg" data-callback="enableBtn"></div>
-				<span id="captchaError" class="alert alert-danger" style="display: none;">Please complete the CAPTCHA</span>
+<!--				<div class="g-recaptcha" data-sitekey="6LfhgooqAAAAACfj2CyCG45KmQmX7zXUI9cDMXmg" data-callback="enableBtn"></div>-->
+<!--				<span id="captchaError" class="alert alert-danger" style="display: none;">Please complete the CAPTCHA</span>-->
 				<div style="display: flex; justify-content: space-between">
 					<!-- Link Quên mật khẩu -->
 					<div style="text-align: center; margin-top: 10px;">
@@ -208,7 +208,7 @@ button:hover {
 
 				<div>
 <!--					<button type="submit">Login</button>-->
-					<button type="submit" id="registerBtn" disabled="disabled">Login</button>
+					<button type="submit" id="registerBtn" >Đăng nhập</button>
 
 				</div>
 
@@ -217,12 +217,12 @@ button:hover {
 					<button type="button"
 						onclick="window.location.href='https://accounts.google.com/o/oauth2/auth?scope=email%20profile%20&redirect_uri=http://localhost:8080/loginGG&response_type=code&client_id=619246367470-b0htpi0l444jujkcik4bpepe2rk2aue1.apps.googleusercontent.com&approval_prompt=force'"
 						class="btn-social google">
-						<i class="fab fa-google"></i> Login with Google
+						<i class="fab fa-google"></i> Đăng nhập với Google
 					</button>
 					<button type="button"
 						onclick="window.location.href='https://www.facebook.com/dialog/oauth?client_id=833384282062473&redirect_uri=http://localhost:8080/loginFB&response_type=code'"
 						class="btn-social facebook">
-						<i class="fab fa-facebook-f"></i> Login with Facebook
+						<i class="fab fa-facebook-f"></i> Đăng nhập với Facebook
 					</button>
 				</div>
 			</form>

@@ -44,7 +44,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 			    FROM (SELECT DISTINCT productCode FROM Product WHERE category = :category) AS tmp
 			""")
 	Page<Product> findDistinctProductsByProductCodeAndCategory(@Param("category") String category, Pageable pageable);//
-
+	
+	
+	
 	Long countByCategory(String category);
 
 	@Query(value = "SELECT COUNT(*) FROM (SELECT DISTINCT productCode FROM Product) tmp", nativeQuery = true)
@@ -106,7 +108,64 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     	""", nativeQuery = true)
     	List<Product> findDistinctProductsBySingleKeyword(@Param("keyword") String keyword);
 
-	List<Product> findDistinctProductsByCategory(String category);
+    @Query(value = """
+    	    SELECT *
+    	    FROM Product p
+    	    WHERE p.productId IN (
+    	        SELECT MIN(productId)
+    	        FROM Product
+    	        WHERE category = :category AND isUsed = 0
+    	        GROUP BY productCode
+    	    )
+    	""", nativeQuery = true)
+	Page<Product> findDistinctProductsByCategory(String category, Pageable page);
+    
+    @Query(value = """
+    	    SELECT COUNT(*)
+    	    FROM (
+    	        SELECT MIN(productId) AS MinProductId
+    	        FROM Product
+    	        WHERE category = :category AND isUsed = 0
+    	        GROUP BY productCode
+    	    ) AS DistinctProducts
+    	    """, nativeQuery = true)
+    	long countDistinctProductsByCategory(String category);
+ // Tim dua theo ten san pham
+ 	@Query(value = """
+ 			    SELECT *
+ 			    FROM Product p
+ 			    WHERE p.productId IN (
+ 			        SELECT MIN(productId)
+ 			        FROM Product
+ 			        WHERE isUsed = 0
+ 			        GROUP BY productCode
+ 			    )
+ 			    AND LOWER(p.productName) LIKE LOWER(CONCAT('%', :productName, '%'))
+ 			""", countQuery = """
+ 			    SELECT COUNT(*)
+ 			    FROM Product p
+ 			    WHERE p.productId IN (
+ 			        SELECT MIN(productId)
+ 			        FROM Product
+ 			        WHERE isUsed = 0
+ 			        GROUP BY productCode
+ 			    )
+ 			    AND LOWER(p.productName) LIKE LOWER(CONCAT('%', :productName, '%'))
+ 			""", nativeQuery = true)
+ 	Page<Product> findDistinctProductsByProductNameContaining(@Param("productName") String productName,
+ 			Pageable pageable);
 
-
+ 	// Dem san pham duoc loc theo ten
+ 	@Query(value = """
+ 			    SELECT COUNT(DISTINCT p.productCode)
+ 			    FROM Product p
+ 			    WHERE p.productId IN (
+ 			        SELECT MIN(productId)
+ 			        FROM Product
+ 			        WHERE isUsed = 0
+ 			        GROUP BY productCode
+ 			    )
+ 			    AND LOWER(p.productName) LIKE LOWER(CONCAT('%', :productName, '%'))
+ 			""", nativeQuery = true)
+ 	long countDistinctProductsByProductNameContaining(@Param("productName") String productName);
 }
