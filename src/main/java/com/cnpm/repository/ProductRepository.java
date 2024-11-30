@@ -130,4 +130,42 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     	    ) AS DistinctProducts
     	    """, nativeQuery = true)
     	long countDistinctProductsByCategory(String category);
+ // Tim dua theo ten san pham
+ 	@Query(value = """
+ 			    SELECT *
+ 			    FROM Product p
+ 			    WHERE p.productId IN (
+ 			        SELECT MIN(productId)
+ 			        FROM Product
+ 			        WHERE isUsed = 0
+ 			        GROUP BY productCode
+ 			    )
+ 			    AND LOWER(p.productName) LIKE LOWER(CONCAT('%', :productName, '%'))
+ 			""", countQuery = """
+ 			    SELECT COUNT(*)
+ 			    FROM Product p
+ 			    WHERE p.productId IN (
+ 			        SELECT MIN(productId)
+ 			        FROM Product
+ 			        WHERE isUsed = 0
+ 			        GROUP BY productCode
+ 			    )
+ 			    AND LOWER(p.productName) LIKE LOWER(CONCAT('%', :productName, '%'))
+ 			""", nativeQuery = true)
+ 	Page<Product> findDistinctProductsByProductNameContaining(@Param("productName") String productName,
+ 			Pageable pageable);
+
+ 	// Dem san pham duoc loc theo ten
+ 	@Query(value = """
+ 			    SELECT COUNT(DISTINCT p.productCode)
+ 			    FROM Product p
+ 			    WHERE p.productId IN (
+ 			        SELECT MIN(productId)
+ 			        FROM Product
+ 			        WHERE isUsed = 0
+ 			        GROUP BY productCode
+ 			    )
+ 			    AND LOWER(p.productName) LIKE LOWER(CONCAT('%', :productName, '%'))
+ 			""", nativeQuery = true)
+ 	long countDistinctProductsByProductNameContaining(@Param("productName") String productName);
 }
