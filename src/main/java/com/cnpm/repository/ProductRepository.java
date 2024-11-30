@@ -116,7 +116,16 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     	        GROUP BY productCode
     	    )
     	""", nativeQuery = true)
-	List<Product> findDistinctProductsByCategory(String category);
-
-
+	Page<Product> findDistinctProductsByCategory(String category, Pageable page);
+    
+    @Query(value = """
+    	    SELECT COUNT(*)
+    	    FROM (
+    	        SELECT MIN(productId) AS MinProductId
+    	        FROM Product
+    	        WHERE category = :category AND isUsed = 0
+    	        GROUP BY productCode
+    	    ) AS DistinctProducts
+    	    """, nativeQuery = true)
+    	long countDistinctProductsByCategory(String category);
 }

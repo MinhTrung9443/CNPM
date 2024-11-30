@@ -3,6 +3,7 @@ package com.cnpm.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -59,22 +60,34 @@ public class HomeController {
     }
     
     @GetMapping("/products")
-    public String showProductsByCategory(
-        @RequestParam(value = "category", required = false) String category,
-        Model model) {
-        
-        List<Product> products;
-
+    public String showProductsByCategory(@RequestParam(value = "category", required = false) String category,Model model,
+    		@RequestParam(value = "pageNo", defaultValue = "1") int pageNo) {
+    	int pageSize = 10;
+	    if (pageNo <= 0) {
+	        pageNo = 1;
+	    }
+	    Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+	    long count = 0;
         if (category != null && !category.isEmpty()) {
             // Lấy danh sách sản phẩm theo thể loại
-            products = productService.findProductsByCategory(category);
-        } else {
+        	Page<Product> products = productService.findProductsByCategory(category, pageable);
+        	model.addAttribute("products", products);
+        	count = productService.countDistinctProductsByCategory(category);
+        	for (int i = 0;i<10;i++)
+        		System.out.println("so luong " + count);
+            
+        } 
+        else {
             // Lấy danh sách tất cả sản phẩm
-            products = productService.findAllDistinctProduct();
+            List<ProductResponse> products = productService.findDistinctProduct(pageable);
+            model.addAttribute("products", products);
+            count = productService.count();
         }
-        
-        model.addAttribute("products", products);
         model.addAttribute("selectedCategory", category);
+        model.addAttribute("currentPage", pageNo);
+	    model.addAttribute("pageSize", pageSize);
+	    model.addAttribute("totalItems", count);
+	    model.addAttribute("totalPages", (int) count / pageSize);
         return "customer/index";
     }
 
@@ -90,4 +103,5 @@ public class HomeController {
     	model.addAttribute("listVoucher", vouchers);
     	return "customer/viewVoucher";
     }
+    
 }
