@@ -10,14 +10,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cnpm.dto.ProductResponse;
 import com.cnpm.entity.Product;
 import com.cnpm.entity.Voucher;
-import com.cnpm.service.IVoucherService;
+import com.cnpm.service.interfaces.IVoucherService;
 import com.cnpm.service.impl.ProductService;
 
 @Controller

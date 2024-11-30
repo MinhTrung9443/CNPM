@@ -4,7 +4,7 @@ import com.cnpm.entity.Product;
 import com.cnpm.entity.ProductFeedback;
 import com.cnpm.repository.ProductFeedbackRepository;
 import com.cnpm.repository.ProductRepository;
-import com.cnpm.service.IProductFeedbackService;
+import com.cnpm.service.interfaces.IProductFeedbackService;
 
 import java.util.List;
 import java.util.Optional;

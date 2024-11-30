@@ -1,7 +1,7 @@
 package com.cnpm.controller.Payment;
 
 import com.cnpm.service.impl.OrderService;
-import com.cnpm.service.vnpay.VNPAYService;
+import com.cnpm.service.payment.VNPAYService;
 import com.cnpm.util.Logger;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;

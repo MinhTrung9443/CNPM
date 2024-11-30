@@ -2,11 +2,10 @@ package com.cnpm.service.impl;
 
 import com.cnpm.entity.OrderLine;
 import com.cnpm.repository.OrderLineRepository;
-import com.cnpm.service.IOrderLineService;
+import com.cnpm.service.interfaces.IOrderLineService;
 import com.cnpm.entity.Order;
 import com.cnpm.enums.OrderStatus;
 
-import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +18,13 @@ public class OrderLineService implements IOrderLineService {
     private OrderLineRepository orderLineRepository;
 
     // Lấy tất cả các dòng đơn hàng
+    @Override
     public Set<OrderLine> getAllOrderLines() {
         return (Set<OrderLine>) orderLineRepository.findAll();
     }
 
     // Cập nhật trạng thái đơn hàng (ví dụ theo mã dòng đơn hàng)
+    @Override
     public void updateOrderLineStatus(Long orderLineId, String status) {
         // Kiểm tra đơn hàng có tồn tại không
         OrderLine orderLine = orderLineRepository.findById(orderLineId)

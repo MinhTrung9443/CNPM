@@ -10,7 +10,7 @@ import com.cnpm.entity.Order;
 import com.cnpm.entity.OrderLine;
 import com.cnpm.entity.Payment;
 import com.cnpm.repository.PaymentRepository;
-import com.cnpm.service.IRevenueService;
+import com.cnpm.service.interfaces.IRevenueService;
 
 @Service
 public class RevenueService implements IRevenueService {

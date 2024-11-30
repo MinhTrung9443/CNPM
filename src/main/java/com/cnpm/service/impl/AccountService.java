@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.cnpm.entity.Account;
 import com.cnpm.repository.AccountRepository;
-import com.cnpm.service.IAccountService;
+import com.cnpm.service.interfaces.IAccountService;
 
 
 @Service

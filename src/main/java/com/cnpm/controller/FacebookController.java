@@ -1,7 +1,6 @@
 package com.cnpm.controller;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cnpm.entity.*;
-import com.cnpm.service.IUserService;
+import com.cnpm.service.interfaces.IUserService;
 import com.cnpm.service.facebook.FacebookService;
 import com.cnpm.service.impl.ProductService;
 

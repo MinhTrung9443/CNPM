@@ -2,7 +2,7 @@ package com.cnpm.service.impl;
 
 import com.cnpm.entity.Customer;
 import com.cnpm.repository.CustomerRepository;
-import com.cnpm.service.ICustomerSerivce;
+import com.cnpm.service.interfaces.ICustomerSerivce;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

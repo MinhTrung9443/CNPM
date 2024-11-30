@@ -1,4 +1,4 @@
-package com.cnpm.service;
+package com.cnpm.service.interfaces;
 
 import com.cnpm.dto.OrderDetailEmployeeDTO;
 import com.cnpm.dto.PurchaseHistoryDTO;
@@ -9,7 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 

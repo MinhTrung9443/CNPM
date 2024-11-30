@@ -4,12 +4,10 @@ import java.io.InputStream;
 import java.net.URI;
 import java.nio.file.*;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -27,7 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.cnpm.dto.ProductDTO;
 import com.cnpm.dto.ProductResponse;
 import com.cnpm.entity.Product;
-import com.cnpm.service.IProductService;
+import com.cnpm.service.interfaces.IProductService;
 
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.validation.Valid;

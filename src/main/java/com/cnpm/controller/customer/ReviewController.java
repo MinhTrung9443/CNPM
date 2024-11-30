@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.cnpm.entity.Customer;
 import com.cnpm.entity.Product;
 import com.cnpm.entity.ProductFeedback;
-import com.cnpm.service.IProductFeedbackService;
+import com.cnpm.service.interfaces.IProductFeedbackService;
 
 import jakarta.servlet.http.HttpSession;
 

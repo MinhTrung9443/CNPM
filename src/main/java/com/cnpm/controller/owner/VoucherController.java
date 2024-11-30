@@ -3,8 +3,7 @@ package com.cnpm.controller.owner;
 
 import com.cnpm.dto.VoucherDTO;
 import com.cnpm.entity.Voucher;
-import com.cnpm.service.IVoucherService;
-import com.cnpm.service.impl.VoucherService;
+import com.cnpm.service.interfaces.IVoucherService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -13,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 
 @RestController

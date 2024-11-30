@@ -10,26 +10,22 @@ import com.cnpm.dto.OrderDetailEmployeeDTO;
 import com.cnpm.dto.OrderLineDTO;
 import com.cnpm.dto.OrderResponse;
 import com.cnpm.entity.*;
-import com.cnpm.enums.OrderStatus;
 import com.cnpm.enums.PaymentStatus;
 import com.cnpm.repository.*;
-import com.cnpm.service.IOrderService;
+import com.cnpm.service.interfaces.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.cnpm.service.vnpay.VNPAYService;
+import com.cnpm.service.payment.VNPAYService;
 import com.cnpm.util.Logger;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -56,40 +52,26 @@ public class OrderService implements IOrderService {
 	private CartRepository cartRepository;
 
 	@Transactional
-	public OrderResponse createOrder(@Valid CreateOrderRequest createOrderRequest) {
+	public OrderResponse createOrder(CreateOrderRequest createOrderRequest) {
 		// TODO: chưa xử lý trường hợp tranh nhau đặt hàng
 		// Tìm người dùng
-//        Logger.log("Create order request: " + createOrderRequest);
-		User user = userRepository.findById(createOrderRequest.getUserId())
-				.orElseThrow(() -> new RuntimeException("User not found"));
+		User user = userRepository.findById(createOrderRequest.getUserId()).orElseThrow(() -> new RuntimeException("User not found"));
 		// Khởi tạo đơn hàng và các dòng đơn hàng
 		Order order = new Order();
 		Set<CartItemForOrderDTO> cartItemForOrderDTOS = createOrderRequest.getCartItemForOrderDTOS();
 		Set<OrderLine> orderLines = new LinkedHashSet<>();
-		// Lấy danh sách mã sản phẩm và tạo map các sản phẩm
-//        Set<String> productCodes = cartItemForOrderDTOS.stream()
-//                .map(CartItemForOrderDTO::getProductCode)
-//                .collect(Collectors.toSet());
-//        Map<String, Product> productMap = productRepository.findDistinctByProductCodeIn(productCodes).stream()
-//                .collect(Collectors.toMap(Product::getProductCode, Function.identity()));
-
 		// Lặp qua các mặt hàng trong giỏ hàng và tạo OrderLine
 		double total = 0.0;
 		for (var cartItem : cartItemForOrderDTOS) {
-
-			Product product = productRepository.findFirstByProductCode(cartItem.getProductCode())
-					.orElseThrow(() -> new RuntimeException("Product not found"));
+			Product product = productRepository.findFirstByProductCode(cartItem.getProductCode()).orElseThrow(() -> new RuntimeException("Product not found"));
 			// check quantity
-			Logger.log("Product: " + product);
-			Logger.log("Product service: " + productService.getStockByProductCode(product.getProductCode()));
 			if (productService.getStockByProductCode(product.getProductCode()) < cartItem.getQuantity()) {
 				throw new RuntimeException("Product " + product.getProductCode() + " out of stock");
 			}
 //          đánh dấu sản phẩm đã được mua, số sp được đánh dấu là số lượng mua
 			for (int i = 0; i < cartItem.getQuantity(); i++) {
 //                tìm và đánh dấu sản phẩm đã được mua
-				Product product1 = productRepository.findFirstByProductCodeAndIsUsedFalse(product.getProductCode())
-						.orElseThrow(() -> new RuntimeException("Product not found"));
+				Product product1 = productRepository.findFirstByProductCodeAndIsUsedFalse(product.getProductCode()).orElseThrow(() -> new RuntimeException("Product not found"));
 				product1.setIsUsed(1);
 				productRepository.save(product1);
 			}
@@ -98,12 +80,10 @@ public class OrderService implements IOrderService {
 			orderLine.setQuantity(Math.toIntExact(cartItem.getQuantity()));
 			orderLine.setOrder(order);
 			orderLines.add(orderLine);
-			Logger.log("Order line: " + orderLine);
 			// Cộng dồn tổng giá trị
 			total += product.getCost() * cartItem.getQuantity();
 		}
 //        apply discount
-//        Logger.log("Order line: " + orderLines);
 		if (createOrderRequest.getVoucherCodes() != null) {
 			for (String voucherCode : createOrderRequest.getVoucherCodes()) {
 				Voucher voucher = voucherRepository
@@ -126,8 +106,6 @@ public class OrderService implements IOrderService {
 		// Lưu đơn hàng và tạo phản hồi
 		Order savedOrder = orderRepository.save(order);
 
-		// xoá cartitem
-//        cartService.clearCustomerCart(createOrderRequest.getUserId());
 		// xoa cartitem
 		Cart cart = cartService.getCartByUserId(createOrderRequest.getUserId());
 		Set<CartItem> cartItems = cartService.getCartByUserId(createOrderRequest.getUserId()).getCartItems();
@@ -155,6 +133,76 @@ public class OrderService implements IOrderService {
 		return orderResponse;
 	}
 
+
+	@Transactional
+	public OrderResponse createOrderForSingleProduct(CreateOrderRequest createOrderRequest) {
+		// TODO: chưa xử lý trường hợp tranh nhau đặt hàng
+		// Tìm người dùng
+		User user = userRepository.findById(createOrderRequest.getUserId()).orElseThrow(() -> new RuntimeException("User not found"));
+		// Khởi tạo đơn hàng và các dòng đơn hàng
+		Order order = new Order();
+		Set<CartItemForOrderDTO> cartItemForOrderDTOS = createOrderRequest.getCartItemForOrderDTOS();
+		Set<OrderLine> orderLines = new LinkedHashSet<>();
+		double total = 0.0;
+		for (var cartItem : cartItemForOrderDTOS) {
+			Product product = productRepository.findFirstByProductCode(cartItem.getProductCode())
+					.orElseThrow(() -> new RuntimeException("Product not found"));
+			// check quantity
+			if (productService.getStockByProductCode(product.getProductCode()) < cartItem.getQuantity()) {
+				throw new RuntimeException("Product " + product.getProductCode() + " out of stock");
+			}
+//          đánh dấu sản phẩm đã được mua, số sp được đánh dấu là số lượng mua
+			for (int i = 0; i < cartItem.getQuantity(); i++) {
+//                tìm và đánh dấu sản phẩm đã được mua
+				Product product1 = productRepository.findFirstByProductCodeAndIsUsedFalse(product.getProductCode()).orElseThrow(() -> new RuntimeException("Product " + product.getProductCode() + " not found"));
+				product1.setIsUsed(1);
+				productRepository.save(product1);
+			}
+			OrderLine orderLine = new OrderLine();
+			orderLine.setProduct(product);
+			orderLine.setQuantity(Math.toIntExact(cartItem.getQuantity()));
+			orderLine.setOrder(order);
+			orderLines.add(orderLine);
+			// Cộng dồn tổng giá trị
+			total += product.getCost() * cartItem.getQuantity();
+		}
+//        apply discount
+		if (createOrderRequest.getVoucherCodes() != null) {
+			for (String voucherCode : createOrderRequest.getVoucherCodes()) {
+				Voucher voucher = voucherRepository
+						.findFirstByVoucherCodeAndIsUsedFalseAndStartDateBeforeAndEndDateAfter(voucherCode,
+								LocalDateTime.now(), LocalDateTime.now())
+						.orElseThrow(() -> new RuntimeException("Voucher " + voucherCode + " is not available"));
+				voucher.setIsUsed(true);
+				voucherRepository.save(voucher);
+				total -= voucher.getVoucherValue();
+			}
+		}
+		// Thiết lập các thuộc tính cho đơn hàng
+		order.setOrderLines(orderLines);
+		order.setTotal(total < 0 ? 0 : total);
+		order.setCustomerId(user.getUserId());
+		order.setOrderDate(LocalDateTime.ofInstant(new Date().toInstant(), TimeZone.getDefault().toZoneId()));
+		order.setOrderStatus(OrderStatus.PENDING);
+		order.setShippingAddress(createOrderRequest.getAddress());
+
+		// Lưu đơn hàng và tạo phản hồi
+		Order savedOrder = orderRepository.save(order);
+
+		// Lưu Payment và thiết lập phương thức thanh toán cho phản hồi
+		Payment payment = new Payment();
+		payment.setOrder(savedOrder);
+		payment.setTotal(total);
+		payment.setPaymentStatus(PaymentStatus.PENDING);
+		payment.setPaymentMethod(createOrderRequest.getPaymentMethod());
+		paymentRepository.save(payment);
+
+		OrderResponse orderResponse = new OrderResponse();
+		orderResponse.setOrderId(savedOrder.getOrderId());
+		orderResponse.setTotal(savedOrder.getTotal().intValue());
+		orderResponse.setPaymentMethod(payment.getPaymentMethod());
+		return orderResponse;
+	}
 	@Override
 	public void updateOrderStatusPaymentTime(Long orderId, String paymentTime) {
 		Logger.log("updating order status");
