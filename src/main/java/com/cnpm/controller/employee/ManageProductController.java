@@ -283,4 +283,23 @@ public class ManageProductController {
 	    
 	}
 	
+	 // Phương thức để tìm kiếm sản phẩm
+    @GetMapping("/search")
+    public String searchProducts(@RequestParam("query") String query, Model model,  @RequestParam(value = "pageNo", defaultValue = "1") int pageNo) {
+    	
+    	// Số lượng sản phẩm trên mỗi trang
+	    int pageSize = 10;
+	    // Tạo Pageable từ số trang và số sản phẩm trên mỗi trang
+	    Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+    	
+    	List<ProductResponse> productResponses = productServ.searchProductsWithName(query, pageable);
+    	
+    	 //gui du liueu
+	    model.addAttribute("currentPage", pageNo);
+	    model.addAttribute("products", productResponses);
+	    model.addAttribute("pageSize", pageSize);
+    	model.addAttribute("totalItems",productServ.countDistinctProducts(query));
+	    model.addAttribute("totalPages", (int) Math.ceil((double) productServ.count() / pageSize));
+        return "employee/manageProduct";  // trả về cùng một view để hiển thị kết quả tìm kiếm
+    }
 }

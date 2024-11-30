@@ -14,6 +14,8 @@ import com.cnpm.enums.OrderStatus;
 import com.cnpm.enums.PaymentStatus;
 import com.cnpm.repository.*;
 import com.cnpm.service.IOrderService;
+import com.cnpm.service.IProductService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -47,7 +49,7 @@ public class OrderService implements IOrderService {
 	@Autowired
 	private OrderRepository orderRepository;
 	@Autowired
-	private ProductService productService;
+	private IProductService productService;
 	@Autowired
 	CartService cartService;
 	@Autowired

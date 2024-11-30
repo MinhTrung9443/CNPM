@@ -163,5 +163,24 @@ public class ProductService implements IProductService{
     public List<Product> findProductsByCategory(String category) {
         return productRepository.findDistinctProductsByCategory(category);
     }
-
+    // Tìm kiếm sản phẩm theo tên hoặc mô tả
+    @Override
+	public List<ProductResponse> searchProductsWithName(String query, Pageable page) {
+        List<Product> products = productRepository.findDistinctProductsByProductNameContaining(query,page).getContent();
+        Logger.log(products.toString());
+        return products.stream()
+                .map(product -> {
+                    ProductResponse productResponse = new ProductResponse();
+                    BeanUtils.copyProperties(product, productResponse);
+                    productResponse.setStock(getStockByProductCode(product.getProductCode()));
+                    return productResponse;
+                })
+                .collect(Collectors.toList());
+        
+    }
+    //dem san pham duoc lco theo ten
+    @Override
+	public long countDistinctProducts(String productName) {
+        return productRepository.countDistinctProductsByProductNameContaining(productName);
+    }
 }

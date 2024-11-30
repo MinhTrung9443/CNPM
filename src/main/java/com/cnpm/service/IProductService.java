@@ -22,5 +22,8 @@ public interface IProductService {
 	List<Product> findAllDistinctProduct();
 	List<Product> findAllProductsByProductCode(String productCode);
 	Long count();
+	List<ProductResponse> searchProductsWithName(String query, Pageable page);
+	long countDistinctProducts(String productName);
+	
 
 }
