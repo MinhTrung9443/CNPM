@@ -24,6 +24,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -200,6 +201,7 @@ public class OrderController {
             return "err/error";
         }
         order.setOrderStatus(OrderStatus.COMPLETED);
+        order.setDeliveryDate(LocalDateTime.now());
         orderService.save(order);
         return "redirect:/customer/followOrder/" + orderId;
     }
