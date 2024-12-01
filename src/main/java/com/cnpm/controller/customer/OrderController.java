@@ -4,7 +4,9 @@ import com.cnpm.dto.CartItemDTO;
 import com.cnpm.dto.CreateOrderRequest;
 import com.cnpm.dto.OrderResponse;
 import com.cnpm.entity.*;
+import com.cnpm.enums.OrderStatus;
 import com.cnpm.enums.PaymentMethod;
+import com.cnpm.service.interfaces.IPaymetService;
 import com.cnpm.service.interfaces.IVoucherService;
 import com.cnpm.service.impl.*;
 import com.cnpm.service.payment.VNPAYService;
@@ -33,7 +35,7 @@ public class OrderController {
     @Autowired
     ProductService productService;
     @Autowired
-    PaymentService paymentService;
+    IPaymetService paymentService;
     @Autowired
     IVoucherService voucherService;
     @Autowired
@@ -185,5 +187,17 @@ public class OrderController {
         }
         return "redirect:" + redirectUrl;
     }
-
+    @GetMapping("/complete/{orderId}")
+    public String complete(@PathVariable Long orderId, HttpSession session, Model model,HttpServletRequest request) {
+        Order order = orderService.getOrderById(orderId);
+        //Lấy ra người dùng đã đăng nhập
+        Long userId = ((Customer) session.getAttribute("user")).getUserId();
+        // Kiểm tra xem đơn hàng có tồn tại và có thuộc về người dùng đó không, nếu không trả về trang lỗi
+        if (order == null || !order.getCustomerId().equals(userId)) {
+            return "err/error";
+        }
+        order.setOrderStatus(OrderStatus.COMPLETED);
+        orderService.save(order);
+        return "redirect:/customer/followOrder/" + orderId;
+    }
 }

@@ -303,7 +303,7 @@ select::-ms-expand {
 	<div class="containt">
 
 
-		<h1>Order Details</h1>
+		<h1>Chi tiết đơn hàng</h1>
 
 		<!-- Thông tin chi tiết của đơn hàng -->
 		<div>
@@ -321,9 +321,25 @@ select::-ms-expand {
 			<p>
 				<strong>Status:</strong> <span th:text="${order.orderStatus}" style="color: blue; "></span>
 			</p>
-			<p>
+			<p th:if="${order.deliveryDate}">
 				<strong>Delivery Date:</strong> <span
 					th:text="${order.deliveryDate}"></span>
+			</p>
+		</div>
+		<div th:if="${voucher}">
+			<h2>Voucher</h2>
+			<p>
+				<strong>Voucher value:</strong> <span th:text="${voucher.voucherValue} + 'đ'"></span>
+			</p>
+		</div>
+		<div>
+			<h2>Payment infomation</h2>
+			<p>
+				<strong>Payment method:</strong> <span th:text="${payment.paymentMethod}"></span>
+			</p>
+			<p>
+				<strong>Total:</strong> <span
+					th:text="${payment.total}"></span>
 			</p>
 		</div>
 
@@ -381,6 +397,7 @@ select::-ms-expand {
 		<div th:if="${order.orderStatus.name() == 'COMPLETED'}">
 				<h2>Đánh Giá Sản Phẩm</h2>
 				<form action="/review" method="post">
+					<input type="text" name= "orderId" th:value="${order.orderId}" hidden="hidden">
 					<div class="form-group" style="width: 400px">
 						<label>Sản phẩm đánh giá</label>
 						<select id="productId" name="productId">
@@ -418,6 +435,9 @@ select::-ms-expand {
 <!--		button thanh toán, chỉ hiện khi orderstatus is pending-->
 	<div th:if = "${order.orderStatus.toString() == 'PENDING'}">
 		<button class="submit-btn" type="button" onclick="pay()" th:data-order-id="${order.orderId}"  th:data-order-status="${order.orderStatus.name()}">Thanh toán lại</button>
+	</div>
+	<div th:if = "${order.orderStatus.toString() == 'SHIPPING'}">
+		<button class="submit-btn" type="button" onclick="complete()" th:data-order-id="${order.orderId}"  >Đã nhận hàng</button>
 	</div>
 <!--		<button th:if="${order.orderStatus == 'PENDING'}" class="submit-btn" type="button" onclick="pay()" th:data-order-id="${order.orderId}"  th:data-order-status="${order.orderStatus.name()}">Thanh toán</button>-->
 	<button class="submit-btn" type="button" onclick="cancelOrder()" th:data-order-id="${order.orderId}" th:data-order-status="${order.orderStatus.name()}">Hủy đơn hàng</button>
@@ -465,6 +485,13 @@ select::-ms-expand {
 		        return; // Dừng hàm nếu điều kiện không đúng
 		    }
 			window.location.href = '/order/reprocessPayment/' + orderId;
+		}
+		
+		function complete(){
+			const orderId = document.querySelector(
+			'button[onclick="complete()"]').getAttribute(
+			'data-order-id');
+			window.location.href = '/order/complete/' + orderId;
 		}
 	</script>
 </body>
