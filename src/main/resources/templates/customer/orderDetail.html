@@ -343,7 +343,7 @@ select::-ms-expand {
 				</thead>
 				<tbody>
 					<tr th:each="orderLine : ${order.orderLines}">
-						<td><a href="#"><img th:src="@{${orderLine.product.image}}"
+						<td><a th:href="'/product/'+${orderLine.product.productId}"><img th:src="@{${orderLine.product.image}}"
 							alt="Product Image"
 							style="width: 100px; height: 100px; object-fit: cover;"></a></td>
 						<td th:text="${orderLine.product.productName}"></td>

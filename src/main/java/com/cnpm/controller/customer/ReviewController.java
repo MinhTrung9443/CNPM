@@ -2,6 +2,7 @@ package com.cnpm.controller.customer;
 
 import java.time.LocalDateTime;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -29,14 +30,16 @@ public class ReviewController {
 	public ModelAndView feedback(ModelMap model,HttpSession session, @ModelAttribute ProductFeedback feedback ,@RequestParam("productId") Long productId)
 	{
 		Customer customer = (Customer) session.getAttribute("user");
-		feedback.setFeedbackDate(LocalDateTime.now());
-		feedback.setCustomerId(customer.getUserId());
+		ProductFeedback proFeedback = new ProductFeedback();
+		BeanUtils.copyProperties(feedback, proFeedback);
+		proFeedback.setFeedbackDate(LocalDateTime.now());
+		proFeedback.setCustomerId(customer.getUserId());
 		Product pro = feedbackservice.findById(productId).get();
 		
 		if (pro != null)
 		{
-			feedback.setProduct(pro);
-			feedbackservice.save(feedback);
+			proFeedback.setProduct(pro);
+			feedbackservice.save(proFeedback);
 			return new ModelAndView("redirect:/customer/order-history",model);
 		}
 		model.addAttribute("Err", "Hệ thống đang gặp lỗi, mời thử lại sau!!!");
