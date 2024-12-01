@@ -214,7 +214,7 @@ public class AuthController {
 		} catch (Exception e) {
 			e.printStackTrace(); // TODO: handle exception
 		}
-		model.addAttribute("Err", "Email không tồn tại, mời nhập lại thông tin");
+		model.addAttribute("Err", " ");
 		return new ModelAndView("user/forgotPass", model);
 	}
 
@@ -230,7 +230,7 @@ public class AuthController {
 			return new ModelAndView("redirect:/signin", model);
 		}
 		model.addAttribute("OtpErr", "Mã OTP không trùng khớp");
-		return new ModelAndView("forward:user/AuthOTP", model);
+		return new ModelAndView("user/AuthOTP", model);
 	}
 
 	private String checkSignIn(HttpSession session) {

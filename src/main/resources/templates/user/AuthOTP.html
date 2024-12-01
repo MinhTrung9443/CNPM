@@ -140,6 +140,7 @@
 	<div class="auth">
 		<div class="otp-password-form" layout:fragment="app-content">
 			<h2>Đặt lại mật khẩu</h2>
+			<h2 th:if="${OtpErr}" th:text="${OtpErr}" style="color: red;"></h2>
 			<form action="/resetpassword" method="post">
 				<label for="otp">Nhập mã OTP:</label> <input type="text" id="otp"
 					name="otp" placeholder="Mã OTP" required /> <label
