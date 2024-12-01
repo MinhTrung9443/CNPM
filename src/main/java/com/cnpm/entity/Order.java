@@ -23,6 +23,7 @@ public class Order implements Serializable {
     private Long orderId;
 
     private LocalDateTime orderDate;
+    @Column(name = "shippingAddress", columnDefinition = "nvarchar(MAX)")
     private String shippingAddress;
     private Double total;
     @Enumerated(EnumType.STRING)
