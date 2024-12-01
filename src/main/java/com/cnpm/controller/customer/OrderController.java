@@ -11,6 +11,8 @@ import com.cnpm.service.interfaces.IVoucherService;
 import com.cnpm.service.impl.*;
 import com.cnpm.service.payment.VNPAYService;
 import com.cnpm.util.Logger;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -45,7 +47,6 @@ public class OrderController {
 
     @PostMapping("/preview-checkout")
     public ModelAndView checkout(@RequestParam(value = "cartItemIds", required = false) List<Long> cartItemIds, HttpSession session, ModelMap model, @RequestParam(value = "productCode", required = false) String productCode, @RequestParam(value = "quantity", required = false) Integer quantity) {
-
         User user = (User) session.getAttribute("user");
         if (user == null) {
             return new ModelAndView("redirect:/signin");
@@ -63,11 +64,13 @@ public class OrderController {
         //nếu mua 1 sản phẩm (từ trang chi tiết sản phẩm)
         if (productCode != null) {
             Logger.log("productCode: " + productCode);
+            model.addAttribute("isSingleProduct", true);
             Product product = productService.getProductByProductCode(productCode);
             // tạo ra 1 list cartItemDTO chỉ gồm 1 phần tử
             cartItems = List.of(new CartItemDTO(productCode, product.getProductName(), product.getCost(), quantity, product.getImage()));
         } else {
             //ngược lại, nếu mua nhiều sản phẩm (từ trang giỏ hàng)
+            model.addAttribute("isSingleProduct", false);
             cartItems = cartItemIds.stream().map(cartItemId -> {
                 CartItem cartItem = cartItemService.getCartItemById(cartItemId);
                 CartItemDTO cartItemDTO = new CartItemDTO();

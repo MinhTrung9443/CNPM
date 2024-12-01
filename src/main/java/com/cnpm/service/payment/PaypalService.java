@@ -14,39 +14,10 @@ import java.util.Arrays;
 
 @Service
 public class PaypalService {
-//    @Value("${PAYPAL_CLIENT_ID}")
-//    private String PAYPAL_CLIENT_ID;
-//
-//    @Value("${PAYPAL_CLIENT_SECRET}")
-//    private String PAYPAL_CLIENT_SECRET;
 
     @Autowired
     private PaypalServerSdkClient client;
-//    @Autowired
-//    public PaypalService(PaypalServerSdkClient client) {
-//        this.client = client;
-//    }
-//    @Autowired
-//    public PaypalService(PaypalServerSdkClient client) {
-//        this.client = client;
-//    }
 
-//    @Bean
-//    public PaypalServerSdkClient paypalClient() {
-//        return new PaypalServerSdkClient.Builder()
-//                .loggingConfig(builder -> builder
-//                        .level(Level.DEBUG)
-//                        .requestConfig(logConfigBuilder -> logConfigBuilder.body(true))
-//                        .responseConfig(logConfigBuilder -> logConfigBuilder.headers(true)))
-//                .httpClientConfig(configBuilder -> configBuilder
-//                        .timeout(0))
-//                .environment(Environment.SANDBOX)
-//                .clientCredentialsAuth(new ClientCredentialsAuthModel.Builder(
-//                        PAYPAL_CLIENT_ID,
-//                        PAYPAL_CLIENT_SECRET)
-//                        .build())
-//                .build();
-//    }
     public Order createOrder(String cart, Double amount) throws IOException, ApiException {
         double calculatedAmount = 0.000039 * amount;
         DecimalFormat df = new DecimalFormat("0.00");
@@ -61,8 +32,6 @@ public class PaypalService {
                                                 "USD",
 //													"999.00",
                                                 formattedAmount
-//                                                ,
-//                                                String.valueOf(0.000039*amount)
                                         )
                                                 .build())
                                         .build()))
