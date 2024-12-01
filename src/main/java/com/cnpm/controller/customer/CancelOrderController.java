@@ -3,6 +3,7 @@ package com.cnpm.controller.customer;
 import java.io.Serializable;
 import java.util.Optional;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -46,24 +47,14 @@ public class CancelOrderController implements Serializable{
 		{
 			
 			int quantity =  orderline.getQuantity();
-			Product pro = productservice.findById(orderline.getProduct().getProductId()).get();
-			Product newProduct = new Product();
-			newProduct.setProductCode(pro.getProductCode());
-			newProduct.setProductName(pro.getProductName());
-			newProduct.setCategory(pro.getCategory());
-			newProduct.setCost(pro.getCost());
-			newProduct.setDescription(pro.getDescription());
-			newProduct.setBrand(pro.getBrand());
-			newProduct.setManufactureDate(pro.getManufactureDate());
-			newProduct.setExpirationDate(pro.getExpirationDate());
-			newProduct.setIngredient(pro.getIngredient());
-			newProduct.setHow_to_use(pro.getHow_to_use());
-			newProduct.setVolume(pro.getVolume());
-			newProduct.setOrigin(pro.getOrigin());
-			newProduct.setImage(pro.getImage());
-			newProduct.setIsUsed(0);
+			
 			for (int i = 0;i<quantity;i++)
 			{
+				Product newProduct = new Product();
+				BeanUtils.copyProperties(orderline.getProduct(), newProduct, "productId");
+				newProduct.setIsUsed(0);
+				newProduct.setCartItems(null);
+				newProduct.setOrderLines(null);
 				productservice.save(newProduct);
 			}
 			
