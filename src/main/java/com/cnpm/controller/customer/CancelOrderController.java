@@ -47,11 +47,14 @@ public class CancelOrderController implements Serializable{
 		{
 			
 			int quantity =  orderline.getQuantity();
-			Product newProduct = new Product();
-			BeanUtils.copyProperties(orderline.getProduct(), newProduct);
-			newProduct.setIsUsed(0);
+			
 			for (int i = 0;i<quantity;i++)
 			{
+				Product newProduct = new Product();
+				BeanUtils.copyProperties(orderline.getProduct(), newProduct, "productId");
+				newProduct.setIsUsed(0);
+				newProduct.setCartItems(null);
+				newProduct.setOrderLines(null);
 				productservice.save(newProduct);
 			}
 			
