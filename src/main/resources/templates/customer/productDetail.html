@@ -326,8 +326,10 @@ hr {
 					</div>
 				</form>
 
-				<!-- -->
+				<button type="button" th:attr="onclick=|buySingleProduct('${product.productCode}')|">Mua ngay</button>
 
+
+				<!-- -->
 
 
 			</div>
@@ -364,10 +366,6 @@ hr {
 			<hr />
 		</div>
 	</div>
-
-
-
-
 
 	<script>
 		document
@@ -443,6 +441,31 @@ hr {
 												}
 											});
 						});
+
+		function buySingleProduct (productCode) {
+			//tạo form ẩn
+			console.log(productCode);
+			const form = document.createElement('form');
+			form.method = 'POST';
+			form.action = '/order/preview-checkout';
+			//tạo input ẩn
+			var input = document.createElement('input');
+			input.type = 'hidden';
+			input.name = 'productCode';
+			input.value = productCode;
+			//thêm input vào form
+			form.appendChild(input);
+			// quantity
+			const quantity = document.getElementById('quantity').value;
+			var inputQuantity = document.createElement('input');
+			inputQuantity.type = 'hidden';
+			inputQuantity.name = 'quantity';
+			inputQuantity.value = quantity;
+			form.appendChild(inputQuantity);
+			//thêm form vào body
+			document.body.appendChild(form);
+			form.submit();
+		}
 	</script>
 	<footer th:replace="~{customer/fragments/footer::footer}"></footer>
 </body>

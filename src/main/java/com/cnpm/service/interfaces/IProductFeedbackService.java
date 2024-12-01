@@ -1,4 +1,4 @@
-package com.cnpm.service;
+package com.cnpm.service.interfaces;
 
 
 import java.util.List;

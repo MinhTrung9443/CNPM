@@ -1,4 +1,4 @@
-package com.cnpm.service.capcha;
+package com.cnpm.service.captcha;
 
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;

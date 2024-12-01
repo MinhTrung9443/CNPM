@@ -10,11 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cnpm.entity.Account;
-import com.cnpm.entity.Customer;
 import com.cnpm.entity.User;
 import com.cnpm.repository.AccountRepository;
 import com.cnpm.repository.UserRepository;
-import com.cnpm.service.IUserService;
+import com.cnpm.service.interfaces.IUserService;
 
 
 

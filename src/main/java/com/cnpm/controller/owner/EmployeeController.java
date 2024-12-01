@@ -28,7 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.cnpm.entity.Account;
 import com.cnpm.entity.Employee;
 import com.cnpm.entity.Role;
-import com.cnpm.service.IEmployeeService;
+import com.cnpm.service.interfaces.IEmployeeService;
 
 import jakarta.validation.Valid;
 

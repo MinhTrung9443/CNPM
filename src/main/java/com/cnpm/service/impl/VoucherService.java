@@ -3,7 +3,7 @@ package com.cnpm.service.impl;
 import com.cnpm.dto.VoucherDTO;
 import com.cnpm.entity.Voucher;
 import com.cnpm.repository.VoucherRepository;
-import com.cnpm.service.IVoucherService;
+import com.cnpm.service.interfaces.IVoucherService;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

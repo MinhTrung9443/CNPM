@@ -1,17 +1,11 @@
-package com.cnpm.service.paypal;
+package com.cnpm.service.payment;
 
-import com.paypal.sdk.Environment;
 import com.paypal.sdk.PaypalServerSdkClient;
-import com.paypal.sdk.authentication.ClientCredentialsAuthModel;
 import com.paypal.sdk.controllers.OrdersController;
 import com.paypal.sdk.exceptions.ApiException;
 import com.paypal.sdk.http.response.ApiResponse;
 import com.paypal.sdk.models.*;
-import org.slf4j.event.Level;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;

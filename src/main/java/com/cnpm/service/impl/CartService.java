@@ -6,7 +6,7 @@ import com.cnpm.entity.Customer;
 import com.cnpm.repository.CartItemRepository;
 import com.cnpm.repository.CartRepository;
 import com.cnpm.repository.UserRepository;
-import com.cnpm.service.ICartService;
+import com.cnpm.service.interfaces.ICartService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +24,7 @@ public class CartService implements ICartService {
     @Autowired
     UserRepository userRepository;
 
+    @Override
     public Cart getCartByUserId(Long userId) {
 //        neu k có thi tao moi va luu vao db
         return cartRepository.findByCustomerUserId(userId).orElseGet(() -> {

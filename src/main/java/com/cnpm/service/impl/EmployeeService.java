@@ -12,7 +12,7 @@ import com.cnpm.entity.Account;
 import com.cnpm.entity.Employee;
 import com.cnpm.repository.AccountRepository;
 import com.cnpm.repository.EmployeeRepository;
-import com.cnpm.service.IEmployeeService;
+import com.cnpm.service.interfaces.IEmployeeService;
 
 @Service
 public class EmployeeService implements IEmployeeService{

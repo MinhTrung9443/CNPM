@@ -1,4 +1,4 @@
-package com.cnpm.service.capcha;
+package com.cnpm.service.captcha;
 
 import com.cnpm.dto.google.GoogleResponse;
 import com.cnpm.setting.CaptchaSettings;

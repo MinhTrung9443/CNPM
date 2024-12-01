@@ -1,4 +1,4 @@
-package com.cnpm.service;
+package com.cnpm.service.interfaces;
 
 import com.cnpm.dto.VoucherDTO;
 import com.cnpm.entity.Voucher;

@@ -8,7 +8,7 @@ import com.cnpm.entity.User;
 import com.cnpm.repository.CartRepository;
 import com.cnpm.repository.CustomerRepository;
 import com.cnpm.repository.ProductRepository;
-import com.cnpm.service.ICartService;
+import com.cnpm.service.interfaces.ICartService;
 
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;

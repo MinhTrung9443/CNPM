@@ -16,11 +16,10 @@ import com.cnpm.entity.Order;
 import com.cnpm.entity.OrderLine;
 import com.cnpm.entity.Product;
 import com.cnpm.enums.OrderStatus;
-import com.cnpm.service.IOrderService;
-import com.cnpm.service.IProductService;
+import com.cnpm.service.interfaces.IOrderService;
+import com.cnpm.service.interfaces.IProductService;
 
 import jakarta.servlet.http.HttpSession;
-import jakarta.websocket.server.PathParam;
 
 
 @Controller

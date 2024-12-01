@@ -26,10 +26,10 @@ import com.cnpm.entity.Product;
 import com.cnpm.entity.Role;
 import com.cnpm.entity.ShopOwner;
 import com.cnpm.entity.User;
-import com.cnpm.service.IAccountService;
-import com.cnpm.service.IProductService;
-import com.cnpm.service.IUserService;
-import com.cnpm.service.capcha.CaptchaService;
+import com.cnpm.service.interfaces.IAccountService;
+import com.cnpm.service.interfaces.IProductService;
+import com.cnpm.service.interfaces.IUserService;
+import com.cnpm.service.captcha.CaptchaService;
 import com.cnpm.service.mail.MailService;
 
 import jakarta.servlet.http.HttpServletRequest;

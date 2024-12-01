@@ -1,4 +1,4 @@
-package com.cnpm.service.vnpay;
+package com.cnpm.service.payment;
 
 import com.cnpm.config.VNPAYConfig;
 import jakarta.servlet.http.HttpServletRequest;
