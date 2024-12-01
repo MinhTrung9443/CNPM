@@ -90,6 +90,11 @@ public class VoucherService implements IVoucherService{
 		
 		return voucherRepository.findAllByIsUsedFalseAndStartDateBeforeAndEndDateAfter(startDate, endDate);
 	}
+
+	@Override
+	public Voucher findByOrder_OrderId(Long orderId) {
+		return voucherRepository.findByOrder_OrderId(orderId);
+	}
     
     
 }

@@ -26,7 +26,7 @@ public class ReviewController {
 	@Autowired
 	private IProductFeedbackService feedbackservice;
 	@PostMapping("/review")
-	public ModelAndView feedback(ModelMap model,HttpSession session, @ModelAttribute ProductFeedback feedback ,@RequestParam("productId") Long productId)
+	public ModelAndView feedback(ModelMap model,HttpSession session, @ModelAttribute ProductFeedback feedback ,@RequestParam("productId") Long productId,@RequestParam("orderId") Long orderId)
 	{
 		Customer customer = (Customer) session.getAttribute("user");
 		ProductFeedback proFeedback = new ProductFeedback();
@@ -39,7 +39,7 @@ public class ReviewController {
 		{
 			proFeedback.setProduct(pro);
 			feedbackservice.save(proFeedback);
-			return new ModelAndView("redirect:/customer/order-history",model);
+			return new ModelAndView("redirect:/customer/followOrder/" + orderId,model);
 		}
 		model.addAttribute("Err", "Hệ thống đang gặp lỗi, mời thử lại sau!!!");
 		return new ModelAndView("redirect:/customer/order-history?tab=don-da-giao",model);
