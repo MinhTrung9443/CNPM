@@ -14,10 +14,14 @@ import org.springframework.web.servlet.ModelAndView;
 import com.cnpm.entity.Customer;
 import com.cnpm.entity.Order;
 import com.cnpm.entity.OrderLine;
+import com.cnpm.entity.Payment;
 import com.cnpm.entity.Product;
 import com.cnpm.entity.ProductFeedback;
+import com.cnpm.entity.Voucher;
 import com.cnpm.service.interfaces.IOrderService;
+import com.cnpm.service.interfaces.IPaymetService;
 import com.cnpm.service.interfaces.IProductFeedbackService;
+import com.cnpm.service.interfaces.IVoucherService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -28,6 +32,10 @@ public class OrderTrackingController {
 	private IOrderService orderservice;
 	@Autowired
 	private IProductFeedbackService reviewservice;
+	@Autowired
+	private IPaymetService paymentservice;
+	@Autowired
+	private IVoucherService voucherservice;
 	@GetMapping("/followOrder/{orderId}")
 	public ModelAndView followOrder(ModelMap model,HttpSession session,  @PathVariable("orderId") Long orderId)
 	{
@@ -41,8 +49,12 @@ public class OrderTrackingController {
 	        {
 	        	list.addAll(reviewservice.findAllByCustomerIdAndProduct_ProductId(customer.getUserId(), orderline.getProduct().getProductId()));
 	        }
+	        Payment pay = paymentservice.findByOrder_OrderId(orderId);
+	        Voucher voucher = voucherservice.findByOrder_OrderId(orderId);
 			model.addAttribute("order", order);
 			model.addAttribute("list",list);
+			model.addAttribute("payment", pay);
+			model.addAttribute("voucher", voucher);
 			return new ModelAndView("/customer/orderDetail",model);
 		}
 		catch (Exception e) {

@@ -19,4 +19,5 @@ public interface IVoucherService {
 
     Voucher getVoucherByVoucherCode(String voucherCode);
 	List<Voucher> findAllByIsUsedFalseAndStartDateBeforeAndEndDateAfter();
+	Voucher findByOrder_OrderId(Long orderId);
 }
