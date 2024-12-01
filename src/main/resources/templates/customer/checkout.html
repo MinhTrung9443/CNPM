@@ -310,6 +310,7 @@
 	<script th:inline="javascript">
 		/*<![CDATA[*/
 		const userId = /*[[${userId}]]*/ 0;
+		const isSingleProduct = /*[[${isSingleProduct}]]*/ 0;
     /*]]>*/
 	</script>
 	<script>
@@ -382,8 +383,16 @@
 				};
 				// console.log(createOrderRequest);
 				//     ajax
+
+				const url = () => {
+					if (isSingleProduct === false) {
+						return "/order/create";
+					} else {
+						return "/order/create-single-product";
+					}
+				};
 				$.ajax({
-					url: "/order/create",
+					url: url(),
 					type: "POST",
 					contentType: "application/json",
 					data: JSON.stringify(createOrderRequest),
@@ -396,7 +405,6 @@
 						alert(errorMessage);
 					}
 				});
-
 				//
 			});
 	</script>

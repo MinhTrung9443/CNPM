@@ -110,7 +110,7 @@ public class OrderService implements IOrderService {
 		// xoa cartitem
 		Cart cart = cartService.getCartByUserId(createOrderRequest.getUserId());
 		Set<CartItem> cartItems = cartService.getCartByUserId(createOrderRequest.getUserId()).getCartItems();
-
+		Logger.log("ds cart"+cartItems.toString());
 		for (CartItemForOrderDTO cartItemForOrderDTO : cartItemForOrderDTOS) {
 //            cartService.removeItemFromCart(cart.getCartItems().stream().filter(cartItem1 -> cartItem1.getProduct().getProductCode().equals(cartItem.getProductCode())).findFirst().get());
 			cartItems.removeIf(
