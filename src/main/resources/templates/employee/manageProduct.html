@@ -29,10 +29,61 @@
 	margin: 0px;
 }
 
+img:hover {
+	cursor: pointer;
+}
+
 .expiration-date-column {
 	min-width: 100px;
 	/* Đặt chiều rộng tối thiểu cho cột, phù hợp với định dạng ngày tháng năm */
 	white-space: nowrap; /* Ngăn không cho nội dung xuống dòng */
+}
+
+/* Nền mờ */
+.modal {
+	display: none; /* Ẩn mặc định */
+	position: fixed;
+	z-index: 1000;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.7); /* Màu nền mờ */
+}
+
+/* Nội dung modal */
+.modal-content {
+	margin: 10% auto;
+	padding: 10px;
+	background-color: #fff;
+	width: 60%;
+	border-radius: 10px;
+	position: relative;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Hình ảnh bên trong modal */
+.modal-content img {
+	width: auto; /* Hình ảnh sẽ tự động điều chỉnh kích thước */
+	max-width: 100%; /* Giới hạn kích thước tối đa trong modal */
+	height: auto;
+	border-radius: 10px;
+}
+
+/* Nút đóng modal */
+.modal-content .close {
+	position: absolute;
+	top: 10px;
+	right: 20px;
+	color: #aaa;
+	font-size: 28px;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.modal-content .close:hover {
+	color: black;
 }
 </style>
 </head>
@@ -41,12 +92,14 @@
 	<div class="container">
 		<h1 class="text-center my-4">Quản lý sản phẩm</h1>
 
-		<div class="row justify-content-between align-items-center mb-3" style="width: 104.5%">
+		<div class="row justify-content-between align-items-center mb-3"
+			style="width: 104.5%">
 			<div class="col-md-4">
 				<form th:action="@{/employee/products/search}" method="get"
 					class="d-flex">
 					<input class="form-control form-control-sm me-2" type="search"
-						name="query" placeholder="Nhập tên sản phẩm..." aria-label="Search">
+						name="query" placeholder="Nhập tên sản phẩm..."
+						aria-label="Search">
 					<button class="btn btn-outline-primary btn-sm" type="submit">
 						<i class="fas fa-search"></i> Tìm kiếm
 					</button>
@@ -54,7 +107,7 @@
 			</div>
 			<div class="col-md-6 text-end">
 				<a class="btn btn-primary" href="/employee/products/create"> <i
-					class="fas fa-plus" ></i> Thêm sản phẩm
+					class="fas fa-plus"></i> Thêm sản phẩm
 				</a>
 			</div>
 		</div>
@@ -99,7 +152,8 @@
 					<td th:text="${product.brand}"></td>
 					<td class="expiration-date-column"
 						th:text="${product.expirationDate}"></td>
-					<td class="expiration-date-column" th:text="${product.manufactureDate}"></td>
+					<td class="expiration-date-column"
+						th:text="${product.manufactureDate}"></td>
 					<td><span class="text-truncate d-inline-block"
 						style="max-width: 100px;" th:title="${product.ingredient}">
 							<span
@@ -122,8 +176,8 @@
 					<td th:text="${product.stock}"></td>
 					<td style="white-space: nowrap"><a
 						class="btn btn-primary btn-sm"
-						th:href="@{/employee/products/edit(id=${product.productId})}">Chỉnh Sửa</a>
-						<a class="btn btn-danger btn-sm"
+						th:href="@{/employee/products/edit(id=${product.productId})}">Chỉnh
+							Sửa</a> <a class="btn btn-danger btn-sm"
 						th:href="@{/employee/products/delete(id=${product.productId})}"
 						onclick="return confirm('Are you sure?')">Xóa</a></td>
 				</tr>
@@ -177,11 +231,45 @@
 
 
 	</div>
+	<div id="imageModal" class="modal" style="display: none;">
+		<div class="modal-content">
+			<span class="close">&times;</span> <img id="modalImage" src=""
+				alt="Preview" class="img-fluid">
+		</div>
+	</div>
+
 
 	<footer th:replace="~{employee/fragments/footer :: footer}"></footer>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
 		crossorigin="anonymous"></script>
+	<script>
+	document.addEventListener("DOMContentLoaded", function () {
+	    const modal = document.getElementById("imageModal");
+	    const modalImage = document.getElementById("modalImage");
+	    const closeBtn = document.querySelector(".modal-content .close");
+
+	    // Thêm sự kiện nhấp vào ảnh
+	    document.querySelectorAll("img").forEach(img => {
+	        img.addEventListener("click", function () {
+	            modal.style.display = "block";
+	            modalImage.src = this.src; // Hiển thị ảnh được chọn
+	        });
+	    });
+
+	    // Đóng modal khi nhấp vào nút close
+	    closeBtn.addEventListener("click", function () {
+	        modal.style.display = "none";
+	    });
+
+	    // Đóng modal khi nhấp ra ngoài ảnh
+	    modal.addEventListener("click", function (e) {
+	        if (e.target === modal) {
+	            modal.style.display = "none";
+	        }
+	    });
+	});
+</script>
 </body>
 </html>
