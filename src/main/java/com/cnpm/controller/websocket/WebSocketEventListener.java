@@ -1,6 +1,6 @@
 package com.cnpm.controller.websocket;
 
-import com.cnpm.model.ChatMessage;
+import com.cnpm.dto.ChatMessageDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +33,8 @@ public class WebSocketEventListener {
         if(username != null) {
             logger.info("User Disconnected : " + username);
 
-            ChatMessage chatMessage = new ChatMessage();
-            chatMessage.setType(ChatMessage.MessageType.LEAVE);
+            ChatMessageDTO chatMessage = new ChatMessageDTO();
+            chatMessage.setType(ChatMessageDTO.MessageType.LEAVE);
             chatMessage.setSender(username);
 
             messagingTemplate.convertAndSend("/topic/public", chatMessage);

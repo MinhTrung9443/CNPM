@@ -1,6 +1,6 @@
 package com.cnpm.controller;
 
-import com.cnpm.model.ChatMessage;
+import com.cnpm.dto.ChatMessageDTO;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -60,7 +60,7 @@ public class ChatController {
 	// Phương thức gửi SessionInfoname vào WebSocket session
 	@MessageMapping("/chat.addSessionInfo")
 	@SendTo("/topic/public")
-	public ChatMessage addSessionInfo(@Payload ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
+	public ChatMessageDTO addSessionInfo(@Payload ChatMessageDTO chatMessage, SimpMessageHeaderAccessor headerAccessor) {
 		SessionInfoDTO SessionInfoDTO = (SessionInfoDTO) headerAccessor.getSessionAttributes().get("SessionInfoDTO");
 
 		if (SessionInfoDTO == null) {
@@ -76,21 +76,21 @@ public class ChatController {
 	// Phương thức gửi tin nhắn
 	@MessageMapping("/chat.sendMessage")
 	@SendTo("/topic/public")
-	public ChatMessage sendMessage(@Payload ChatMessage chatMessage) {
+	public ChatMessageDTO sendMessage(@Payload ChatMessageDTO chatMessage) {
 		return chatMessage;
 	}
 
 	@MessageMapping("/chat.addUser")
 	@SendTo("/topic/public")
-	public ChatMessage addUser(@Payload ChatMessage chatMessage) {
-		chatMessage.setType(ChatMessage.MessageType.JOIN);
+	public ChatMessageDTO addUser(@Payload ChatMessageDTO chatMessage) {
+		chatMessage.setType(ChatMessageDTO.MessageType.JOIN);
 		return chatMessage;
 	}
 
 	@MessageMapping("/chat.removeUser")
 	@SendTo("/topic/public")
-	public ChatMessage removeUser(@Payload ChatMessage chatMessage) {
-		chatMessage.setType(ChatMessage.MessageType.LEAVE); // Đảm bảo set type là LEAVE
+	public ChatMessageDTO removeUser(@Payload ChatMessageDTO chatMessage) {
+		chatMessage.setType(ChatMessageDTO.MessageType.LEAVE); // Đảm bảo set type là LEAVE
 		return chatMessage;
 	}
 }
