@@ -168,4 +168,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
  			    AND LOWER(p.productName) LIKE LOWER(CONCAT('%', :productName, '%'))
  			""", nativeQuery = true)
  	long countDistinctProductsByProductNameContaining(@Param("productName") String productName);
+ 	
+ 	//Ktra trung productcode
+ 	boolean existsByProductCode(String productCode);
 }

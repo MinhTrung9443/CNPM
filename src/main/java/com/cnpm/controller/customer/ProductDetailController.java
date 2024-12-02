@@ -14,13 +14,13 @@ import com.cnpm.dto.ProductResponse;
 import com.cnpm.entity.Product;
 import com.cnpm.entity.ProductFeedback;
 import com.cnpm.service.impl.ProductFeedbackService;
-import com.cnpm.service.impl.ProductService;
+import com.cnpm.service.interfaces.IProductService;
 
 @Controller
 @RequestMapping("/product")
 public class ProductDetailController {
     @Autowired
-    private ProductService productService;
+    private IProductService productService;
 
     @Autowired
     private ProductFeedbackService productFeedbackService;

@@ -61,6 +61,11 @@ public class ManageProductController {
 		if (productdto.getImage().isEmpty()) {
 			result.addError(new FieldError("productdto", "image", "The image is required"));
 		}
+		
+		// Kiểm tra nếu productCode đã tồn tại
+	    if (productServ.existsByProductCode(productdto.getProductCode())) {
+	        result.addError(new FieldError("productdto", "productCode", "Product code already exists"));
+	    }
 
 		if (result.hasErrors()) {
 			// model.addAttribute("productdto", productdto);

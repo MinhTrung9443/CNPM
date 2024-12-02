@@ -18,8 +18,8 @@ import com.cnpm.entity.Role;
 import com.cnpm.entity.ShopOwner;
 import com.cnpm.entity.User;
 import com.cnpm.service.google.GoogleService;
-import com.cnpm.service.impl.ProductService;
 import com.cnpm.service.impl.UserService;
+import com.cnpm.service.interfaces.IProductService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -32,7 +32,7 @@ public class GoogleController {
 	@Autowired
 	private UserService userservice;
     @Autowired
-    private ProductService productService;
+    private IProductService productService;
 
 	@RequestMapping("/loginGG")
 	public ModelAndView LoginWithGoogle(@RequestParam String code, HttpSession session, ModelMap model) {

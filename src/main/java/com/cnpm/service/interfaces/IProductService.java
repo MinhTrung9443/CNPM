@@ -44,4 +44,5 @@ public interface IProductService {
 	long countDistinctProducts(String productName);
 
     Product getProductByProductCode(String productCode);
+	boolean existsByProductCode(String productCode);
 }

@@ -7,6 +7,7 @@ import com.cnpm.entity.*;
 import com.cnpm.enums.OrderStatus;
 import com.cnpm.enums.PaymentMethod;
 import com.cnpm.service.interfaces.IPaymetService;
+import com.cnpm.service.interfaces.IProductService;
 import com.cnpm.service.interfaces.IVoucherService;
 import com.cnpm.service.impl.*;
 import com.cnpm.service.payment.VNPAYService;
@@ -36,7 +37,7 @@ public class OrderController {
     @Autowired
     VNPAYService vnpayService;
     @Autowired
-    ProductService productService;
+    IProductService productService;
     @Autowired
     IPaymetService paymentService;
     @Autowired

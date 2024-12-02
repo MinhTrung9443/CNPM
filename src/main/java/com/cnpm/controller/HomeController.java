@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.cnpm.dto.ProductResponse;
 import com.cnpm.entity.Product;
 import com.cnpm.entity.Voucher;
+import com.cnpm.service.interfaces.IProductService;
 import com.cnpm.service.interfaces.IVoucherService;
-import com.cnpm.service.impl.ProductService;
 
 @Controller
 @RequestMapping("/")
 public class HomeController {
     @Autowired
-    private ProductService productService;
+    private IProductService productService;
     @Autowired
     private IVoucherService voucherService;
 

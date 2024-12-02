@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cnpm.entity.*;
+import com.cnpm.service.interfaces.IProductService;
 import com.cnpm.service.interfaces.IUserService;
 import com.cnpm.service.facebook.FacebookService;
-import com.cnpm.service.impl.ProductService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -21,7 +21,7 @@ public class FacebookController {
 	@Autowired
 	IUserService userservice;
     @Autowired
-    private ProductService productService;
+    private IProductService productService;
     
 	@GetMapping("/loginFB")
 	public ModelAndView loginFB(@RequestParam String code,HttpSession session,ModelMap model) throws IOException

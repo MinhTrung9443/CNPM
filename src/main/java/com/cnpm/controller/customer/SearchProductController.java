@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cnpm.entity.Product;
-import com.cnpm.service.impl.ProductService;
+import com.cnpm.service.interfaces.IProductService;
 
 @Controller
 public class SearchProductController {
 	@Autowired
-    private ProductService productService;
+    private IProductService productService;
 
     @GetMapping("/search")
     public String searchProducts(

@@ -194,4 +194,10 @@ public class ProductService implements IProductService {
     public Product getProductByProductCode(String productCode) {
         return productRepository.findFirstByProductCode(productCode).orElseThrow(() -> new RuntimeException("Product " + productCode + " not found"));
     }
+    
+    //ktra productcode
+    @Override
+	public boolean existsByProductCode(String productCode) {
+        return productRepository.existsByProductCode(productCode);
+    }
 }
