@@ -21,18 +21,14 @@ public class RevenueService implements IRevenueService {
 	private PaymentRepository paymentRepository;
 
 	@Override
-	public List<RevenueDTO> getRevenue(String month, String category) {
-		List<Payment> payments = paymentRepository.findPaymentsByFilters(month, category);
+	public List<RevenueDTO> getRevenue(String month) {
+		List<Payment> payments = paymentRepository.findPaymentsByMonth(month);
 
 		return payments.stream().map(payment -> {
 			Order o = payment.getOrder();
-			String orderStatus = o.getOrderStatus().toString();
 			String shippingAddress = o.getShippingAddress();
 
 			Set<OrderLine> orderLines = o.getOrderLines();
-			String categoryName = orderLines.stream().findFirst().map(ol -> ol.getProduct().getCategory()).orElse(""); 
-
-			int totalQuantity = orderLines.stream().mapToInt(OrderLine::getQuantity).sum();
 
 			return new RevenueDTO(payment.getPaymentId(), payment.getPaymentDate(), payment.getPaymentMethod(),
 					payment.getPaymentStatus(), payment.getTotal(), o.getOrderId(), o.getOrderDate(),
@@ -41,17 +37,12 @@ public class RevenueService implements IRevenueService {
 	}
 
 	@Override
-	public double getTotalRevenue(String month, String category) {
-		List<Payment> payments = paymentRepository.findPaymentsByFilters(month, category);
+	public double getTotalRevenue(String month) {
+		List<Payment> payments = paymentRepository.findPaymentsByMonth(month);
 
 	    return payments.stream()
 	                   .mapToDouble(payment -> {
-	                       Order order = payment.getOrder();
-	                       Set<OrderLine> orderLines = order.getOrderLines();
-	                       
-	                       double totalPayment = payment.getTotal();
-
-	                       return totalPayment;
+	                       return payment.getTotal();
 	                   })
 	                   .sum();
 	}
@@ -60,10 +51,4 @@ public class RevenueService implements IRevenueService {
 	public List<String> getAvailableMonths() {
 		return paymentRepository.findDistinctMonths();
 	}
-
-	@Override
-	public List<String> getAvailableCategory() {
-		return paymentRepository.findAllCategories();
-	}
-
 }

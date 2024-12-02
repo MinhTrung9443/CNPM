@@ -15,15 +15,11 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
 		       + "JOIN o.orderLines ol "
 		       + "JOIN ol.product pr "
 		       + "WHERE p.paymentStatus = 'PAID' "
-		       + "AND o.orderStatus != 'CANCELLED' "
-		       + "AND (:month IS NULL OR FORMAT(p.paymentDate, 'yyyy-MM') = :month) "
-		       + "AND (:category IS NULL OR pr.category = :category)")
-		List<Payment> findPaymentsByFilters(@Param("month") String month, @Param("category") String category);
+		       + "AND o.orderStatus <> 'CANCELLED' "
+		       + "AND (:month IS NULL OR FORMAT(p.paymentDate, 'yyyy-MM') = :month) ")
+		List<Payment> findPaymentsByMonth(@Param("month") String month);
 
 	@Query("SELECT DISTINCT FORMAT(p.paymentDate, 'yyyy-MM') "
 			+ "FROM Payment p ORDER BY FORMAT(p.paymentDate, 'yyyy-MM') DESC")
 	List<String> findDistinctMonths();
-
-	@Query("SELECT DISTINCT ol.product.category FROM OrderLine ol")
-	List<String> findAllCategories();
 }
