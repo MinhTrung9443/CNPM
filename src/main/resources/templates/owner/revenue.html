@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh Sách Doanh Thu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 20px;
+            gap: 15px;
+        }
+
+        label {
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        select {
+            font-size: 16px;
+            padding: 5px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 200px;
+        }
+
+        button {
+            font-size: 16px;
+            padding: 5px 10px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        table thead {
+            background: #007bff;
+            color: white;
+        }
+
+        table th, table td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        table tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        table tbody tr:hover {
+            background-color: #f1f7ff;
+        }
+
+        .total-revenue {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            background-color: #f8f9fa;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Danh Sách Doanh Thu</h1>
+
+    <!-- Form lọc doanh thu theo tháng -->
+    <form action="#" method="get">
+        <label for="month">Tháng:</label>
+        <select name="month" id="month">
+            <option value="All" th:selected="${'All' == selectedMonth}">Tất cả</option>
+            <option th:each="month : ${availableMonths}" 
+                    th:value="${month}" 
+                    th:text="${month}" 
+                    th:selected="${month == selectedMonth}"></option>
+        </select>
+
+        <button type="submit">Lọc</button>
+    </form>
+
+    <!-- Hiển thị tổng doanh thu -->
+    <div class="total-revenue">
+        <h2>Tổng Doanh Thu: <span th:text="${totalRevenue}"></span></h2>
+    </div>
+
+    <!-- Bảng hiển thị doanh thu -->
+    <table>
+        <thead>
+            <tr>
+                <th>ID Thanh Toán</th>
+                <th>Ngày Thanh Toán</th>
+                <th>Phương Thức Thanh Toán</th>
+                <th>Trạng Thái</th>
+                <th>ID Đơn Hàng</th>
+                <th>Ngày Đặt Hàng</th>
+                <th>Trạng Thái Đơn Hàng</th>
+                <th>Địa Chỉ Giao Hàng</th>
+                <th>Sản Phẩm</th> 
+                <th>Số Lượng</th> 
+                <th>Đơn Giá</th> 
+                <th>Tổng Tiền</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:if="${#lists.isEmpty(revenues)}">
+                <td colspan="12" style="text-align: center;">Không có doanh thu nào thỏa mãn bộ lọc.</td>
+            </tr>
+            <tr th:each="revenue : ${revenues}">
+                <td th:text="${revenue.paymentId}"></td>
+                <td th:text="${revenue.paymentDate}"></td>
+                <td th:text="${revenue.paymentMethod}"></td>
+                <td th:text="${revenue.paymentStatus}"></td>
+                <td th:text="${revenue.orderId}"></td>
+                <td th:text="${revenue.orderDate}"></td>
+                <td th:text="${revenue.orderStatus}"></td>
+                <td th:text="${revenue.shippingAddress}"></td>
+                
+     
+                <td>
+                    <ul>
+                        <li th:each="orderLine : ${revenue.orderLines}">
+                            <span th:text="${orderLine.product.productName}"></span>
+                        </li>
+                    </ul>
+                </td>
+
+                <td>
+                    <ul>
+                        <li th:each="orderLine : ${revenue.orderLines}">
+                            <span th:text="${orderLine.quantity}"></span>
+                        </li>
+                    </ul>
+                </td>
+
+                <td>
+                    <ul>
+                        <li th:each="orderLine : ${revenue.orderLines}">
+                            <span th:text="${orderLine.product.cost}"></span>
+                        </li>
+                    </ul>
+                </td>
+
+                <td th:text="${revenue.totalPayment}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
