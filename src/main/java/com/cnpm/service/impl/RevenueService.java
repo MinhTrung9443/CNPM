@@ -1,6 +1,8 @@
 package com.cnpm.service.impl;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,56 +17,53 @@ import com.cnpm.service.IRevenueService;
 @Service
 public class RevenueService implements IRevenueService {
 
-    @Autowired
-    private PaymentRepository paymentRepository;
+	@Autowired
+	private PaymentRepository paymentRepository;
 
-    @Override
-    public List<RevenueDTO> getRevenue(String month, String category) {
-        List<Payment> payments;
+	@Override
+	public List<RevenueDTO> getRevenue(String month, String category) {
+		List<Payment> payments = paymentRepository.findPaymentsByFilters(month, category);
 
-        if (month != null && !month.isEmpty()) {
-            // Lọc theo tháng
-            payments = paymentRepository.findPaymentsByMonth(month);
-        } else if (category != null && !category.isEmpty()) {
-            // Lọc theo danh mục
-            payments = paymentRepository.findPaymentsByCategory(category);
-        } else {
-            // Không có tiêu chí -> lấy tất cả
-            payments = paymentRepository.findAllPayments();
-        }
+		return payments.stream().map(payment -> {
+			Order o = payment.getOrder();
+			String orderStatus = o.getOrderStatus().toString();
+			String shippingAddress = o.getShippingAddress();
 
-        return payments.stream().map(payment -> {
-            Order order = payment.getOrder();
-            List<OrderLine> orderLines = order.getOrderLines().stream().toList();
+			Set<OrderLine> orderLines = o.getOrderLines();
+			String categoryName = orderLines.stream().findFirst().map(ol -> ol.getProduct().getCategory()).orElse(""); 
 
-            return new RevenueDTO(
-                payment.getPaymentId(),
-                payment.getPaymentDate(),
-                payment.getPaymentMethod(),
-                payment.getPaymentStatus(),
-                payment.getTotal(),
-                order.getOrderId(),
-                order.getOrderDate(),
-                order.getOrderStatus().toString(),
-                order.getShippingAddress(),
-                orderLines
-            );
-        }).toList();
-    }
-    
-    public double getTotalRevenue(String month, String category) {
-        List<Payment> payments;
+			int totalQuantity = orderLines.stream().mapToInt(OrderLine::getQuantity).sum();
 
-        if (month != null && !month.isEmpty()) {
-            payments = paymentRepository.findPaymentsByMonth(month);
-        } else if (category != null && !category.isEmpty()) {
-            payments = paymentRepository.findPaymentsByCategory(category);
-        } else {
-            payments = paymentRepository.findAllPayments();
-        }
+			return new RevenueDTO(payment.getPaymentId(), payment.getPaymentDate(), payment.getPaymentMethod(),
+					payment.getPaymentStatus(), payment.getTotal(), o.getOrderId(), o.getOrderDate(),
+					o.getOrderStatus(), shippingAddress, orderLines);
+		}).collect(Collectors.toList());
+	}
 
-        return payments.stream()
-                       .mapToDouble(Payment::getTotal)  // Lấy tổng tiền của từng Payment
-                       .sum();  
-    }
+	@Override
+	public double getTotalRevenue(String month, String category) {
+		List<Payment> payments = paymentRepository.findPaymentsByFilters(month, category);
+
+	    return payments.stream()
+	                   .mapToDouble(payment -> {
+	                       Order order = payment.getOrder();
+	                       Set<OrderLine> orderLines = order.getOrderLines();
+	                       
+	                       double totalPayment = payment.getTotal();
+
+	                       return totalPayment;
+	                   })
+	                   .sum();
+	}
+
+	@Override
+	public List<String> getAvailableMonths() {
+		return paymentRepository.findDistinctMonths();
+	}
+
+	@Override
+	public List<String> getAvailableCategory() {
+		return paymentRepository.findAllCategories();
+	}
+
 }

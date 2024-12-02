@@ -9,4 +9,7 @@ public interface IRevenueService {
 
 	double getTotalRevenue(String month, String category);
 
+	List<String> getAvailableMonths();
+
+	List<String> getAvailableCategory();
 }
