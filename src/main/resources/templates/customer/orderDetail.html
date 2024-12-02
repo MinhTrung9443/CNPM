@@ -307,54 +307,53 @@ select::-ms-expand {
 
 		<!-- Thông tin chi tiết của đơn hàng -->
 		<div>
-			<h2>Order Information</h2>
+			<h2>Thông tin dơn hàng</h2>
 			<p>
-				<strong>Order ID:</strong> <span th:text="${order.orderId}"></span>
+				<strong>Mã đơn hàng:</strong> <span th:text="${order.orderId}"></span>
 			</p>
 			<p>
-				<strong>Order Date:</strong> <span th:text="${order.orderDate}"></span>
+				<strong>Ngày đặt:</strong> <span th:text="${order.orderDate}"></span>
+			</p>
+			<p th:if="${order.deliveryDate}">
+				<strong>Ngày giao hoàn tất:</strong> <span th:text="${order.deliveryDate}"></span>
 			</p>
 			<p>
-				<strong>Shipping Address:</strong> <span
+				<strong>Địa chỉ giao hàng:</strong> <span
 					th:text="${order.shippingAddress}"></span>
 			</p>
 			<p>
-				<strong>Status:</strong> <span th:text="${order.orderStatus}" style="color: blue; "></span>
-			</p>
-			<p th:if="${order.deliveryDate}">
-				<strong>Delivery Date:</strong> <span
-					th:text="${order.deliveryDate}"></span>
+				<strong>Trạng thái đơn hàng:</strong> <span th:text="${order.orderStatus}" style="color: blue; "></span>
 			</p>
 		</div>
 		<div th:if="${voucher}">
 			<h2>Voucher</h2>
 			<p>
-				<strong>Voucher value:</strong> <span th:text="${voucher.voucherValue} + 'đ'"></span>
+				<strong>Giá trị voucher:</strong> <span th:text="${voucher.voucherValue} + 'đ'"></span>
 			</p>
 		</div>
 		<div>
-			<h2>Payment infomation</h2>
+			<h2>Thông tin thanh toán</h2>
 			<p>
-				<strong>Payment method:</strong> <span th:text="${payment.paymentMethod}"></span>
+				<strong>Phương thức thanh toán:</strong> <span th:text="${payment.paymentMethod}"></span>
 			</p>
 			<p>
-				<strong>Total:</strong> <span
+				<strong>Tổng tiền:</strong> <span
 					th:text="${payment.total}"></span>
 			</p>
 		</div>
 
 		<!-- Danh sách sản phẩm trong đơn hàng -->
 		<div>
-			<h2>Order Items</h2>
+			<h2>Danh sách sản phẩm</h2>
 			<table border="1">
 				<thead>
 					<tr>
-						<th>Product Image</th>
-						<th>Product Name</th>
-						<th>Category</th>
-						<th>Brand</th>
-						<th>Cost</th>
-						<th>Quantity</th>
+						<th></th>
+						<th>Tên sản phẩm</th>
+						<th>Danh mục</th>
+						<th>Nhãn hàng</th>
+						<th>Giá tiền</th>
+						<th>Số lượng</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -377,10 +376,10 @@ select::-ms-expand {
 			<table>
 			<thead>
 			<tr>
-			<td>Product name</td>
-			<td>Rating</td>
-			<td>Comment</td>
-			<td>Review Date</td>
+			<td>Tên sản phẩm</td>
+			<td>Đánh giá</td>
+			<td>Nhận xét</td>
+			<td>Ngày đánh giá</td>
 			</tr>
 			</thead>
 			<tbody>
