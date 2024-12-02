@@ -5,9 +5,9 @@ import java.util.List;
 import com.cnpm.entity.Payment;
 
 public interface IRevenueService {
-	List<Payment> getRevenue(String month);
+	List<Payment> getPayment(String month);
 
-	double getTotalRevenue(String month);
+	double getTotal(String month);
 
 	List<String> getAvailableMonths();
 }

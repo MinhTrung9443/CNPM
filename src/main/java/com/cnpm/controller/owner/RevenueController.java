@@ -20,9 +20,8 @@ public class RevenueController {
     private IRevenueService revenueService;
 
     @GetMapping("/revenue")
-    public String getRevenueList(
+    public String getPaymentList(
             @RequestParam(value = "month", required = false) String month,
-            @RequestParam(value = "category", required = false) String category,
             Model model) {
 
         
@@ -30,8 +29,8 @@ public class RevenueController {
             month = null;
         }
         
-        List<Payment> payments = revenueService.getRevenue(month);
-        double totalPayment = revenueService.getTotalRevenue(month);
+        List<Payment> payments = revenueService.getPayment(month);
+        double totalPayment = revenueService.getTotal(month);
 
         model.addAttribute("payments", payments);
         model.addAttribute("totalPayment", totalPayment);
