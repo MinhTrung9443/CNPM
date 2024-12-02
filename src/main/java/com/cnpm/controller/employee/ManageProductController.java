@@ -120,7 +120,7 @@ public class ManageProductController {
 			model.addAttribute("product", product);
 			ProductDTO productdto = new ProductDTO();
 
-			productdto.setProductCode(product.getProductCode());
+		
 			productdto.setProductName(product.getProductName());
 			productdto.setCategory(product.getCategory());
 			productdto.setCost(product.getCost());
@@ -183,7 +183,7 @@ public class ManageProductController {
 			for (Product product : productsFiltered) {
 				
 				// insert vao model
-				product.setProductCode(productdto.getProductCode());
+		
 				product.setProductName(productdto.getProductName());
 				product.setCategory(productdto.getCategory());
 				product.setCost(productdto.getCost());
