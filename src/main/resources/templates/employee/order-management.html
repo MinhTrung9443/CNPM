@@ -30,22 +30,38 @@
 
 	<style>
 		body {
-			font-family: 'Roboto', sans-serif;
-			background-color: #f8f9fa;
+			font-family: Arial, sans-serif;
+			background-color: #f4f4f9;
 			margin: 0;
 			padding: 0;
 		}
 
-		header {
-			background-color: #343a40;
-			color: white;
-			padding: 15px 30px;
+		/* Điều chỉnh thanh date nhỏ lại */
+		#orderDate {
+			width: 120px;
+			/* Thay đổi chiều rộng của thanh date */
+			font-size: 14px;
+			/* Giảm kích thước font */
+			padding: 5px;
+			/* Thêm khoảng cách trong */
 		}
 
-		header h1 {
-			font-size: 24px;
-			margin: 0;
+
+		header,
+		footer {
+			background-color: #333;
+			color: #fff;
+			padding: 10px;
+			text-align: center;
 		}
+
+		.container {
+			width: 80%;
+			margin: 0 auto;
+			padding: 20px;
+		}
+
+
 
 		.tab {
 			display: flex;
@@ -85,55 +101,49 @@
 			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 		}
 
-		h2 {
-			font-size: 30px;
-			font-weight: 700;
-			color: #007bff;
-			/* Màu xanh */
-			margin-bottom: 20px;
-		}
-
 		.order-list {
 			width: 100%;
-			border-collapse: separate;
-			border-spacing: 0;
-			border: 1px solid #ddd;
-			/* Đường viền ngoài */
+			max-width: 1200px;
+			margin: 20px auto;
+			border-collapse: collapse;
+			background-color: #fff;
+			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 			border-radius: 8px;
 			overflow: hidden;
-			/* Làm tròn viền */
-			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-			/* Tạo hiệu ứng nổi */
+		}
+
+		.order-list th,
+		.order-list td {
+			padding: 15px;
+			text-align: left;
+			border-bottom: 1px solid #ddd;
 		}
 
 		.order-list th {
-			background-color: #007bff;
-			/* Màu nền tiêu đề bảng */
+			background-color: rgb(0, 0, 0);
 			color: white;
-			/* Màu chữ */
-			padding: 12px 15px;
-			/* Cách đều trong ô */
-			font-size: 20px;
-			text-align: left;
 		}
 
-		.order-list td {
-			padding: 12px 15px;
-			/* Cách đều trong ô */
-			font-size: 20px;
+		.order-list tr:nth-child(even) {
+			background-color: #f9f9f9;
+		}
+
+		.order-list tr:hover {
+			background-color: #f1f1f1;
+		}
+
+		.message {
+			color: red;
+			font-weight: bold;
+			margin: 20px 0;
+		}
+
+		h3 {
 			color: #333;
-			background-color: #fff;
-			/* Màu nền mặc định */
-			border-top: 1px solid #ddd;
-			/* Đường kẻ ngang giữa các hàng */
 		}
 
-
-		.order-list tr:hover td {
-			background-color: #f1f8ff;
-			/* Màu nền khi hover */
-			transition: background-color 0.3s ease;
-			/* Hiệu ứng chuyển động */
+		.no-orders {
+			color: #888;
 		}
 
 		.status-select {
@@ -142,20 +152,8 @@
 			border: 1px solid #ddd;
 			border-radius: 5px;
 			background-color: #f8f9fa;
-			font-size: 20px;
+			font-size: 15px;
 			color: #333;
-		}
-
-		status-container {
-			display: flex;
-			justify-content: center;
-			/* Căn giữa theo chiều ngang */
-			align-items: center;
-			/* Căn giữa theo chiều dọc */
-			height: 100px;
-			/* Chiều cao của phần tử chứa */
-			margin-top: 20px;
-			/* Khoảng cách phía trên */
 		}
 
 		button {
@@ -164,44 +162,37 @@
 			padding: 10px 15px;
 			border: none;
 			border-radius: 5px;
-			font-size: 18px;
+			font-size: 15px;
 			cursor: pointer;
 			transition: all 0.3s ease;
 		}
 
-		/* Hiệu ứng khi rê chuột lên nút */
 		button:hover {
 			background-color: #0056b3;
-			/* Màu xanh đậm hơn */
 		}
 
 		footer {
-			background-color: #343a40;
+			background-color: #333;
 			color: white;
 			text-align: center;
 			padding: 15px;
 			margin-top: 20px;
 		}
 
-		/* Phân trang */
 		.pagination {
 			display: flex;
 			justify-content: center;
-			/* Căn giữa */
 			margin-top: 20px;
 			margin-bottom: 20px;
 		}
 
 		.pagination .page-item {
 			margin: 0 5px;
-			/* Giãn cách giữa các trang */
 		}
 
 		.pagination .page-link {
-			font-size: 20px;
-			/* Làm cho chữ lớn hơn */
+			font-size: 12px;
 			padding: 10px 20px;
-			/* Điều chỉnh khoảng cách trong nút */
 			text-decoration: none;
 			color: #495057;
 			border-radius: 5px;
@@ -233,6 +224,19 @@
 			Vận Chuyển</a>
 		<a href="?tab=don-da-giao" th:classappend="${tab == 'don-da-giao' ? ' active' : ''}">Đơn Đã Giao</a>
 		<a href="?tab=don-huy" th:classappend="${tab == 'don-huy' ? ' active' : ''}">Đơn Hủy</a>
+	</div>
+	<div class="tab-content">
+		<h2>Tìm kiếm Đơn Hàng</h2>
+		<!-- Form tìm kiếm đơn hàng theo ngày -->
+		<form th:action="@{/employee/order-management/search}" method="get">
+			<div class="form-group">
+				<label for="orderDate">Ngày đặt hàng:</label>
+				<input type="date" id="orderDate" name="orderDate" required class="form-control">
+			</div>
+			<div class="form-group">
+				<button type="submit" class="btn btn-primary">Tìm kiếm</button>
+			</div>
+		</form>
 	</div>
 
 	<div th:if="${tab == 'tat-ca-don-hang'}" class="tab-content">

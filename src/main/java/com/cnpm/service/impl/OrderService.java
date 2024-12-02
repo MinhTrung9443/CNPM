@@ -25,8 +25,7 @@ import jakarta.persistence.EntityNotFoundException;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -56,7 +55,8 @@ public class OrderService implements IOrderService {
 	public OrderResponse createOrder(CreateOrderRequest createOrderRequest) {
 		// TODO: chưa xử lý trường hợp tranh nhau đặt hàng
 		// Tìm người dùng
-		User user = userRepository.findById(createOrderRequest.getUserId()).orElseThrow(() -> new RuntimeException("User not found"));
+		User user = userRepository.findById(createOrderRequest.getUserId())
+				.orElseThrow(() -> new RuntimeException("User not found"));
 		// Khởi tạo đơn hàng và các dòng đơn hàng
 		Order order = new Order();
 		Set<CartItemForOrderDTO> cartItemForOrderDTOS = createOrderRequest.getCartItemForOrderDTOS();
@@ -64,7 +64,8 @@ public class OrderService implements IOrderService {
 		// Lặp qua các mặt hàng trong giỏ hàng và tạo OrderLine
 		double total = 0.0;
 		for (var cartItem : cartItemForOrderDTOS) {
-			Product product = productRepository.findFirstByProductCode(cartItem.getProductCode()).orElseThrow(() -> new RuntimeException("Product not found"));
+			Product product = productRepository.findFirstByProductCode(cartItem.getProductCode())
+					.orElseThrow(() -> new RuntimeException("Product not found"));
 			// check quantity
 			if (productService.getStockByProductCode(product.getProductCode()) < cartItem.getQuantity()) {
 				throw new RuntimeException("Product " + product.getProductCode() + " out of stock");
@@ -72,7 +73,8 @@ public class OrderService implements IOrderService {
 //          đánh dấu sản phẩm đã được mua, số sp được đánh dấu là số lượng mua
 			for (int i = 0; i < cartItem.getQuantity(); i++) {
 //                tìm và đánh dấu sản phẩm đã được mua
-				Product product1 = productRepository.findFirstByProductCodeAndIsUsedFalse(product.getProductCode()).orElseThrow(() -> new RuntimeException("Product not found"));
+				Product product1 = productRepository.findFirstByProductCodeAndIsUsedFalse(product.getProductCode())
+						.orElseThrow(() -> new RuntimeException("Product not found"));
 				product1.setIsUsed(1);
 				productRepository.save(product1);
 			}
@@ -110,7 +112,7 @@ public class OrderService implements IOrderService {
 		// xoa cartitem
 		Cart cart = cartService.getCartByUserId(createOrderRequest.getUserId());
 		Set<CartItem> cartItems = cartService.getCartByUserId(createOrderRequest.getUserId()).getCartItems();
-		Logger.log("ds cart"+cartItems.toString());
+		Logger.log("ds cart" + cartItems.toString());
 		for (CartItemForOrderDTO cartItemForOrderDTO : cartItemForOrderDTOS) {
 //            cartService.removeItemFromCart(cart.getCartItems().stream().filter(cartItem1 -> cartItem1.getProduct().getProductCode().equals(cartItem.getProductCode())).findFirst().get());
 			cartItems.removeIf(
@@ -134,12 +136,12 @@ public class OrderService implements IOrderService {
 		return orderResponse;
 	}
 
-
 	@Transactional
 	public OrderResponse createOrderForSingleProduct(CreateOrderRequest createOrderRequest) {
 		// TODO: chưa xử lý trường hợp tranh nhau đặt hàng
 		// Tìm người dùng
-		User user = userRepository.findById(createOrderRequest.getUserId()).orElseThrow(() -> new RuntimeException("User not found"));
+		User user = userRepository.findById(createOrderRequest.getUserId())
+				.orElseThrow(() -> new RuntimeException("User not found"));
 		// Khởi tạo đơn hàng và các dòng đơn hàng
 		Order order = new Order();
 		Set<CartItemForOrderDTO> cartItemForOrderDTOS = createOrderRequest.getCartItemForOrderDTOS();
@@ -155,7 +157,8 @@ public class OrderService implements IOrderService {
 //          đánh dấu sản phẩm đã được mua, số sp được đánh dấu là số lượng mua
 			for (int i = 0; i < cartItem.getQuantity(); i++) {
 //                tìm và đánh dấu sản phẩm đã được mua
-				Product product1 = productRepository.findFirstByProductCodeAndIsUsedFalse(product.getProductCode()).orElseThrow(() -> new RuntimeException("Product " + product.getProductCode() + " not found"));
+				Product product1 = productRepository.findFirstByProductCodeAndIsUsedFalse(product.getProductCode())
+						.orElseThrow(() -> new RuntimeException("Product " + product.getProductCode() + " not found"));
 				product1.setIsUsed(1);
 				productRepository.save(product1);
 			}
@@ -204,6 +207,7 @@ public class OrderService implements IOrderService {
 		orderResponse.setPaymentMethod(payment.getPaymentMethod());
 		return orderResponse;
 	}
+
 	@Override
 	public void updateOrderStatusPaymentTime(Long orderId, String paymentTime) {
 		Logger.log("updating order status");
@@ -356,7 +360,7 @@ public class OrderService implements IOrderService {
 		Set<ProductHistoryDTO> productHistoryDTOs = order.getOrderLines().stream().map(orderLine -> {
 			Product product = orderLine.getProduct();
 			if (product != null) {
-				return new ProductHistoryDTO(product.getProductId(),product.getProductCode(), product.getProductName(),
+				return new ProductHistoryDTO(product.getProductId(), product.getProductCode(), product.getProductName(),
 						orderLine.getQuantity(), product.getImage(), product.getCost(), product.getCategory());
 			}
 			return null;
@@ -418,4 +422,11 @@ public class OrderService implements IOrderService {
 				.orElseThrow(() -> new RuntimeException("Payment not found"));
 		return payment.getPaymentMethod();
 	}
+
+	@Override
+	public List<Order> findOrdersByDateRange(LocalDateTime startOfDay, LocalDateTime endOfDay) {
+		// Sử dụng repository để tìm kiếm đơn hàng trong khoảng thời gian
+		return orderRepository.findByOrderDateBetween(startOfDay, endOfDay);
+	}
+
 }

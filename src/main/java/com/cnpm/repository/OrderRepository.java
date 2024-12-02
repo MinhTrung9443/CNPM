@@ -10,6 +10,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -35,5 +37,5 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 	// If you need to support multiple statuses (like cancelled and refunded), you
 	// can add:
 	Page<Order> findByOrderStatusIn(List<OrderStatus> statuses, Pageable pageable);
-
+	List<Order> findByOrderDateBetween(LocalDateTime startOfDay, LocalDateTime endOfDay);
 }
