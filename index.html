@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Danh sách sản phẩm</title>
+<!-- Font roboto -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link
+	href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"
+	rel="stylesheet">
+<!-- Icon fontanwesome -->
+<link rel="stylesheet"
+	href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+	integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+	crossorigin="anonymous">
+<!-- Reset css & grid sytem -->
+<link rel="stylesheet" href="/assets/css/library.css">
+<link href="/assets/owlCarousel/assets/owl.carousel.min.css"
+	rel="stylesheet">
+<!-- Layout -->
+<link rel="stylesheet" href="/assets/css/common.css">
+<!-- index -->
+<link href="/assets/css/home.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Owl caroucel Js-->
+<script src="/assets/owlCarousel/owl.carousel.min.js"></script>
+
+<style>
+/* Container chính */
+.content {
+    text-align: center;
+    margin: 20px auto;
+}
+
+.product-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* Card sản phẩm */
+.product-card {
+    width: 250px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Hình ảnh sản phẩm */
+.product-image {
+    width: 100%;
+    height: 190px;
+    object-fit: contain;
+    background-color: #f9f9f9;
+}
+
+/* Lớp phủ nút hành động */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.product-card:hover .overlay {
+    opacity: 1;
+}
+
+/* Nút hành động */
+.btn {
+    background-color: #ff6f00;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    margin: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #e65100;
+}
+
+.btn-link {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+
+.btn-link:hover {
+    text-decoration: underline;
+}
+
+/* Thông tin sản phẩm */
+.product-info {
+    padding: 15px;
+    text-align: left;
+}
+
+.product-info h3 {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.product-info .brand {
+    font-size: 15px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.product-info .price {
+    font-size: 16px;
+    font-weight: bold;
+    color: #e63946;
+}
+/* Phong cách cho phần phân trang */
+.custom-pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.custom-pagination .pagination {
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.custom-pagination .page-item {
+    margin: 0 5px;
+}
+
+.custom-pagination .page-item.disabled .page-link {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.custom-pagination .page-item.active .page-link {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.custom-pagination .page-link {
+    display: block;
+    padding: 8px 12px;
+    text-decoration: none;
+    color: #007bff;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.custom-pagination .page-link:hover {
+    background-color: #e9ecef;
+    text-decoration: none;
+}
+
+.custom-pagination .page-item.disabled .page-link:hover {
+    background-color: #ffffff;
+}
+
+.custom-pagination .page-item.active .page-link:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+</style>
+</head>
+
+<body>
+	<header th:replace="~{customer/fragments/header::header}"></header>
+	<div class="main">
+		<!-- Slider -->
+		<div class="main__slice">
+			<div class="slider">
+				<div class="slide active"
+					style="background-image: url(/assets/img/slider/slide-10.jpg)">
+					<div class="container">
+						<div class="caption">
+
+							<p></p>
+							<a href="listProduct.html" class="btn btn--default">Xem ngay</a>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<!-- controls  -->
+			<div class="controls">
+				<div class="prev">
+					<i class="fas fa-chevron-left"></i>
+				</div>
+				<div class="next">
+					<i class="fas fa-chevron-right"></i>
+				</div>
+			</div>
+			<!-- indicators -->
+			<div class="indicator"></div>
+		</div>
+		
+		<!--Product Category -->
+		<section class="content">
+			<div class="product-container">
+				<!-- Hiển thị danh sách sản phẩm -->
+				<div class="product-card" th:each="product : ${products}">
+					<img
+					th:src="${product.image.startsWith('http') ? product.image : '/uploads/' + product.image}"
+					alt="Product Image" style="width: 250px; height: auto;"
+					onerror="this.onerror=null;this.src='/assets/img/product/loading.gif';" />
+					<div class="overlay">
+						<button class="btn">
+							<a
+								th:href="@{/product/{productId}(productId=${product.productId})}"
+								class="btn-link">Xem chi tiết</a>
+						</button>
+						<form th:action="@{/add-to-cart}" method="post">
+							<input type="hidden" name="productId" th:value="${product.productId}" />
+							<input type="hidden" name="quantity" th:value="1" />
+							<button type="submit" class="btn">Thêm vào giỏ</button>
+						</form>
+					</div>
+					<div class="product-info">
+						<h3 th:text="${product.productName}"></h3>
+						<p class="brand" th:text="'Thương hiệu: ' + ${product.brand}"></p>
+						<p class="price" th:text="'Giá: ' + ${product.cost} + '₫'"></p>
+					</div>
+				</div>
+				<!-- Thông báo nếu không có sản phẩm -->
+				<p th:if="${#lists.isEmpty(products)}">Hiện chưa có sản phẩm
+					nào.</p>
+			</div>
+		</section>
+		<nav class="custom-pagination" aria-label="Page navigation example" style="display: flex; justify-content: center; margin-top: 20px;" th:if="${currentPage}">
+    <ul class="pagination">
+        <!-- Nút "Previous" -->
+        <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
+            <a class="page-link" th:href="${currentPage > 1} ? @{'/page?pageNo=' + ${currentPage-1}} : '#'" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+
+        <!-- Hiển thị các số trang -->
+        <li class="page-item" th:if="${currentPage > 3}">
+            <a class="page-link" th:href="@{'/page?pageNo=' + 1}">1</a>
+        </li>
+        <li class="page-item disabled" th:if="${currentPage > 4}">
+            <a class="page-link">...</a>
+        </li>
+
+        <!-- Hiển thị trang trước, trang hiện tại và trang tiếp theo -->
+        <li class="page-item" th:each="i : ${#numbers.sequence(currentPage - 1, currentPage + 1)}" th:if="${i >= 1 and i <= totalPages}" th:classappend="${i == currentPage} ? 'active'">
+            <a class="page-link" th:href="@{'/page?pageNo=' + ${i}}" th:text="${i}"></a>
+        </li>
+
+        <li class="page-item disabled" th:if="${currentPage < totalPages - 3}">
+            <a class="page-link">...</a>
+        </li>
+        <li class="page-item" th:if="${currentPage < totalPages - 2}">
+            <a class="page-link" th:href="@{'/page?pageNo=' + ${totalPages}}" th:text="${totalPages}"></a>
+        </li>
+
+        <!-- Nút "Next" -->
+        <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
+            <a class="page-link" th:href="${currentPage < totalPages} ? @{'/page?pageNo=' + ${currentPage+1}} : '#'" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+		
+
+		<footer th:replace="customer/fragments/footer :: footer"></footer>
+		<div class="ModalForm">
+			<div class="modal" id="my-Register" style="display: none;">
+				<a href="#" class="overlay-close"></a>
+				<div class="authen-modal register">
+					<h3 class="authen-modal__title">Đăng Kí</h3>
+					<div class="form-group">
+						<label for="account" class="form-label">Họ Tên</label> <input
+							id="account" name="account" type="text" class="form-control">
+						<span class="form-message">Không hợp lệ !</span>
+					</div>
+					<div class="form-group">
+						<label for="password" class="form-label">Tài khoản Email *</label>
+						<input id="password" name="password" type="text"
+							class="form-control"> <span class="form-message"></span>
+					</div>
+					<div class="form-group">
+						<label for="password" class="form-label">Mật khẩu *</label> <input
+							id="password" name="password" type="text" class="form-control">
+						<span class="form-message"></span>
+					</div>
+					<div class="form-group">
+						<label for="password" class="form-label">Nhập lại mật khẩu
+							*</label> <input id="password" name="password" type="text"
+							class="form-control"> <span class="form-message"></span>
+					</div>
+					<div class="authen__btns">
+						<div class="btn btn--default">Đăng Kí</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal" id="my-Login" style="display: none;">
+				<!-- Nút đóng modal -->
+				<a href="#" class="overlay-close" onclick="closeModal()">×</a>
+
+				<!-- Nội dung modal đăng nhập -->
+				<div class="authen-modal login">
+					<h3 class="authen-modal__title">Đăng Nhập</h3>
+
+					<!-- Nhập địa chỉ email -->
+					<div class="form-group">
+						<label for="account" class="form-label">Địa chỉ email *</label> <input
+							id="account" name="account" type="text" class="form-control">
+					</div>
+
+					<!-- Nhập mật khẩu -->
+					<div class="form-group">
+						<label for="password" class="form-label">Mật khẩu *</label> <input
+							id="password" name="password" type="password"
+							class="form-control"> <span class="form-message"></span>
+					</div>
+
+					<!-- Nút đăng nhập và tùy chọn ghi nhớ mật khẩu -->
+					<div class="authen__btns">
+						<div class="btn btn--default">Đăng Nhập</div>
+						<input type="checkbox" class="authen-checkbox"> <label
+							class="form-label">Ghi nhớ mật khẩu</label>
+					</div>
+
+					<!-- Liên kết quên mật khẩu -->
+					<a href="#" class="authen__link">Quên mật khẩu?</a>
+				</div>
+			</div>
+			<script>
+				function openModal() {
+					document.getElementById("my-Login").classList.add("show");
+				}
+				function closeModal() {
+					document.getElementById("my-Login").classList
+							.remove("show");
+				}
+				function goToTop() {
+					window.scrollTo({
+						top : 0,
+						behavior : 'smooth'
+					});
+				}
+				window.onscroll = function() {
+					const upTop = document.getElementById("upTop");
+					if (document.documentElement.scrollTop > 300) {
+						upTop.style.display = "flex";
+					} else {
+						upTop.style.display = "none";
+					}
+				};
+				$('.owl-carousel.hight').owlCarousel({
+					loop : true,
+					margin : 20,
+					nav : true,
+					dots : false,
+					autoplay : true,
+					autoplayTimeout : 3000,
+					autoplayHoverPause : true,
+					responsive : {
+						0 : {
+							items : 2
+						},
+						600 : {
+							items : 3
+						},
+						1000 : {
+							items : 5
+						}
+					}
+				})
+				$('.owl-carousel.news').owlCarousel({
+					loop : true,
+					margin : 20,
+					nav : true,
+					dots : false,
+					autoplay : true,
+					autoplayTimeout : 4000,
+					autoplayHoverPause : true,
+					responsive : {
+						0 : {
+							items : 1
+						},
+						600 : {
+							items : 1
+						},
+						1000 : {
+							items : 2
+						}
+					}
+				})
+				$('.owl-carousel.bands').owlCarousel({
+					loop : true,
+					margin : 20,
+					nav : false,
+					dots : false,
+					autoplay : true,
+					autoplayTimeout : 2000,
+					autoplayHoverPause : true,
+					responsive : {
+						0 : {
+							items : 2
+						},
+						600 : {
+							items : 3
+						},
+						1000 : {
+							items : 6
+						}
+					}
+				})
+			</script>
+			<!-- Script common -->
+			<script src="/assets/js/homeScript.js"></script>
+			<script src="/assets/js/commonscript.js"></script>
+</body>
+
+</html>
