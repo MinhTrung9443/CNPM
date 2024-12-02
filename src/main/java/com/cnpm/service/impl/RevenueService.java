@@ -30,7 +30,7 @@ public class RevenueService implements IRevenueService {
 
 			Set<OrderLine> orderLines = o.getOrderLines();
 
-			return new RevenueDTO(payment.getPaymentId(), payment.getPaymentDate(), payment.getPaymentMethod(),
+			return new RevenueDTO(payment.getPaymentId(), payment.getPaymentDate(), payment.getPaymentMethod().toString(),
 					payment.getPaymentStatus(), payment.getTotal(), o.getOrderId(), o.getOrderDate(),
 					o.getOrderStatus(), shippingAddress, orderLines);
 		}).collect(Collectors.toList());
