@@ -79,7 +79,7 @@
             background-color: #f1f7ff;
         }
 
-        .total-revenue {
+        .total-payment {
             position: fixed;
             right: 20px;
             bottom: 20px;
@@ -109,8 +109,8 @@
     </form>
 
     <!-- Hiển thị tổng doanh thu -->
-    <div class="total-revenue">
-        <h2>Tổng Doanh Thu: <span th:text="${totalRevenue}"></span></h2>
+    <div class="total-payment">
+        <h2>Tổng Doanh Thu: <span th:text="${totalPayment}"></span></h2>
     </div>
 
     <!-- Bảng hiển thị doanh thu -->
@@ -132,23 +132,23 @@
             </tr>
         </thead>
         <tbody>
-            <tr th:if="${#lists.isEmpty(revenues)}">
+            <tr th:if="${#lists.isEmpty(payments)}">
                 <td colspan="12" style="text-align: center;">Không có doanh thu nào thỏa mãn bộ lọc.</td>
             </tr>
-            <tr th:each="revenue : ${revenues}">
-                <td th:text="${revenue.paymentId}"></td>
-                <td th:text="${revenue.paymentDate}"></td>
-                <td th:text="${revenue.paymentMethod}"></td>
-                <td th:text="${revenue.paymentStatus}"></td>
-                <td th:text="${revenue.orderId}"></td>
-                <td th:text="${revenue.orderDate}"></td>
-                <td th:text="${revenue.orderStatus}"></td>
-                <td th:text="${revenue.shippingAddress}"></td>
+            <tr th:each="payment : ${payments}">
+                <td th:text="${payment.paymentId}"></td>
+                <td th:text="${payment.paymentDate}"></td>
+                <td th:text="${payment.paymentMethod}"></td>
+                <td th:text="${payment.paymentStatus}"></td>
+                <td th:text="${payment.order.orderId}"></td>
+                <td th:text="${payment.order.orderDate}"></td>
+                <td th:text="${payment.order.orderStatus}"></td>
+                <td th:text="${payment.order.shippingAddress}"></td>
                 
      
                 <td>
                     <ul>
-                        <li th:each="orderLine : ${revenue.orderLines}">
+                        <li th:each="orderLine : ${payment.order.orderLines}">
                             <span th:text="${orderLine.product.productName}"></span>
                         </li>
                     </ul>
@@ -156,7 +156,7 @@
 
                 <td>
                     <ul>
-                        <li th:each="orderLine : ${revenue.orderLines}">
+                        <li th:each="orderLine : ${payment.order.orderLines}">
                             <span th:text="${orderLine.quantity}"></span>
                         </li>
                     </ul>
@@ -164,13 +164,13 @@
 
                 <td>
                     <ul>
-                        <li th:each="orderLine : ${revenue.orderLines}">
+                        <li th:each="orderLine : ${payment.order.orderLines}">
                             <span th:text="${orderLine.product.cost}"></span>
                         </li>
                     </ul>
                 </td>
 
-                <td th:text="${revenue.totalPayment}"></td>
+                <td th:text="${payment.total}"></td>
             </tr>
         </tbody>
     </table>
