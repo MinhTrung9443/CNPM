@@ -55,15 +55,15 @@
         <form id="addVoucherForm">
           <div class="mb-3">
             <label for="voucherValue" class="form-label">Giá trị voucher</label>
-            <input type="text" class="form-control" id="voucherValue" name="voucherValue" placeholder="Giá trị voucher">
+            <input type="text" class="form-control" id="voucherValue" name="voucherValue" placeholder="Giá trị voucher" required>
           </div>
           <div class="mb-3">
             <label for="startDate" class="form-label">Ngày bắt đầu</label>
-            <input type="date" class="form-control" id="startDate" name="startDate">
+            <input type="date" class="form-control" id="startDate" name="startDate" required>
           </div>
           <div class="mb-3">
             <label for="endDate" class="form-label">Ngày kết thúc</label>
-            <input type="date" class="form-control" id="endDate" name="endDate">
+            <input type="date" class="form-control" id="endDate" name="endDate" required>
           </div>
           <button type="submit" class="btn btn-primary">Thêm</button>
         </form>
@@ -86,15 +86,15 @@
           <input type="hidden" id="editVoucherId">
           <div class="mb-3">
             <label for="editVoucherValue" class="form-label">Giá trị voucher</label>
-            <input type="number" class="form-control" id="editVoucherValue" name="voucherValue" placeholder="Giá trị voucher">
+            <input type="number" class="form-control" id="editVoucherValue" name="voucherValue" placeholder="Giá trị voucher" required>
           </div>
           <div class="mb-3">
             <label for="editStartDate" class="form-label">Ngày bắt đầu</label>
-            <input type="date" class="form-control" id="editStartDate" name="startDate">
+            <input type="date" class="form-control" id="editStartDate" name="startDate" required>
           </div>
           <div class="mb-3">
             <label for="editEndDate" class="form-label">Ngày kết thúc</label>
-            <input type="date" class="form-control" id="editEndDate" name="endDate">
+            <input type="date" class="form-control" id="editEndDate" name="endDate" required>
           </div>
           <button type="submit" class="btn btn-primary">Cập nhật</button>
         </form>
