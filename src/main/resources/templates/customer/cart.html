@@ -48,7 +48,8 @@
 			<div class="indicator"></div>
 		</div>
 		
-<style>
+
+    <style>
 
     .main__cart {
         margin: 20px 0;
@@ -56,10 +57,57 @@
         border: 1px solid #ccc;
     }
 
+    .grid {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
     .row {
         display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .col {
+        flex: 1;
+        text-align: center;
+        word-wrap: break-word; /* Đảm bảo text không bị tràn ra ngoài */
+    }
+
+    /* Căn chỉnh đều các cột */
+    .main__cart .row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
         justify-content: space-between;
-        padding: 10px 0;
+    }
+
+    .main__cart-product {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex: 1.1; /* Chiều rộng lớn hơn cho tên sản phẩm */
+        word-wrap: break-word; /* Cho phép text xuống dòng nếu dài */
+        overflow: hidden; /* Ẩn phần tràn */
+    }
+
+    .main__cart-price {
+        flex: 1; /* Điều chỉnh cho cột giá có chiều rộng hợp lý */
+    }
+
+    /* Tùy chỉnh khoảng cách giữa các hàng */
+    .title, .item {
+        margin-bottom: 15px;
+    }
+
+    /* Điều chỉnh khoảng cách cho tổng tiền */
+    .total-money {
+        text-align: right;
+        font-size: 2.5em; /* Tăng kích thước font */
+        font-weight: bold; /* Để chữ đậm hơn (tuỳ chọn) */
+        margin-top: 20px;
+        color: #ff69b4;
     }
 
     .title {
@@ -83,7 +131,7 @@
     }
 
     .main__cart-price {
-        font-size: 1.2rem;
+        font-size: 1.5rem;
     }
 
     .input-qty {
@@ -99,12 +147,33 @@
     }
 
     .btn.remove {
-        background-color: #dc3545;
+        font-size: 16px; /* Kích thước chữ */
+        padding: 10px 20px; /* Khoảng cách bên trong nút */
+        border-radius: 5px; /* Góc bo tròn */
+        background-color: #ff4d4d; /* Màu nền */
+        color: white; /* Màu chữ */
+        border: none; /* Xóa viền */
+        cursor: pointer; /* Con trỏ khi hover */
+        margin-bottom: 20px; /* Thêm khoảng cách với phần dưới */
+        transition: all 0.3s ease; /* Hiệu ứng hover */
+    }
+
+    .btn.remove:hover {
+        background-color: #e60000; /* Màu nền khi hover */
+    }
+
+    .custom-header {
+        font-size: 4em; /* Chữ to hơn */
+        color: pink;    /* Màu hồng */
+        font-family: 'Arial', sans-serif; /* Phông chữ */
+        text-align: left; /* Căn trái */
+        font-weight: bold;  /* Chữ đậm */
+        margin-top: 50px; /* Tăng khoảng cách với header bên trên */
     }
 </style>
+
 <div class="main">
     <div class="grid wide">
-        <h1>Giỏ Hàng</h1>
         <div class="main__cart">
             <div class="row title">
                 <div class="col">Chọn</div> <!-- New Column for selecting items -->
