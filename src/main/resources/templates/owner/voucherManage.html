@@ -124,6 +124,12 @@ document.getElementById('addVoucherForm').addEventListener('submit', function(ev
     let startDate = document.getElementById('startDate').value + "T00:00:00"; // Thêm giờ mặc định
     let endDate = document.getElementById('endDate').value + "T00:00:00"; // Thêm giờ mặc định
 
+    // Kiểm tra nếu ngày bắt đầu lớn hơn hoặc bằng ngày kết thúc
+    if (new Date(startDate) >= new Date(endDate)) {
+      alert('Ngày bắt đầu phải nhỏ hơn ngày kết thúc.');
+      return;
+    }
+
     fetch('/api/vouchers/add', {
         method: 'POST',
         headers: {
@@ -200,9 +206,9 @@ document.getElementById('addVoucherForm').addEventListener('submit', function(ev
         const startDate = new Date(data.startDate);
         const endDate = new Date(data.endDate);
 
-        // Định dạng ngày thành YYYY-MM-DD
-        const formattedStartDate = startDate.toISOString().split('T')[0];
-        const formattedEndDate = endDate.toISOString().split('T')[0];
+        // Sử dụng thời gian theo múi giờ địa phương
+        const formattedStartDate = `${startDate.getFullYear()}-${(startDate.getMonth() + 1).toString().padStart(2, '0')}-${startDate.getDate().toString().padStart(2, '0')}`;
+        const formattedEndDate = `${endDate.getFullYear()}-${(endDate.getMonth() + 1).toString().padStart(2, '0')}-${endDate.getDate().toString().padStart(2, '0')}`;
 
         document.getElementById('editStartDate').value = formattedStartDate;
         document.getElementById('editEndDate').value = formattedEndDate;
@@ -253,6 +259,12 @@ document.getElementById('addVoucherForm').addEventListener('submit', function(ev
     const voucherValue = document.getElementById('editVoucherValue').value;
     const startDate = document.getElementById('editStartDate').value;
     const endDate = document.getElementById('editEndDate').value;
+
+    // Kiểm tra nếu ngày bắt đầu lớn hơn hoặc bằng ngày kết thúc
+    if (new Date(startDate) >= new Date(endDate)) {
+      alert('Ngày bắt đầu phải nhỏ hơn ngày kết thúc.');
+      return;
+    }
 
     if (!voucherId) {
         alert('ID voucher không hợp lệ.');
