@@ -2,10 +2,10 @@ package com.cnpm.service;
 
 import java.util.List;
 
-import com.cnpm.dto.RevenueDTO;
+import com.cnpm.entity.Payment;
 
 public interface IRevenueService {
-	List<RevenueDTO> getRevenue(String month);
+	List<Payment> getRevenue(String month);
 
 	double getTotalRevenue(String month);
 

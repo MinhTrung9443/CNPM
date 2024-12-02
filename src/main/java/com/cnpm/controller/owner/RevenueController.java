@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.cnpm.dto.RevenueDTO;
+import com.cnpm.entity.Payment;
 import com.cnpm.service.IRevenueService;
 
 @Controller
@@ -30,11 +30,11 @@ public class RevenueController {
             month = null;
         }
         
-        List<RevenueDTO> revenues = revenueService.getRevenue(month);
-        double totalRevenue = revenueService.getTotalRevenue(month);
+        List<Payment> payments = revenueService.getRevenue(month);
+        double totalPayment = revenueService.getTotalRevenue(month);
 
-        model.addAttribute("revenues", revenues);
-        model.addAttribute("totalRevenue", totalRevenue);
+        model.addAttribute("payments", payments);
+        model.addAttribute("totalPayment", totalPayment);
         model.addAttribute("selectedMonth", month != null ? month : "All");
 
         model.addAttribute("availableMonths", revenueService.getAvailableMonths());

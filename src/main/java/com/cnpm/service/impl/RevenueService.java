@@ -21,30 +21,18 @@ public class RevenueService implements IRevenueService {
 	private PaymentRepository paymentRepository;
 
 	@Override
-	public List<RevenueDTO> getRevenue(String month) {
-		List<Payment> payments = paymentRepository.findPaymentsByMonth(month);
+	public List<Payment> getRevenue(String month) {
+		return paymentRepository.findPaymentsByMonth(month);
 
-		return payments.stream().map(payment -> {
-			Order o = payment.getOrder();
-			String shippingAddress = o.getShippingAddress();
-
-			Set<OrderLine> orderLines = o.getOrderLines();
-
-			return new RevenueDTO(payment.getPaymentId(), payment.getPaymentDate(), payment.getPaymentMethod(),
-					payment.getPaymentStatus(), payment.getTotal(), o.getOrderId(), o.getOrderDate(),
-					o.getOrderStatus(), shippingAddress, orderLines);
-		}).collect(Collectors.toList());
 	}
 
 	@Override
 	public double getTotalRevenue(String month) {
 		List<Payment> payments = paymentRepository.findPaymentsByMonth(month);
 
-	    return payments.stream()
-	                   .mapToDouble(payment -> {
-	                       return payment.getTotal();
-	                   })
-	                   .sum();
+		return payments.stream().mapToDouble(payment -> {
+			return payment.getTotal();
+		}).sum();
 	}
 
 	@Override
