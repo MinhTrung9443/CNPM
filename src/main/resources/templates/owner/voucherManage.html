@@ -55,7 +55,7 @@
         <form id="addVoucherForm">
           <div class="mb-3">
             <label for="voucherValue" class="form-label">Giá trị voucher</label>
-            <input type="text" class="form-control" id="voucherValue" name="voucherValue" placeholder="Nhập phần trăm giảm giá">
+            <input type="text" class="form-control" id="voucherValue" name="voucherValue" placeholder="Giá trị voucher">
           </div>
           <div class="mb-3">
             <label for="startDate" class="form-label">Ngày bắt đầu</label>
@@ -86,7 +86,7 @@
           <input type="hidden" id="editVoucherId">
           <div class="mb-3">
             <label for="editVoucherValue" class="form-label">Giá trị voucher</label>
-            <input type="number" class="form-control" id="editVoucherValue" name="voucherValue" placeholder="Nhập phần trăm giảm giá">
+            <input type="number" class="form-control" id="editVoucherValue" name="voucherValue" placeholder="Giá trị voucher">
           </div>
           <div class="mb-3">
             <label for="editStartDate" class="form-label">Ngày bắt đầu</label>
@@ -173,7 +173,7 @@ document.getElementById('addVoucherForm').addEventListener('submit', function(ev
                     <img class="card-img-top" src="${defaultImageUrl}" alt="Voucher Image">
                     <div class="card-body">
                         <h5 class="card-title">Mã giảm giá</h5>
-                        <p class="card-text">Giảm giá: ${voucher.voucherValue}%</p>
+                        <p class="card-text">Giảm giá: ${voucher.voucherValue}đ</p>
                         <p class="card-text">Bắt đầu: ${startDateFormatted} ${startTimeFormatted}</p>
                         <p class="card-text">Kết thúc: ${endDateFormatted} ${endTimeFormatted}</p>
                         <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editVoucherModal" onclick="openEditModal(${voucher.voucherId})">Sửa</button>
