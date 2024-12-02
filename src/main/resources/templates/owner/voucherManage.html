@@ -124,6 +124,12 @@ document.getElementById('addVoucherForm').addEventListener('submit', function(ev
     let startDate = document.getElementById('startDate').value + "T00:00:00"; // Thêm giờ mặc định
     let endDate = document.getElementById('endDate').value + "T00:00:00"; // Thêm giờ mặc định
 
+    // Kiểm tra nếu ngày bắt đầu lớn hơn hoặc bằng ngày kết thúc
+    if (new Date(startDate) >= new Date(endDate)) {
+      alert('Ngày bắt đầu phải nhỏ hơn ngày kết thúc.');
+      return;
+    }
+
     fetch('/api/vouchers/add', {
         method: 'POST',
         headers: {
@@ -253,6 +259,12 @@ document.getElementById('addVoucherForm').addEventListener('submit', function(ev
     const voucherValue = document.getElementById('editVoucherValue').value;
     const startDate = document.getElementById('editStartDate').value;
     const endDate = document.getElementById('editEndDate').value;
+
+    // Kiểm tra nếu ngày bắt đầu lớn hơn hoặc bằng ngày kết thúc
+    if (new Date(startDate) >= new Date(endDate)) {
+      alert('Ngày bắt đầu phải nhỏ hơn ngày kết thúc.');
+      return;
+    }
 
     if (!voucherId) {
         alert('ID voucher không hợp lệ.');
