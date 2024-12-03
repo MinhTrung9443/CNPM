@@ -25,9 +25,6 @@ public class InforCustomerController {
 	@GetMapping("/profile")
 	public String viewUserProfile(HttpSession session, Model model) {
 		User user = (User) session.getAttribute("user");
-		if (user == null) {
-			return "redirect:/signin";
-		}
 		if (user instanceof Customer) {
 			Customer customer = (Customer) user; // Chuyển kiểu xuống Customer
 			model.addAttribute("birthDate", customer.getBirthDate());
@@ -41,9 +38,6 @@ public class InforCustomerController {
 	@GetMapping("/update")
 	public String editUserProfile(HttpSession session, Model model) {
 		User user = (User) session.getAttribute("user");
-		if (user == null) {
-			return "redirect:/signin";
-		}
 		if (user instanceof Customer) {
 			Customer customer = (Customer) user; // Chuyển kiểu xuống Customer
 			model.addAttribute("user", customer);
@@ -57,9 +51,6 @@ public class InforCustomerController {
 	@GetMapping("/updateAccountRefund")
 	public String editUserAccountRefund(HttpSession session, Model model) {
 		User user = (User) session.getAttribute("user");
-		if (user == null) {
-			return "redirect:/signin";
-		}
 		if (user instanceof Customer) {
 			Customer customer = (Customer) user; // Chuyển kiểu xuống Customer
 			
@@ -81,9 +72,6 @@ public class InforCustomerController {
 	@PostMapping("/update")
 	public String updateUserProfile(HttpSession session, Model model, @ModelAttribute Customer updatedUser) {
 		Customer user = (Customer) userService.findById(updatedUser.getUserId()).get();
-		if (user == null) {
-			return "redirect:/signin";
-		}
 
 		User existingUser = userService.findByEmail(updatedUser.getEmail());
 		if (existingUser != null && !existingUser.getUserId().equals(updatedUser.getUserId())) {
@@ -117,9 +105,6 @@ public class InforCustomerController {
 	@PostMapping("/updateAccountRefund")
 	public String updateAccountRefund(HttpSession session, Model model, @ModelAttribute Customer updatedUser, @ModelAttribute AccountRefund acc) {
 		Customer user = (Customer) session.getAttribute("user");
-		if (user == null) {
-			return "redirect:/signin";
-		}
 
 		AccountRefund accrefund = new AccountRefund();
 		BeanUtils.copyProperties(acc, accrefund);

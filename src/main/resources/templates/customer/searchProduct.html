@@ -21,6 +21,60 @@
 <link rel="stylesheet" href="/assets/css/common.css">
 
 <style>
+/* Bộ lọc tìm kiếm */
+.sidebar {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+
+.sidebar h3 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.sidebar form label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #555;
+    display: block;
+    margin-top: 10px;
+}
+
+.sidebar form input,
+.sidebar form select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.sidebar form button {
+    margin-top: 20px;
+    width: 100%;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar form button:hover {
+    background-color: #0056b3;
+}
+
 body {
 	margin: 0;
 	font-family: Arial, sans-serif;
@@ -49,34 +103,7 @@ footer {
 	margin: 20px;
 }
 
-.filters {
-	flex: 1;
-	max-width: 250px;
-	background-color: #f8f8f8;
-	padding: 20px;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	height: fit-content;
-	font-size: 16px;
-}
 
-.filters h2 {
-	margin-top: 0;
-}
-
-.filter-item {
-	margin-bottom: 20px;
-}
-
-.filter-item label {
-	display: block;
-	margin-bottom: 5px;
-}
-
-.filter-item input, .filter-item select {
-	width: 100%;
-	padding: 5px;
-	margin-bottom: 5px;
-}
 
 .content {
 	flex: 3;
@@ -252,58 +279,6 @@ footer {
 	padding-bottom: 60px;
 }
 
-/* Bộ lọc */
-.filters {
-	flex: 1;
-	max-width: 280px;
-	background-color: #fff;
-	padding: 20px;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-	border-radius: 8px;
-	font-size: 14px;
-	margin-right: 20px;
-}
-
-.filters h2 {
-	margin-top: 0;
-	font-size: 18px;
-	color: #333;
-}
-
-.filter-item {
-	margin-bottom: 20px;
-}
-
-.filter-item label {
-	display: block;
-	margin-bottom: 5px;
-	color: #555;
-	font-size: 14px;
-}
-
-.filter-item input, .filter-item select {
-	width: 100%;
-	padding: 8px;
-	margin-bottom: 10px;
-	border: 1px solid #ddd;
-	border-radius: 4px;
-}
-
-button[type="submit"] {
-	width: 100%;
-	padding: 12px;
-	background-color: #ff7a00;
-	color: white;
-	border: none;
-	border-radius: 5px;
-	font-size: 16px;
-	cursor: pointer;
-	transition: background-color 0.3s;
-}
-
-button[type="submit"]:hover {
-	background-color: #ff4a00;
-}
 
 /* Nội dung sản phẩm */
 .searchResults {
@@ -414,14 +389,7 @@ h3 {
 		<div class="container">
 			<br>
 			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
+			<br><br><br><br><br><br><br><br>
 			<div class="sidebar">
 				<h3>Bộ Lọc Tìm Kiếm</h3>
 				<form action="/search" method="get">
