@@ -1,0 +1,14 @@
+# Sử dụng image có sẵn Java
+FROM eclipse-temurin:17-jdk-jammy
+
+# Thiết lập thư mục làm việc
+WORKDIR /app
+
+# Sao chép toàn bộ dự án vào container
+COPY . .
+
+# Build ứng dụng
+RUN ./mvnw clean package
+
+# Chạy ứng dụng
+CMD ["java", "-jar", "target/CosmeticsStore.jar"]

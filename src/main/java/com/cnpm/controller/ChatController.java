@@ -38,7 +38,7 @@ public class ChatController {
 	}
 
 	// Phương thức hiển thị trang chat cho người dùng từ /employee
-	@GetMapping("/chat/employee/{SessionInfoname}")
+	@GetMapping("/chat/vendor/{SessionInfoname}")
 	public String showEmployeeChatPage(@PathVariable(required = false) String SessionInfoname, Model model,
 			HttpSession session) {
 		try {
